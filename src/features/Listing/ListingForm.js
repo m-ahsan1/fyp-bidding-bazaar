@@ -46,7 +46,7 @@ const ListingForm = ({ onFormSubmit }) => {
 
       // Clear the form
       setFormData({
-        image: "",
+        image: null,
         title: "",
         engine: "",
         mileage: "",

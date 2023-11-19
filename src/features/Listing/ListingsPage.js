@@ -1,6 +1,8 @@
 // ParentComponent.js
 import React, { useState } from "react";
 import ListingForm from "./ListingForm";
+import Listing from "./Listing";
+import carData from "./carData";
 
 const ListingsPage = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -14,14 +16,36 @@ const ListingsPage = () => {
       <ListingForm onFormSubmit={handleFormSubmit} />
       <div>
         <h2>Submissions</h2>
-        <ul>
-          {submissions.map((submission) => (
-            <li key={submission.id}>
-              <strong>Title:</strong> {submission.title},{" "}
-              <strong>Company:</strong> {submission.company}
-            </li>
+        <div className="flex flex-wrap">
+          {carData.map((car) => (
+            <div key={car.id} className="">
+              <Listing
+                image={car.image}
+                price={car.price}
+                title={car.title}
+                engine={car.engine}
+                mileage={car.mileage}
+                modelYear={car.modelYear}
+                description={car.description}
+                company={car.company}
+              />
+            </div>
           ))}
-        </ul>
+
+          {submissions.map((submission) => (
+            <div key={submission.id} className="">
+              <Listing
+                image={submission.image}
+                title={submission.title}
+                engine={submission.engine}
+                mileage={submission.mileage}
+                modelYear={submission.modelYear}
+                description={submission.description}
+                company={submission.company}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
