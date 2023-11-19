@@ -1,16 +1,15 @@
-import Sidebar from "./components/Sidebar";
-import ListingsPage from "./features/ListingsPage";
+import ListingsPage from "./features/Listing/ListingsPage";
+import MainPage from "./components/MainPage";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div className="flex items-center flex-row">
-      <div>
-        <Sidebar />
-      </div>
-      <div>
-        <ListingsPage />
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/listings" element={<ListingsPage />} />
+      </Routes>
+    </Router>
   );
 }
 
