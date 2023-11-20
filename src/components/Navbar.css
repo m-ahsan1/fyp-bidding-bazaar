@@ -98,7 +98,7 @@ body {
 
 
   /* Media query for smaller screens */
-  @media screen and (max-width: 770px ) {
+  @media screen and (max-width: 850px ) {
     #secondBar{
         display:none;
       }
