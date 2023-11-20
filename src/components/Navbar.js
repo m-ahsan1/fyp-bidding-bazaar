@@ -2,6 +2,7 @@ import React from "react";
 import './Navbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { Link } from "react-router-dom";
 
 
 const Navbar = () => {
@@ -9,7 +10,7 @@ const Navbar = () => {
     <nav>
     <div id='RealNav'>
       <div id="logo-container">
-        <h1 id="logo" ><b>BiddingBazaar</b></h1>
+       <Link to='/' style={{ textDecoration: 'none' }}> <h1 id="logo" ><b>BiddingBazaar</b></h1></Link>
       </div>
       <div id="rightnav">
         <button type="button" className="btn btn-outline-info" id="search-btn">🔍 Search &#9660;</button>&nbsp;&nbsp;
