@@ -1,0 +1,131 @@
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  #secondBar{
+    color:grey;
+    
+  }
+ 
+  #secondBarMobile{
+    display:none;
+  }
+
+  #logo{
+    font-size:30px;
+    padding: 18px;
+    font-weight: bold;
+  }
+
+  #mobileNav{
+    display: none;
+  }
+  
+  #MobileNabBarButton{
+    background-color: transparent; 
+    border: none; 
+    color:grey;
+    width:70px;
+    
+}
+
+#mobileSliders{
+    display:none;
+}
+
+#mobilebody{
+    display:flex;
+    justify-content: space-between;
+}
+
+/*
+#RealNav{
+    display: flex;
+    padding:10px;
+  }
+
+#leftnav{
+    display:flex;
+}
+
+.vl {
+    border-left: 1px solid BLACK;
+    height: 50px;
+  }*/
+
+  #RealNav {
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+
+
+#rightnav {
+    display: flex;
+    align-items: center;
+}
+
+#navbar-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+#navbar-list li {
+    margin-right: 20px; /* Adjust the spacing as needed */
+}
+
+#navbar-list a {
+    text-decoration: none;
+    color: #333; /* Adjust the text color as needed */
+    transition: color 0.3s ease;
+}
+
+#navbar-list a:hover {
+    color: orange; /* Change the color on hover as desired */
+}
+
+.vl {
+    border-left: 1px solid BLACK;
+    height: 50px;
+  }
+
+
+  /* Media query for smaller screens */
+  @media screen and (max-width: 770px ) {
+    #secondBar{
+        display:none;
+      }
+
+      #secondBarMobile{
+        display:block;
+        padding:0px;
+        position: relative;
+        top:-20px;
+      }
+
+      #mobileNav{
+        display: flex;
+        justify-content: space-between;
+        padding:10px;
+      }
+
+      #mobileSliders{
+        display:block;
+    }
+
+    #mobilebody{
+        display:none;
+    }
+
+#RealNav{
+    display:none;
+}
+
+  }
