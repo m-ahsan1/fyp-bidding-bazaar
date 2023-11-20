@@ -1,6 +1,13 @@
+import a from "../../data/1.jpeg";
+import b from "../../data/2.jpeg";
+import c from "../../data/3.jpeg";
+import d from "../../data/4.jpeg";
+import e from "../../data/5.jpeg";
+import f from "../../data/6.jpeg";
+
 const carData = [
   {
-    image: "1.jpg",
+    image: a,
     title: "Toyota Camry",
     price: "$25,000",
     engine: "2.5L Inline-4",
@@ -11,7 +18,7 @@ const carData = [
     company: "Toyota",
   },
   {
-    image: "car_image_2.jpg",
+    image: b,
     title: "Honda Accord",
     price: "$28,000",
     engine: "1.5L Turbocharged Inline-4",
@@ -22,7 +29,7 @@ const carData = [
     company: "Honda",
   },
   {
-    image: "car_image_3.jpg",
+    image: c,
     title: "Ford Mustang",
     price: "$35,000",
     engine: "5.0L V8",
@@ -33,7 +40,7 @@ const carData = [
     company: "Ford",
   },
   {
-    image: "car_image_4.jpg",
+    image: d,
     title: "Chevrolet Silverado",
     price: "$40,000",
     engine: "6.2L V8",
@@ -44,7 +51,7 @@ const carData = [
     company: "Chevrolet",
   },
   {
-    image: "car_image_5.jpg",
+    image: e,
     title: "Tesla Model 3",
     price: "$45,000",
     engine: "Electric",
@@ -55,7 +62,7 @@ const carData = [
     company: "Tesla",
   },
   {
-    image: "car_image_6.jpg",
+    image: f,
     title: "Mercedes-Benz S-Class",
     price: "$90,000",
     engine: "4.0L V8 Biturbo",
