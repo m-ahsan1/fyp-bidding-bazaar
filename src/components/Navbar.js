@@ -43,6 +43,7 @@ const Navbar = () => {
         <p style={{ color: 'orange' }}>FREELANCER?</p>
       </div>
     </div>
+    
   </nav>
   );
 };
