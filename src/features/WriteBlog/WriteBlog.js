@@ -1,17 +1,33 @@
 import React, { useState } from 'react';
+import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import './WriteBlog.css'; // Import your CSS file for styling
+import ReactQuill from 'react-quill'; // Import ReactQuill component
 
 const BlogEditor = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [imageURL, setImageURL] = useState('');
 
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }], // Heading dropdown
+      ['bold', 'italic', 'underline', 'strike'], // Text formatting options
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Lists
+      ['link', 'image'], // Links and images
+      ['clean'], // Remove formatting
+    ],
+  };
+
+  const formats = [
+    'header', 'bold', 'italic', 'underline', 'strike', 'list', 'bullet', 'link', 'image'
+  ];
+
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
 
-  const handleBodyChange = (e) => {
-    setBody(e.target.value);
+  const handleBodyChange = (value) => {
+    setBody(value);
   };
 
   const handleImageChange = (e) => {
@@ -20,7 +36,7 @@ const BlogEditor = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can handle submission logic here, like sending the blog data to a server
+    // Handle submission logic here
     console.log('Title:', title);
     console.log('Body:', body);
     console.log('Image URL:', imageURL);
@@ -47,13 +63,13 @@ const BlogEditor = () => {
           <label htmlFor="body" className="blog-editor__label">
             Body:
           </label>
-          <textarea
-            id="body"
+          <ReactQuill
             value={body}
             onChange={handleBodyChange}
-            className="blog-editor__textarea"
-            required
-          ></textarea>
+            modules={modules}
+            formats={formats}
+            className="blog-editor__quill-editor"
+          />
         </div>
         <div className="blog-editor__input">
           <label htmlFor="imageURL" className="blog-editor__label">
