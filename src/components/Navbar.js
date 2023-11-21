@@ -10,7 +10,7 @@ const Navbar = () => {
     <nav>
     <div id='RealNav'>
       <div id="logo-container">
-       <Link to='/' style={{ textDecoration: 'none' }}> <h1 id="logo" ><b>BiddingBazaar</b></h1></Link>
+       <Link to='/'> <h1  id="logo" ><b>BiddingBazaar</b></h1></Link>
       </div>
       <div id="rightnav">
         <button type="button" className="btn btn-outline-info" id="search-btn">🔍 Search &#9660;</button>&nbsp;&nbsp;
@@ -19,7 +19,7 @@ const Navbar = () => {
           <li>│</li>
           <li><a href="#">LOG IN</a></li>
           <li><a href="#">SIGN IN</a></li>
-          <li ><a href="#" style={{ color: 'orange' }}>FREELANCER?</a></li>
+          <li ><Link to='/contact' style={{ color: 'orange' }}>Contact</Link></li>
         </ul>
       </div>
     </div>
@@ -40,7 +40,7 @@ const Navbar = () => {
         <p>HOW It WORKS</p><hr />
         <p>LOG IN</p><hr />
         <p>SIGN UP</p><hr />
-        <p style={{ color: 'orange' }}>FREELANCER?</p>
+        <p style={{ color: 'orange' }}>Contact</p>
       </div>
     </div>
     
