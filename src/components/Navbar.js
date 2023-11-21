@@ -3,8 +3,9 @@ import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom";
-import UserSign from "../features/Auth/Admin/UserSignup/UserSignup";
-import UserLogin from "../features/Auth/Admin/UserLogin/UserLogin";
+import UserSign from "../features/Auth/User/UserSignup/UserSignup";
+import UserLogin from "../features/Auth/User/UserLogin/UserLogin";
+import UserProfile from "../features/UserProfile/UserProfile";
 
 const Navbar = () => {
   const [isUserSignOpen, setIsUserSign] = useState(false);
@@ -48,7 +49,9 @@ const Navbar = () => {
             &nbsp;&nbsp;
             <ul id="navbar-list">
               <li>
-                <a href="#">HOW IT WORKS</a>
+              <Link to="/user-profile" style={{ color: "grey" }}>
+                  Profile
+                </Link>
               </li>
               <li>│</li>
               <li>
