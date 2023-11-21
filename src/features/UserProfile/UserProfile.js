@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import tom from './tom.jpeg'
+import { Navbar } from 'react-bootstrap';
 
 const UserProfile = () => {
   const [editMode, setEditMode] = useState(false);
@@ -28,6 +29,8 @@ const UserProfile = () => {
   };
 
   return (
+    <> 
+    <Navbar />
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
       <h1 className="text-2xl font-bold mb-4">User Profile</h1>
 
@@ -113,6 +116,7 @@ const UserProfile = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
