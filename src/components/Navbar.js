@@ -3,8 +3,8 @@ import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom";
-import UserSign from "../features/Auth/Admin/UserSignup/UserSignup";
-import UserLogin from "../features/Auth/Admin/UserLogin/UserLogin";
+import UserSign from "../features/Auth/User/UserSignup/UserSignup";
+import UserLogin from "../features/Auth/User/UserLogin/UserLogin";
 
 const Navbar = () => {
   const [isUserSignOpen, setIsUserSign] = useState(false);
