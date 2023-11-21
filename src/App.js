@@ -6,7 +6,6 @@ import BlogEditor from "./features/Blogs/WriteBlog";
 import BlogList from "./features/Blogs/Blog";
 import UserProfile from "./features/UserProfile/UserProfile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import UserProfile from "./features/UserProfile/UserProfile";
 
 function App() {
   return (
