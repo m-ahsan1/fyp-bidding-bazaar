@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import './adminLogin.css'; // Make sure to import your CSS file
+import React, { useState } from "react";
+import "./AdminLogin.css"; // Make sure to import your CSS file
 
 const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
@@ -11,7 +11,7 @@ const AdminLogin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add your login logic here or route to a login function
-    console.log('Login logic will go here');
+    console.log("Login logic will go here");
   };
 
   return (
@@ -34,22 +34,20 @@ const AdminLogin = () => {
               <h2>Admin Login</h2>
 
               <div className="input_box">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  required
-                />
+                <input type="email" placeholder="Enter your email" required />
                 <i className="uil uil-envelope-alt email"></i>
               </div>
 
               <div className="input_box">
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   required
                 />
                 <i
-                  className={`uil ${showPassword ? 'uil-eye' : 'uil-eye-slash'} pw_hide`}
+                  className={`uil ${
+                    showPassword ? "uil-eye" : "uil-eye-slash"
+                  } pw_hide`}
                   onClick={handleTogglePassword}
                 ></i>
               </div>

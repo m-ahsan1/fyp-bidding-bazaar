@@ -1,8 +1,8 @@
 import ListingsPage from "./features/Listing/ListingsPage";
 import MainPage from "./components/MainPage";
-import AdminLogin from "./features/Adminlogin/adminLogin"; 
+import AdminLogin from "./features/Auth/Admin/AdminLogin";
 import ContactForm from "./features/Contactus/Contactus";
-import BlogEditor from "./features/WriteBlog/WriteBlog";
+import BlogEditor from "./features/Blogs/WriteBlog";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
