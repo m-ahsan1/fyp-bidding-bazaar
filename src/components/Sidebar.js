@@ -18,6 +18,9 @@ const Sidebar = () => {
           <li className="mb-2 text-gray-300 hover:text-white">
             <Link to="/blog">Blogs</Link>
           </li>
+          <li className="mb-2 text-gray-300 hover:text-white">
+            <Link to="/team">Team</Link>
+          </li>
         </ul>
       </div>
     </div>
