@@ -7,7 +7,7 @@ const Sidebar = () => {
     <div className="flex h-screen bg-gray-200">
       {/* Sidebar */}
       <div className="w-64 bg-gray-800 text-white p-6">
-        <h1 className="text-2xl font-semibold mb-4">Muhammad Ahsan</h1>
+        <h1 className="text-2xl font-semibold mb-4">Menu</h1>
         <ul>
           <li className="mb-2 text-gray-300 hover:text-white">
             <Link to="/listings">Used Cars</Link>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import tom from './tom.jpeg'
 
 const UserProfile = () => {
   const [editMode, setEditMode] = useState(false);
@@ -6,6 +7,7 @@ const UserProfile = () => {
     name: 'John Doe',
     email: 'john@example.com',
     phone: '123-456-7890',
+    address: 'Fast University Lahore '
   });
 
   const handleInputChange = (e) => {
@@ -33,7 +35,7 @@ const UserProfile = () => {
       <div className="flex items-center justify-center mb-4">
         <img
           className="w-20 h-20 rounded-full object-cover"
-          src="./tom.jpeg"  // Replace with the actual image source
+          src={tom}  // Replace with the actual image source
           alt="https://via.placeholder.com/150"
         />
       </div>
@@ -71,6 +73,16 @@ const UserProfile = () => {
               onChange={handleInputChange}
             />
           </label>
+          <label className="block mb-2">
+            Address:
+            <input
+              className="w-full border p-2"
+              type="text"
+              name="Address"
+              value={userData.address}
+              onChange={handleInputChange}
+            />
+          </label>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
             onClick={saveChanges}
@@ -88,6 +100,9 @@ const UserProfile = () => {
           </p>
           <p className="mb-4">
             <strong>Phone:</strong> {userData.phone}
+          </p>
+          <p className="mb-4">
+            <strong>Address:</strong> {userData.address}
           </p>
           <button
             className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
