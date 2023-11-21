@@ -13,7 +13,10 @@ const Sidebar = () => {
             <Link to="/listings">Used Cars</Link>
           </li>
           <li className="mb-2 text-gray-300 hover:text-white">
-            <Link to="/writeblog">Blogs</Link>
+            <Link to="/writeblog">Write Blogs</Link>
+          </li>
+          <li className="mb-2 text-gray-300 hover:text-white">
+            <Link to="/blog">Blogs</Link>
           </li>
         </ul>
       </div>

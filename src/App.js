@@ -3,6 +3,7 @@ import MainPage from "./components/MainPage";
 import AdminLogin from "./features/Auth/Admin/AdminLogin";
 import ContactForm from "./features/Contactus/Contactus";
 import BlogEditor from "./features/Blogs/WriteBlog";
+import BlogList from "./features/Blogs/Blog";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/contact" element={<ContactForm />} />
         <Route path="/writeblog" element={<BlogEditor />} />
+        <Route path="/blog" element={<BlogList />} />
       </Routes>
     </Router>
   );

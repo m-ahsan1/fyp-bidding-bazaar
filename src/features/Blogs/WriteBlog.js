@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import './WriteBlog.css'; // Import your CSS file for styling
 import ReactQuill from 'react-quill'; // Import ReactQuill component
+import Navbar from '../../components/Navbar';
 
 const BlogEditor = () => {
   const [title, setTitle] = useState('');
@@ -43,6 +44,8 @@ const BlogEditor = () => {
   };
 
   return (
+    <> 
+    <Navbar />
     <div className="blog-editor">
       <h2 className="blog-editor__title">Create a Blog</h2>
       <form onSubmit={handleSubmit} className="blog-editor__form">
@@ -88,6 +91,7 @@ const BlogEditor = () => {
         </button>
       </form>
     </div>
+    </>
   );
 };
 
