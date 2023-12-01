@@ -7,6 +7,7 @@ import BlogList from "./features/Blogs/Blog";
 import UserProfile from "./features/UserProfile/UserProfile";
 import Team from "./features/TeamPage/team";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import AdminHomePage from "./components/AdminHomePage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/listings" element={<ListingsPage />} />
         <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/adminhome" element={<AdminHomePage />} />
         <Route path="/contact" element={<ContactForm />} />
         <Route path="/writeblog" element={<BlogEditor />} />
         <Route path="/blog" element={<BlogList />} />
