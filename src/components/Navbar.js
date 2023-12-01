@@ -69,8 +69,12 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div id="mobileNav" style={{ backgroundColor: "#f9f9f9" }}>
-          <h1 id="logo">BiddingBazaar</h1>
+        <div id="mobileNav" >
+        <Link to="/" style={{ textDecoration: "none" }}>
+              <h1 id="logo">
+                <b>BiddingBazaar</b>
+              </h1>
+            </Link>
           <button
             className="btn btn-primary"
             type="button"
@@ -89,25 +93,37 @@ const Navbar = () => {
           id="offcanvasRight"
           aria-labelledby="offcanvasRightLabel"
         >
-          <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="offcanvasRightLabel"></h5>
+          <div className="offcanvas-header" style={{ color: "black" }}>
+            <h5 className="offcanvas-title" id="offcanvasRightLabel">Menu</h5>
             <button
               type="button"
               className="btn-close"
               data-bs-dismiss="offcanvas"
               aria-label="Close"
-            ></button>
+            >X</button>
           </div>
           <div className="offcanvas-body" style={{ padding: "20px" }}>
-            <p>🔍 Search</p>
+            <p><button
+              type="button"
+              className="btn btn-outline-info"
+              id="search-btn"
+            >
+              🔍 Search &#9660;
+            </button></p><br></br>
             <hr />
-            <p>HOW It WORKS</p>
+            <p><Link to="/user-profile" style={{ color: "grey" }}>
+                  Profile
+                </Link></p>
             <hr />
-            <p>LOG IN</p>
+            <p><button onClick={OpenLogin}>Log In</button></p>
             <hr />
-            <p>SIGN UP</p>
+            <p><button onClick={OpenSignup}>Signup</button></p>
             <hr />
-            <p style={{ color: "orange" }}>FREELANCER?</p>
+            <p >
+              <Link to="/contact" style={{ color: "orange" }}>
+                  Contact
+                </Link>
+                </p>
           </div>
         </div>
       </nav>
