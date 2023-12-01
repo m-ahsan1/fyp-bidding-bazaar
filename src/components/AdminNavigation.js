@@ -1,7 +1,7 @@
 import React from 'react';
-import './AdminNavigation.css'; // Import your CSS file
-import { Route } from 'react-router-dom';
+import './AdminNavigation.css'; // Import CSS file
 import { Link } from 'react-router-dom';
+
 
 function AdminNavigation() {
   return (

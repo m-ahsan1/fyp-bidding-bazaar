@@ -1,5 +1,8 @@
 import React from "react";
 import AdminNavigation from "./AdminNavigation";
+import ReactGA from 'react-ga';
+
+ReactGA.initialize("G-C4R8RPWSJK")
 
 function AdminHomePage()
 {
