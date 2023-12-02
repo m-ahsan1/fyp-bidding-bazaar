@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
-import 'react-quill/dist/quill.snow.css'; // Import Quill styles
-import './WriteBlog.css'; // Import your CSS file for styling
-import ReactQuill from 'react-quill'; // Import ReactQuill component
-import Navbar from '../../components/Navbar';
+import React, { useState } from "react";
+import "react-quill/dist/quill.snow.css";
+import "./WriteBlog.css";
+import ReactQuill from "react-quill";
+import axios from "axios";
 
 const BlogEditor = () => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-  const [imageURL, setImageURL] = useState('');
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
   const modules = {
     toolbar: [
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }], // Heading dropdown
-      ['bold', 'italic', 'underline', 'strike'], // Text formatting options
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Lists
-      ['link', 'image'], // Links and images
-      ['clean'], // Remove formatting
+      [{ header: [1, 2, 3, 4, 5, 6, false] }], // Heading dropdown
+      ["bold", "italic", "underline", "strike"], // Text formatting options
+      [{ list: "ordered" }, { list: "bullet" }], // Lists
+      ["link", "image"], // Links and images
+      ["clean"], // Remove formatting
     ],
   };
 
   const formats = [
-    'header', 'bold', 'italic', 'underline', 'strike', 'list', 'bullet', 'link', 'image'
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "list",
+    "bullet",
+    "link",
+    "image",
   ];
 
   const handleTitleChange = (e) => {
@@ -31,21 +38,24 @@ const BlogEditor = () => {
     setBody(value);
   };
 
-  const handleImageChange = (e) => {
-    setImageURL(e.target.value);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle submission logic here
-    console.log('Title:', title);
-    console.log('Body:', body);
-    console.log('Image URL:', imageURL);
+
+    axios
+      .post("http://localhost:3001/api/blogs", {
+        title: title,
+        body: body,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    console.log("Blog form submitted.");
   };
 
   return (
-    <> 
-    <Navbar />
     <div className="blog-editor">
       <h2 className="blog-editor__title">Create a Blog</h2>
       <form onSubmit={handleSubmit} className="blog-editor__form">
@@ -74,24 +84,12 @@ const BlogEditor = () => {
             className="blog-editor__quill-editor"
           />
         </div>
-        <div className="blog-editor__input">
-          <label htmlFor="imageURL" className="blog-editor__label">
-            Image URL:
-          </label>
-          <input
-            type="text"
-            id="imageURL"
-            value={imageURL}
-            onChange={handleImageChange}
-            className="blog-editor__text-input"
-          />
-        </div>
+
         <button type="submit" className="blog-editor__submit-button">
           Publish
         </button>
       </form>
     </div>
-    </>
   );
 };
 

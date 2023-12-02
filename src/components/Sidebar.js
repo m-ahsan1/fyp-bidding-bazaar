@@ -12,11 +12,9 @@ const Sidebar = () => {
           <li className="mb-2 text-gray-300 hover:text-white">
             <Link to="/listings">Used Cars</Link>
           </li>
+
           <li className="mb-2 text-gray-300 hover:text-white">
-            <Link to="/writeblog">Write Blogs</Link>
-          </li>
-          <li className="mb-2 text-gray-300 hover:text-white">
-            <Link to="/blog">Blogs</Link>
+            <Link to="/blogs">Blogs</Link>
           </li>
           <li className="mb-2 text-gray-300 hover:text-white">
             <Link to="/team">Team</Link>
