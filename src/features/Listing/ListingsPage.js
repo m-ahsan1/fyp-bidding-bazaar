@@ -1,26 +1,35 @@
 // ParentComponent.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ListingForm from "./ListingForm";
 import Listing from "./Listing";
-import carData from "./carData";
+import axios from "axios";
 import Navbar from "../../components/Navbar";
 
 const ListingsPage = () => {
-  const [submissions, setSubmissions] = useState([]);
+  const [listings, setListings] = useState([]);
   const [showForm, setShowForm] = useState(false);
-
-  const handleFormSubmit = (newSubmission) => {
-    setSubmissions([...submissions, newSubmission]);
-  };
 
   const handleShowForm = () => {
     setShowForm(!showForm);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/api/listings");
+        setListings(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
       <Navbar />
-      {showForm && <ListingForm onFormSubmit={handleFormSubmit} />}
+      {showForm && <ListingForm />}
       <div>
         <button
           type="button"
@@ -29,27 +38,13 @@ const ListingsPage = () => {
         >
           Post a Car
         </button>
-        <div className="flex flex-wrap">
-          {carData.map((car) => (
-            <div key={car.id} className="px-4 py-10">
-              <Listing
-                image={car.image}
-                title={car.title}
-                price={car.price}
-                engine={car.engine}
-                mileage={car.mileage}
-                modelYear={car.modelYear}
-                description={car.description}
-                company={car.company}
-              />
-            </div>
-          ))}
-
-          {submissions.map((submission) => (
-            <div key={submission.id} className="">
+        <div className="flex flex-wrap px-10 gap-10">
+          {listings.map((submission) => (
+            <div key={submission._id}>
               <Listing
                 image={submission.image}
                 title={submission.title}
+                price={submission.price}
                 engine={submission.engine}
                 mileage={submission.mileage}
                 modelYear={submission.modelYear}
