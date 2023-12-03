@@ -11,6 +11,7 @@ function MainPage() {
         <Sidebar />
       </div>
     </div>
+    
     </>
   );
 }
