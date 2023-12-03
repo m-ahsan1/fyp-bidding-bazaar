@@ -4,7 +4,7 @@ import listingsSlice from "./slices/listingsSlice";
 
 const store = configureStore({
   reducer: {
-    
+    listing: listingsSlice,
   },
 });
 
