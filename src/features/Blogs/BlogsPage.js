@@ -49,9 +49,15 @@ function BlogsPage() {
 
   return (
     <div>
+      <Navbar />
       <div>
-        <button onClick={handleShowForm}>Write a Blog</button>
-        {showForm && <BlogEditor />}
+        <button
+          onClick={handleShowForm}
+          className="bg-black text-white rounded-2xl w-[150px] h-[35px]"
+        >
+          Write a Blog
+        </button>
+        {showForm && <BlogEditor setShowForm={setShowForm} />}
       </div>
       <BlogContainer>
         <h2>Blogs </h2>

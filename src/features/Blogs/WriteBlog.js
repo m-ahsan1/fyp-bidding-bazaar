@@ -4,7 +4,7 @@ import "./WriteBlog.css";
 import ReactQuill from "react-quill";
 import axios from "axios";
 
-const BlogEditor = () => {
+const BlogEditor = ({ setShowForm }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
@@ -52,6 +52,9 @@ const BlogEditor = () => {
       .catch(function (error) {
         console.log(error);
       });
+    setBody("");
+    setTitle("");
+    setShowForm(false);
     console.log("Blog form submitted.");
   };
 
