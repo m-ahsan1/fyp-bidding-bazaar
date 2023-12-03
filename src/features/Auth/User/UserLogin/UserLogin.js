@@ -1,32 +1,17 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-export default function UserLogin({onClose}) {
-        const loginRef = useRef(null);
-      
-        useEffect(() => {
-          const handleClickOutside = (event) => {
-            if (loginRef.current && !loginRef.current.contains(event.target)) {
-              onClose();
-            }
-          };
-      
-          document.addEventListener("mousedown", handleClickOutside);
-      
-          return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-          };
-        }, [onClose]);
+export default function UserLogin() {
+
     return (
-        <div>
-            <div 
-            className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center">
-                <div 
-                ref={loginRef}
-                className="bg-white p-10 min-h-30 max-w-md mx-auto rounded-lg shadow-md"
-                 style={{ minWidth: "35vw", maxHeight: "100vh" }}>
-                    <div 
-            style={{maxHeight: "100vh" }}
-                    className="flex flex-col items-center max-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50">
+        <div
+        className="min-h-screen min-w-screen-md flex items-center justify-center"
+        style={{ backgroundImage: 'url("/car1.jpg")', backgroundSize: 'cover' }}
+      >
+        <div className="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white overflow-y-auto p-4 w-full max-w-md mx-auto rounded-lg shadow-md sm:p-10 flex flex-col h-full ">
+  
+          <div className="flex flex-col items-center pt-6 sm:justify-center sm:pt-0 flex-grow">
                         <div>
                             <a href="/">
                                 <h3 className="text-4xl font-bold text-purple-600">
@@ -79,7 +64,10 @@ export default function UserLogin({onClose}) {
                             <div className="mt-4 text-grey-600" >
                                 Don't have a Account?{" "}
                                 <span>
-                                    <button className="text-blue-500 hover:underline" >Signup</button>
+                                    
+                <Link to="/user-signup" style={{ color: "Blue" }}>
+                Signup
+              </Link>
                                 </span>
                             </div>
                             <div className="flex items-center w-full my-4">

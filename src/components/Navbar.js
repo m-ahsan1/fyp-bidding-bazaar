@@ -8,23 +8,7 @@ import UserLogin from "../features/Auth/User/UserLogin/UserLogin";
 import UserProfile from "../features/UserProfile/UserProfile";
 
 const Navbar = () => {
-  const [isUserSignOpen, setIsUserSign] = useState(false);
-  const [isUserLoginOpen, setIsUserLogin] = useState(false);
-  const OpenSignup = () => {
-    setIsUserSign(true);
-  };
 
-  const CloseSignup = () => {
-    setIsUserSign(false);
-  };
-
-  const OpenLogin = () => {
-    setIsUserLogin(true);
-  };
-
-  const CloseLogin = () => {
-    setIsUserLogin(false);
-  };
 
   return (
     <div>
@@ -55,10 +39,14 @@ const Navbar = () => {
               </li>
               <li>│</li>
               <li>
-                <button onClick={OpenLogin}>Log In</button>
+              <Link to="/user-login" >
+                  Login
+                </Link>
               </li>
               <li>
-                <button onClick={OpenSignup}>Signup</button>
+              <Link to="/user-signup">
+                  Signup
+                </Link>
               </li>
               <li>
                 <Link to="/contact" style={{ color: "orange" }}>
@@ -113,11 +101,16 @@ const Navbar = () => {
             <hr />
             <p><Link to="/user-profile" style={{ color: "grey" }}>
                   Profile
+                </Link>
+                </p>
+            <hr />
+            <p><Link to="/user-login">
+                  Login
                 </Link></p>
             <hr />
-            <p><button onClick={OpenLogin}>Log In</button></p>
-            <hr />
-            <p><button onClick={OpenSignup}>Signup</button></p>
+            <p><Link to="/user-signup">
+                  Signup
+                </Link></p>
             <hr />
             <p >
               <Link to="/contact" style={{ color: "orange" }}>
@@ -127,16 +120,6 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      {isUserSignOpen && (
-        <div>
-          <UserSign onClose={CloseSignup} />
-        </div>
-      )}
-      {isUserLoginOpen && (
-        <div>
-          <UserLogin onClose={CloseLogin} />
-        </div>
-      )}
     </div>
   );
 };
