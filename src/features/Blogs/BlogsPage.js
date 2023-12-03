@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BlogEditor from "./WriteBlog";
+import { MdDelete } from "react-icons/md";
 
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
@@ -47,6 +48,18 @@ function BlogsPage() {
     setShowForm(!showForm);
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:3001/api/blogs/" + id
+      );
+
+      console.log("Delete successful:", response);
+    } catch (error) {
+      console.error("Error deleting:", error);
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -62,9 +75,13 @@ function BlogsPage() {
       <BlogContainer>
         <h2>Blogs </h2>
         {blogs.map((blog) => (
-          <BlogItem key={blog.id}>
+          <BlogItem key={blog._id}>
             <h3>{blog.title}</h3>
             <p>{blog.body}</p>
+            <MdDelete
+              style={{ width: "30px", height: "30px", color: "red" }}
+              onClick={() => handleDelete(blog._id)}
+            />
           </BlogItem>
         ))}
       </BlogContainer>

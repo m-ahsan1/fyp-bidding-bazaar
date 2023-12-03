@@ -52,10 +52,10 @@ const BlogEditor = ({ setShowForm }) => {
       .catch(function (error) {
         console.log(error);
       });
+    console.log("Blog form submitted.", body);
     setBody("");
     setTitle("");
     setShowForm(false);
-    console.log("Blog form submitted.");
   };
 
   return (
