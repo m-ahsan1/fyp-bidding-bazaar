@@ -1,6 +1,7 @@
 import React from 'react';
 import './AdminNavigation.css'; // Import CSS file
 import { Link } from 'react-router-dom';
+import AnalyticsComponent from "./Analytics";
 
 
 function AdminNavigation() {
@@ -12,11 +13,16 @@ function AdminNavigation() {
       <Link to="/adminhome">Logout</Link>
       </div>
 
+      
       <div className="content">
-        <h2>Responsive Sidebar Example</h2>
-        <p>This example uses media queries to transform the sidebar to a top navigation bar when the screen size is 700px or less.</p>
-        <p>We have also added a media query for screens that are 400px or less, which will vertically stack and center the navigation links.</p>
-        <h3>Resize the browser window to see the effect.</h3>
+              
+      <br /><br/><br />  
+      <h1 style={{color:'black', fontSize:"30px"}}>Analytics</h1>
+      <br />
+        <p>See advance stats at <Link style={{color:'blue'}} to="https://analytics.google.com/analytics/web/#/p418197527/reports/reportinghub">google analytics</Link></p>
+        <br />
+        <h1 style={{color:'black', fontSize:"30px"}}>System Stats</h1>
+        <AnalyticsComponent />
       </div>
     </div>
   );

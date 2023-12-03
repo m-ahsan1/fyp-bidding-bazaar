@@ -1,10 +1,12 @@
 // ListingForm.js
 import React, { useState } from "react";
+import axios from "axios";
 
-const ListingForm = ({ onFormSubmit }) => {
+const ListingForm = () => {
   const [formData, setFormData] = useState({
-    image: null,
+    image: "",
     title: "",
+    price: "",
     engine: "",
     mileage: "",
     modelYear: "",
@@ -14,9 +16,25 @@ const ListingForm = ({ onFormSubmit }) => {
 
   const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
+  function convertToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  }
+
+  const handleChange = async (e) => {
     if (e.target.name === "image") {
-      setFormData({ ...formData, [e.target.name]: e.target.files[0] });
+      const file = e.target.files[0];
+      const base64 = await convertToBase64(file);
+      console.log(base64);
+      setFormData({ ...formData, [e.target.name]: base64 });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -38,23 +56,29 @@ const ListingForm = ({ onFormSubmit }) => {
     setErrors(newErrors);
 
     // If there are no errors, handle form submission logic here
-    if (Object.keys(newErrors).length === 0) {
-      console.log(formData);
-      // Handle form submission logic here
-      const newSubmission = { ...formData, id: Date.now() };
-      onFormSubmit(newSubmission);
+    // if (Object.keys(newErrors).length === 0) {
 
-      // Clear the form
-      setFormData({
-        image: null,
-        title: "",
-        engine: "",
-        mileage: "",
-        modelYear: "",
-        description: "",
-        company: "",
+    console.log(formData);
+    axios
+      .post("http://localhost:3001/api/listings", formData)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-    }
+    console.log("Listing form submitted.");
+
+    setFormData({
+      image: "",
+      title: "",
+      price: "",
+      engine: "",
+      mileage: "",
+      modelYear: "",
+      description: "",
+      company: "",
+    });
   };
 
   return (
@@ -67,6 +91,7 @@ const ListingForm = ({ onFormSubmit }) => {
         <input
           type="file"
           name="image"
+          accept=".jpeg, .png, .jpg"
           onChange={handleChange}
           className="block py-2.5 px-4 w-full text-white bg-gray-800 border-2 border-gray-600 rounded-md"
         />
@@ -82,6 +107,17 @@ const ListingForm = ({ onFormSubmit }) => {
           className="block py-2.5 px-4 w-full text-white bg-gray-800 border-2 border-gray-600 rounded-md"
         />
         {errors.title && <p className="text-red-500">{errors.title}</p>}
+      </div>
+
+      <div className="mb-4">
+        <label className="text-white">Price:</label>
+        <input
+          type="text"
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+          className="block py-2.5 px-4 w-full text-white bg-gray-800 border-2 border-gray-600 rounded-md"
+        />
       </div>
 
       <div className="mb-4">
@@ -136,8 +172,8 @@ const ListingForm = ({ onFormSubmit }) => {
       <div className="mb-4">
         <label className="text-white">Company</label>
         <select
-          name="carMake"
-          value={formData.carMake}
+          name="company"
+          value={formData.company}
           onChange={handleChange}
           className="block py-2.5 px-4 w-full text-white bg-gray-800 border-2 border-gray-600 rounded-md"
         >
@@ -147,7 +183,7 @@ const ListingForm = ({ onFormSubmit }) => {
           <option value="Honda">Honda</option>
           {/* Add more options as needed */}
         </select>
-        {errors.carMake && <p className="text-red-500">{errors.carMake}</p>}
+        {errors.company && <p className="text-red-500">{errors.company}</p>}
       </div>
 
       <button
