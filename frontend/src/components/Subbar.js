@@ -30,7 +30,7 @@ const Subbar = () => {
               color: "grey"
             }}
           >
-            Browse by Category
+            More options
           </Dropdown.Toggle>
           <hr />
           <Dropdown.Menu style={{ width: "100%" }}>
