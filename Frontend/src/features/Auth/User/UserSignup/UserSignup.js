@@ -26,6 +26,12 @@ export default function UserSign() {
     return unsubscribe;
   }, [ navigate]);
   
+  const handelInputDeny = (e) => {
+    e.preventDefault();
+    toast.error("You can only change email", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
   const handleSubmit = async (e) => {
     if (!email) {
       console.log(email);
@@ -85,8 +91,9 @@ export default function UserSign() {
                     <input
                       type="text"
                       name="name"
-                      disabled
-                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      onClick={handelInputDeny}
+                      readOnly
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
                 </div>
@@ -102,7 +109,7 @@ export default function UserSign() {
                       type="email"
                       name="email"
                       onChange={handelEmailChange}
-                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
                 </div>
@@ -117,8 +124,9 @@ export default function UserSign() {
                     <input
                       type="phoneno"
                       name="phoneno"
-                      disabled
-                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      onClick={handelInputDeny}
+                      readOnly
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
                 </div>
@@ -133,8 +141,9 @@ export default function UserSign() {
                     <input
                       type="password"
                       name="password"
-                      disabled
-                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      onClick={handelInputDeny}
+                      readOnly
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
                 </div>
@@ -149,8 +158,9 @@ export default function UserSign() {
                     <input
                       type="password"
                       name="password_confirmation"
-                      disabled
-                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      onClick={handelInputDeny}
+                      readOnly
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
                 </div>
@@ -179,4 +189,3 @@ export default function UserSign() {
     </div>
   );
 }
-
