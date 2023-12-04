@@ -6,55 +6,70 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom"
 import { sendSignInLinkToEmail, updatePassword, signInWithEmailLink } from "firebase/auth";
 
-export default function UserSign() {
-  const [email, setEmail] = useState("" || localStorage.getItem('emailForRegistration'));
+export default function UserSign2() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [phoneno, setPhoneno] = useState("");
+  const [password_confirmation, setPassword_confirmation] = useState("");
 
-  const handelEmailChange = (e) => {
-    window.localStorage.setItem('emailForRegistration', e.target.value);
-    setEmail(e.target.value);
+  useEffect(() => {
+    setEmail(localStorage.getItem("emailForRegistration"));
+  }, []);
+
+  const handelPasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handelNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handelPhonenoChange = (e) => {
+    setPhoneno(e.target.value);
   };
 
   const navigate = useNavigate();
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if(user) {
-      if (user.getIdToken(true)) {
-        navigate("/");
-      }
-    }
-    });
-    return unsubscribe;
-  }, [ navigate]);
+
+  const handelPassword_confirmationChange = (e) => {
+    setPassword_confirmation(e.target.value);
+  };
   
-  const handleSubmit = async (e) => {
-    if (!email) {
-      console.log(email);
-      toast.error("Email is required", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+  const handleSignInWithLink = async (e) => {
+    e.preventDefault();
+    if (!email || !password || !name || !phoneno || !password_confirmation) {
+      toast.error('All feilds are required',{
+          position: toast.POSITION.TOP_RIGHT,
+        });
       return;
     }
-    e.preventDefault();
-    const config = {
-      url: "http://localhost:3000/user-signup2",
-      handleCodeInApp: true,
-    };
-    try{
-      await sendSignInLinkToEmail(auth, email, config);
-      toast.success(
-        `Link is sent to ${email}. Click the link to complete registration`, {
+    if (password.length < 6) {
+      toast.error('Password must be at least 6 characters',{
           position: toast.POSITION.TOP_RIGHT,
-        }
-      );
-      // Save the user email in the local storage for future useage
-      window.localStorage.setItem("emailForRegistration", email);
-      // clear the email state now
-      setEmail("");
-    }catch(err){
-      console.log(err);
-      toast.error(err.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        });
+      return;
+    }
+    if (password !== password_confirmation) {
+        toast.error('Password must match',{
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        return;
+    }
+    try {
+      const result = await signInWithEmailLink(auth, email, window.location.href)
+      .then( async () => {
+        // Remove user email from local storage
+        window.localStorage.removeItem('emailForRegistration');
+        let user = auth.currentUser;
+        await updatePassword(user, password);
+        const idTokenResult = await user.getIdTokenResult();
+        navigate('/');
       });
+    } catch (error) {
+      toast.error(error.message,{
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        console.log(error);
     }
   };
 
@@ -63,6 +78,7 @@ export default function UserSign() {
       className="min-h-screen min-w-screen-md flex items-center justify-center"
       style={{ backgroundImage: 'url("/images/login-signup-page-car-image.jpg")', backgroundSize: 'cover' }}
     >
+
       <div className="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center">
         <div className="bg-white overflow-y-auto p-4 w-full max-w-md mx-auto rounded-lg shadow-md sm:p-10 flex flex-col h-full ">
 
@@ -73,7 +89,7 @@ export default function UserSign() {
               </a>
             </div>
             <div className="w-full mt-6">
-              <form onSubmit={handleSubmit} className="flex flex-col">
+              <form onSubmit={handleSignInWithLink} className="flex flex-col">
                 <div className="mt-4">
                   <label
                     htmlFor="name"
@@ -85,7 +101,7 @@ export default function UserSign() {
                     <input
                       type="text"
                       name="name"
-                      disabled
+                      onChange={handelNameChange}
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -101,7 +117,8 @@ export default function UserSign() {
                     <input
                       type="email"
                       name="email"
-                      onChange={handelEmailChange}
+                      value={email}
+                      disabled
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -117,7 +134,7 @@ export default function UserSign() {
                     <input
                       type="phoneno"
                       name="phoneno"
-                      disabled
+                        onChange={handelPhonenoChange}
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -133,7 +150,7 @@ export default function UserSign() {
                     <input
                       type="password"
                       name="password"
-                      disabled
+                      onChange={handelPasswordChange}
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -149,7 +166,7 @@ export default function UserSign() {
                     <input
                       type="password"
                       name="password_confirmation"
-                      disabled
+                      onChange={handelPassword_confirmationChange}
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -158,6 +175,7 @@ export default function UserSign() {
                   <button
                     type="submit"
                     className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
+
                   >
                     Register
                   </button>
@@ -179,4 +197,3 @@ export default function UserSign() {
     </div>
   );
 }
-
