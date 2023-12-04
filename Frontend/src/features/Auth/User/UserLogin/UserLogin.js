@@ -6,7 +6,7 @@ export default function UserLogin() {
     return (
         <div
         className="min-h-screen min-w-screen-md flex items-center justify-center"
-        style={{ backgroundImage: 'url("/car1.jpg")', backgroundSize: 'cover' }}
+        style={{ backgroundImage: 'url("/images/login-signup-page-car-image.jpg")', backgroundSize: 'cover' }}
       >
         <div className="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white overflow-y-auto p-4 w-full max-w-md mx-auto rounded-lg shadow-md sm:p-10 flex flex-col h-full ">
