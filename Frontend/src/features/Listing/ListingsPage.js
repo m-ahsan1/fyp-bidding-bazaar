@@ -1,5 +1,5 @@
 // ParentComponent.js
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ListingForm from "./ListingForm";
 import Navbar from "../../components/Navbar";
 
