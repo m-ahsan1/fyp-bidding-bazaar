@@ -52,7 +52,7 @@ a {
   position: relative;
   height: 100vh;
   width: 100%;
-  background-image: url("al2.jpg");
+  background-image: url("/public/images/car-admin-login-background.jpg");
   background-size: cover;
   background-position: center;
 }
