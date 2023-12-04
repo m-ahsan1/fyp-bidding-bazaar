@@ -34,22 +34,25 @@ function Listing({
     }
   };
 
-  const generatePDF = () => {
+  const generatePDF = async () => {
     const doc = new jsPDF();
-
-    // doc.addImage(image, "JPEG", 10, 10, [150, 100]);
-    console.log(image);
-    doc.setFontSize(16);
-    doc.text(title, 70, 120);
-    doc.text(`Price: ${price}`, 70, 140);
-    doc.setFontSize(12);
-    doc.text(`Company: ${company}`, 70, 160);
-    doc.text(`Engine: ${engine}`, 70, 175);
-    doc.text(`Mileage: ${mileage} miles`, 70, 190);
-    doc.text(`Model Year: ${modelYear}`, 70, 205);
-    doc.text(description, 70, 220, { align: "justify", width: 150 });
-
-    doc.save("car-details.pdf");
+    // url is after semi-colon
+    try {
+      doc.addImage(image, "JPEG", 10, 10, 150, 100);
+      doc.setFontSize(16);
+      doc.text(title, 70, 120);
+      doc.text(`Price: ${price}`, 70, 140);
+      doc.setFontSize(12);
+      doc.text(`Company: ${company}`, 70, 160);
+      doc.text(`Engine: ${engine}`, 70, 175);
+      doc.text(`Mileage: ${mileage} miles`, 70, 190);
+      doc.text(`Model Year: ${modelYear}`, 70, 205);
+      doc.text(description, 70, 220, { align: "justify", width: 150 });
+  
+      doc.save("car-details.pdf");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
   };
 
   return (
