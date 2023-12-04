@@ -1,11 +1,11 @@
 import ListingsPage from "./features/Listing/ListingsPage";
-import MainPage from "./components/MainPage";
+import MainPage from "./pages/MainPage";
 import AdminLogin from "./features/Auth/Admin/AdminLogin";
 import ContactForm from "./features/Contactus/Contactus";
 import UserProfile from "./features/UserProfile/UserProfile";
 import Team from "./features/TeamPage/team";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import AdminHomePage from "./components/AdminHomePage";
+import AdminHomePage from "./pages/AdminHomePage";
 import BlogsPage from "./features/Blogs/BlogsPage";
 import UserSign from "./features/Auth/User/UserSignup/UserSignup";
 import UserLogin from "./features/Auth/User/UserLogin/UserLogin";
