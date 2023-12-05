@@ -1,15 +1,20 @@
-import { React, useState } from "react";
+import { React } from "react";
 import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom";
-import UserSign from "../features/Auth/User/UserSignup/UserSignup";
-import UserLogin from "../features/Auth/User/UserLogin/UserLogin";
-import UserProfile from "../features/UserProfile/UserProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../redux/slices/userSlice";
+import { auth } from "../firebase";
 
 const Navbar = () => {
-
-
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const handelLogout = () => {
+    dispatch(logout());
+    auth.signOut();
+    console.log(auth)
+  }
   return (
     <div>
       <nav>
@@ -32,22 +37,30 @@ const Navbar = () => {
             </button>
             &nbsp;&nbsp;
             <ul id="navbar-list">
-              <li>
-              <Link to="/user-profile" style={{ color: "grey" }}>
-                  Profile
-                </Link>
-              </li>
+              {user && (
+                <li>
+                  <Link to="/user-profile" style={{ color: "grey" }}>
+                    Profile
+                  </Link>
+                </li>)}
               <li>│</li>
-              <li>
-              <Link to="/user-login" >
-                  Login
-                </Link>
-              </li>
-              <li>
-              <Link to="/user-signup">
-                  Signup
-                </Link>
-              </li>
+              {!user && (
+                <li>
+                  <Link to="/user-login" >
+                    Login
+                  </Link>
+                </li>)}
+              {!user && (
+                <li>
+                  <Link to="/user-signup">
+                    Signup
+                  </Link>
+                </li>)}
+              {user && (
+                <li onClick={handelLogout}>
+                  Logout
+                </li>
+              )}
               <li>
                 <Link to="/contact" style={{ color: "orange" }}>
                   Contact
@@ -58,11 +71,11 @@ const Navbar = () => {
         </div>
 
         <div id="mobileNav" >
-        <Link to="/" style={{ textDecoration: "none" }}>
-              <h1 id="logo">
-                <b>BiddingBazaar</b>
-              </h1>
-            </Link>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <h1 id="logo">
+              <b>BiddingBazaar</b>
+            </h1>
+          </Link>
           <button
             className="btn btn-primary"
             type="button"
@@ -98,25 +111,36 @@ const Navbar = () => {
             >
               🔍 Search &#9660;
             </button></p><br></br>
-            <hr />
-            <p><Link to="/user-profile" style={{ color: "grey" }}>
+            {user && (
+              <>
+                <hr />
+                <p><Link to="/user-profile" style={{ color: "grey" }}>
                   Profile
                 </Link>
                 </p>
+              </>
+            )}
             <hr />
-            <p><Link to="/user-login">
-                  Login
-                </Link></p>
-            <hr />
-            <p><Link to="/user-signup">
-                  Signup
-                </Link></p>
+            {user && (
+              <p onClick={handelLogout}>
+                Logout
+              </p>
+            )}
+            {!user && (<>
+              <p><Link to="/user-login">
+                Login
+              </Link></p>
+              <hr />
+              <p><Link to="/user-signup">
+                Signup
+              </Link></p>
+            </>)}
             <hr />
             <p >
               <Link to="/contact" style={{ color: "orange" }}>
-                  Contact
-                </Link>
-                </p>
+                Contact
+              </Link>
+            </p>
           </div>
         </div>
       </nav>
