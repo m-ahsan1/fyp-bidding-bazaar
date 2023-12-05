@@ -5,6 +5,10 @@ const listingsRoutes = require("./routes/listingsRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const userRoutes = require("./routes/userRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
+const contactus = require("./routes/contactRoutes");
+
+
+
 const cors = require("cors");
 require("dotenv").config();
 const strip = require("stripe")(process.env.SECRET_KEY);
@@ -42,6 +46,7 @@ app.use("/api/listings", listingsRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/notification", notificationRoutes);
+app.use("/api/contactus", contactus);
 
 //strip
 
