@@ -48,8 +48,7 @@ const ContactForm = () => {
   return (
     <>
       <Navbar />
-      <iframe width="600" height="400" frameborder="0" style="border:0;" src="https://www.google.com/maps/embed/pl/place?q=123+Main+Street,+Anytown,+USA&zoom=10"></iframe>
-
+      
 
       <div className="container mt-5" style={{ maxWidth: "70%" }}>
       <h1 style={{ fontSize: 30, textAlign: "center" }}>Contact Us</h1>

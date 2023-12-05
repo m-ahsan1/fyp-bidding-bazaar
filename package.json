@@ -2,6 +2,7 @@
   "dependencies": {
     "firebase": "^10.7.0",
     "jspdf": "^2.5.1",
+    "react-google-maps": "^9.4.5",
     "react-toastify": "^9.1.3"
   }
 }
