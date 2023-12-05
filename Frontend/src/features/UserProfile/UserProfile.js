@@ -6,14 +6,17 @@ import { selectUser } from '../../redux/slices/userSlice';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
 
 
 const UserProfile = () => {
   const user = useSelector(selectUser);
+  const navigate = useNavigate();
   const sendErrorToast = () => {
     toast.error("You are not logged in", {
       position: toast.POSITION.TOP_RIGHT,
     });
+    navigate('/');
   }
   const [editMode, setEditMode] = useState(false);
   const [userData, setUserData] = useState({

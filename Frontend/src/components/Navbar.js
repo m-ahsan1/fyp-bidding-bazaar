@@ -57,7 +57,7 @@ const Navbar = () => {
                   </Link>
                 </li>)}
               {user && (
-                <li onClick={handelLogout}>
+                <li onClick={handelLogout} style={{color: "orchid", cursor: "pointer"}} >
                   Logout
                 </li>
               )}
@@ -101,7 +101,7 @@ const Navbar = () => {
               className="btn-close"
               data-bs-dismiss="offcanvas"
               aria-label="Close"
-            >X</button>
+            ></button>
           </div>
           <div className="offcanvas-body" style={{ padding: "20px" }}>
             <p><button
@@ -122,7 +122,7 @@ const Navbar = () => {
             )}
             <hr />
             {user && (
-              <p onClick={handelLogout}>
+              <p onClick={handelLogout} style={{cursor:"pointer", color:"orchid", textDecoration: "underline" }}>
                 Logout
               </p>
             )}
