@@ -62,9 +62,10 @@ function MainPage() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-10">
+        
+        <div className="flex flex-wrap gap-10" style={{paddingLeft:"7%"}}> 
           {filteredListings.map((item) => (
-            <div key={item._id}>
+             <div key={item._id}>
               <Listing
                 image={item.image}
                 title={item.title}

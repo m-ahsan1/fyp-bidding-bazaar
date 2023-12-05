@@ -56,7 +56,7 @@ function Listing({
   };
 
   return (
-    <div className=" w-[400px] overflow-hidder rounded shadow-lg">
+    <div className="w-[400px] overflow-hidden rounded-lg shadow-lg">
       <img className="w-[400px] h-[200px]" src={image} alt="Listed Car"></img>
       <div className="px-6 py-4">
         <div className="flex flex-row justify-between">

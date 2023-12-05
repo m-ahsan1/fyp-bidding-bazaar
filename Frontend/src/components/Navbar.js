@@ -33,7 +33,7 @@ const Navbar = () => {
               className="btn btn-outline-info"
               id="search-btn"
             >
-              🔍 Search &#9660;
+              Buy Tokens
             </button>
             &nbsp;&nbsp;
             <ul id="navbar-list">
@@ -109,7 +109,7 @@ const Navbar = () => {
               className="btn btn-outline-info"
               id="search-btn"
             >
-              🔍 Search &#9660;
+              Buy Tokens
             </button></p><br></br>
             {user && (
               <>
