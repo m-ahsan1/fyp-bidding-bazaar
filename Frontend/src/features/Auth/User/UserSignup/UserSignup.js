@@ -88,6 +88,9 @@ export default function UserSign() {
                 phoneno: phoneno,
               })
             )
+            toast.success("User created successfully", {
+              position: toast.POSITION.TOP_RIGHT,
+            });
             navigate("/");
           }).catch((error) => {
             toast.error(error.message, {
@@ -131,6 +134,9 @@ export default function UserSign() {
           photoUrl: result.user.photoURL,
         })
       );
+      toast.success("User created successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
         navigate("/");
       }).catch((error) => {
         toast.error(error.message, {

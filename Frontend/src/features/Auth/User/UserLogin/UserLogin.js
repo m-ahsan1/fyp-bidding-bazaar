@@ -37,7 +37,7 @@ export default function UserLogin() {
             //       idToken: idToken,
             //     })
             //   )
-              navigate("/");
+              navigate('/', {replace: true});
             })
             .catch((error) => {
               toast.error(error.message, {
@@ -59,7 +59,7 @@ export default function UserLogin() {
         try {
             signInWithPopup(auth, provider).then((result) => {
                 console.log(result);
-                navigate("/");
+                navigate('/', {replace: true});
             }).catch((error) => {
                 toast.error(error.message, {
                     position: toast.POSITION.TOP_RIGHT,

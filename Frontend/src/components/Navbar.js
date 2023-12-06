@@ -6,13 +6,16 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../redux/slices/userSlice";
 import { auth } from "../firebase";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  const handelLogout = () => {
+  const handleLogout = () => {
     dispatch(logout());
     auth.signOut();
+    toast.success("Logout Successfully");
     console.log(auth)
   }
   return (
@@ -37,29 +40,26 @@ const Navbar = () => {
             </button>
             &nbsp;&nbsp;
             <ul id="navbar-list">
-              {user && (
-                <li>
-                  <Link to="/user-profile" style={{ color: "grey" }}>
-                    Profile
-                  </Link>
-                </li>)}
-              <li>│</li>
-              {!user && (
-                <li>
-                  <Link to="/user-login" >
-                    Login
-                  </Link>
-                </li>)}
-              {!user && (
-                <li>
-                  <Link to="/user-signup">
-                    Signup
-                  </Link>
-                </li>)}
-              {user && (
-                <li onClick={handelLogout} style={{color: "orchid", cursor: "pointer"}} >
-                  Logout
-                </li>
+              {user ? (
+                <>
+                  <li>
+                    <Link to="/user-profile" style={{ color: "grey" }}>
+                      Profile
+                    </Link>
+                  </li>
+                  <li onClick={handleLogout} style={{ color: "orchid", cursor: "pointer" }}>
+                    Logout
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link to="/user-login">Login</Link>
+                  </li>
+                  <li>
+                    <Link to="/user-signup">Signup</Link>
+                  </li>
+                </>
               )}
               <li>
                 <Link to="/contact" style={{ color: "orange" }}>
@@ -101,7 +101,7 @@ const Navbar = () => {
               className="btn-close"
               data-bs-dismiss="offcanvas"
               aria-label="Close"
-            ></button>
+            >X</button>
           </div>
           <div className="offcanvas-body" style={{ padding: "20px" }}>
             <p><button
@@ -122,7 +122,7 @@ const Navbar = () => {
             )}
             <hr />
             {user && (
-              <p onClick={handelLogout} style={{cursor:"pointer", color:"orchid", textDecoration: "underline" }}>
+              <p onClick={handleLogout} style={{ cursor: "pointer", color: "orchid", textDecoration: "underline" }}>
                 Logout
               </p>
             )}
@@ -144,6 +144,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+      <ToastContainer />
     </div>
   );
 };
