@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Link, useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth } from "../../../../firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { login } from "../../../../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 
 export default function UserLogin() {
@@ -18,64 +17,45 @@ export default function UserLogin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!email || !password) {
-          toast.error("Both email and password are required", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-          return;
-        }
-      
-        try {
-          signInWithEmailAndPassword(auth, email, password)
-            .then(async (userAuth) => {
-              // Perform any additional actions you need upon successful login
-              console.log("User logged in:", userAuth.user.email);
-            //   const idToken = await userAuth.user.getIdToken(true);
-            //   dispatch(
-            //     login({
-            //       email: userAuth.user.email,
-            //       displayName: userAuth.user.displayName,
-            //       idToken: idToken,
-            //     })
-            //   )
-              navigate('/', {replace: true});
-            })
-            .catch((error) => {
-              toast.error(error.message, {
+            toast.error("Both email and password are required", {
                 position: toast.POSITION.TOP_RIGHT,
-              });
-              console.log(error);
             });
-        } catch (error) {
-          toast.error(error.message, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-          console.log(error);
+            return;
         }
-      };
-      
+
+        try {
+            signInWithEmailAndPassword(auth, email, password)
+                .then(async (userAuth) => {
+                    console.log("User logged in:", userAuth.user.email);
+                    navigate('/', { replace: true });
+                })
+                .catch((error) => {
+                    toast.error(error.message, {
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    console.log(error);
+                });
+        } catch (error) {
+            toast.error(error.message, {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            console.log(error);
+        }
+    };
+
 
     const handelGoogleLogin = async () => {
         const provider = new GoogleAuthProvider();
         try {
             signInWithPopup(auth, provider).then((result) => {
                 console.log(result);
-                navigate('/', {replace: true});
+                navigate('/', { replace: true });
             }).catch((error) => {
                 toast.error(error.message, {
                     position: toast.POSITION.TOP_RIGHT,
                 });
                 console.log(error);
             });
-            // console.log(result)
-            // const idToken = await result.user.getIdToken(true);
-            // dispatch(
-            //   login({
-            //     email: result.user.email,
-            //     displayName: result.user.displayName,
-            //     photoUrl: result.user.photoURL,
-            //     idToken: idToken,
-            //   })
-            // )
         } catch (error) {
             toast.error(error.message, {
                 position: toast.POSITION.TOP_RIGHT,

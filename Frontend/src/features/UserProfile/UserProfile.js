@@ -1,31 +1,29 @@
 import React, { useState } from 'react';
-import tom from './tom.jpeg'
 import Navbar from '../../components/Navbar';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/slices/userSlice';
-import { ToastContainer } from 'react-toastify';
-import { toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
+import { updateUser } from '../../redux/slices/userSlice';
+import { useDispatch } from 'react-redux';
+
 
 
 const UserProfile = () => {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const sendErrorToast = () => {
-    toast.error("You are not logged in", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-    navigate('/');
+  const sendToHome = () => {
+    navigate('/', {replace: true});
   }
   const [editMode, setEditMode] = useState(false);
   const [userData, setUserData] = useState({
-    name: user?.name ?? '',
+    username: user?.username ?? '',
     email: user?.email ?? '',
-    phone: user?.phoneno ?? '',
-    address: user?.address ?? '',
+    phone: user?.phone ?? '',
+    currentAddress: user?.currentAddress ?? '',
+    image: user?.image ?? '',
+    uid: user?.uid ?? '',
   });
-  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,6 +39,7 @@ const UserProfile = () => {
 
   const saveChanges = () => {
     toggleEditMode();
+    dispatch(updateUser(userData));
   };
 
   return (
@@ -54,7 +53,7 @@ const UserProfile = () => {
           <div className="flex items-center justify-center mb-4">
             <img
               className="w-20 h-20 rounded-full object-cover"
-              src={tom}  // Replace with the actual image source
+              src={userData.image}
               alt="https://via.placeholder.com/150"
             />
           </div>
@@ -67,8 +66,8 @@ const UserProfile = () => {
                 <input
                   className="w-full border p-2"
                   type="text"
-                  name="name"
-                  value={userData.name}
+                  name="username"
+                  value={userData.username}
                   onChange={handleInputChange}
                 />
               </label>
@@ -98,7 +97,7 @@ const UserProfile = () => {
                   className="w-full border p-2"
                   type="text"
                   name="Address"
-                  value={userData.address}
+                  value={userData.currentAddress}
                   onChange={handleInputChange}
                 />
               </label>
@@ -112,7 +111,7 @@ const UserProfile = () => {
           ) : (
             <div>
               <p className="mb-2">
-                <strong>Name:</strong> {userData.name}
+                <strong>Name:</strong> {userData.username}
               </p>
               <p className="mb-2">
                 <strong>Email:</strong> {userData.email}
@@ -121,7 +120,7 @@ const UserProfile = () => {
                 <strong>Phone:</strong> {userData.phone}
               </p>
               <p className="mb-4">
-                <strong>Address:</strong> {userData.address}
+                <strong>Address:</strong> {userData.currentAddress}
               </p>
               <button
                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
@@ -135,8 +134,7 @@ const UserProfile = () => {
       </>
     ) : (
       <>
-        {sendErrorToast()}
-        <ToastContainer />
+        {sendToHome()}
       </>
       )
     );

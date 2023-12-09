@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useEffect } from "react";
 import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -11,6 +11,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
   const user = useSelector(selectUser);
+
+  useEffect(() => {
+
+  }, [user]);
+
+
+
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
@@ -18,6 +25,7 @@ const Navbar = () => {
     toast.success("Logout Successfully");
     console.log(auth)
   }
+  
   return (
     <div>
       <nav>

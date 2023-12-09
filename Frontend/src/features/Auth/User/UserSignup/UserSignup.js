@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom"
 import { signInWithPopup, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
-import { createUser, selectUser, login } from "../../../../redux/slices/userSlice";
+import { createUser, selectUser } from "../../../../redux/slices/userSlice";
 
 export default function UserSign() {
   const [email, setEmail] = useState("");
@@ -14,10 +14,15 @@ export default function UserSign() {
   const [name, setName] = useState("");
   const [phoneno, setPhoneno] = useState("");
   const [password_confirmation, setPassword_confirmation] = useState("");
+  const [image, setImage] = useState(null);
   const user = useSelector(selectUser)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "image") {
+      setImage(e.target.files[0]);
+    }
     if (name === "email") {
       setEmail(value);
     }
@@ -41,9 +46,22 @@ export default function UserSign() {
 
   useEffect(() => {
     if (user) {
-      navigate('/')
+      navigate('/', { replace: true })
     }
   }, [user, navigate]);
+
+  const convertToBase64 = (file)=> {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,84 +85,69 @@ export default function UserSign() {
       return;
     }
     try {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userAuth) => {
-          updateProfile(userAuth.user, {
-            displayName: name,
-          }).then(async () => {
-            const idToken = await userAuth.user.getIdToken(true);
-            dispatch(
-              login({
-                email: userAuth.user.email,
-                displayName: userAuth.user.displayName,
-                phoneno: phoneno,
-                idToken: idToken,
-              })
-            )
-            dispatch(
-              createUser({
-                email: userAuth.user.email,
-                displayName: userAuth.user.displayName,
-                phoneno: phoneno,
-              })
-            )
-            toast.success("User created successfully", {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-            navigate("/");
-          }).catch((error) => {
-            toast.error(error.message, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-            console.log(error);
-          })
-        }).catch((error) => {
-          toast.error(error.message, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-          console.log(error);
+      const userAuth = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userAuth.user, {
+        displayName: name,
+      });
+      const imagetemp = null;
+      if(image){
+        imagetemp = await convertToBase64(image);
+      }
+      dispatch(
+        createUser({
+          email: userAuth.user.email,
+          username: userAuth.user.displayName,
+          phone: phoneno,
+          uid: userAuth.user.uid,
+          image: imagetemp,
         })
+      );
+      toast.success("User created successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      navigate("/", { replace: true });
     } catch (error) {
       toast.error(error.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
       console.log(error);
     }
+
   };
 
   const handelGoogleLogin = async (e) => {
     e.preventDefault();
+    if (!phoneno) {
+      toast.error("Phone Number is required", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
     const provider = new GoogleAuthProvider();
     try {
       signInWithPopup(auth, provider).then(async (result) => {
         console.log(result)
-      const idToken = await result.user.getIdToken(true);
-      dispatch(
-        login({
-          email: result.user.email,
-          displayName: result.user.displayName,
-          photoUrl: result.user.photoURL,
-          idToken: idToken,
-        })
-      )
-      dispatch(
-        createUser({
-          email: result.user.email,
-          displayName: result.user.displayName,
-          photoUrl: result.user.photoURL,
-        })
-      );
-      toast.success("User created successfully", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-        navigate("/");
+        const imagetemp = await convertToBase64(image);
+        dispatch(
+          createUser({
+            email: result.user.email,
+            username: result.user.displayName,
+            uid: result.user.uid,
+            phone: phoneno,
+            image: imagetemp,
+          })
+        );
+        console.log("User id:", auth.currentUser.uid);
+        toast.success("User created successfully", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        navigate("/", { replace: true });
       }).catch((error) => {
         toast.error(error.message, {
           position: toast.POSITION.TOP_RIGHT,
         });
         console.log(error);
       });
-      
     } catch (error) {
       toast.error(error.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -244,6 +247,23 @@ export default function UserSign() {
                     <input
                       type="password"
                       name="password_confirmation"
+                      onChange={handleInputChange}
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <label
+                    htmlFor="image"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Profile Image
+                  </label>
+                  <div className="flex flex-col items-start">
+                    <input
+                      type="file"
+                      accept=".jpeg, .png, .jpg"
+                      name="image"
                       onChange={handleInputChange}
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
