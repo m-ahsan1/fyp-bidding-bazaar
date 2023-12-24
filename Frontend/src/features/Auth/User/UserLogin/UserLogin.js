@@ -5,6 +5,7 @@ import { auth } from "../../../../firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 export default function UserLogin() {
     // Declare state variables for email and password
@@ -62,6 +63,25 @@ export default function UserLogin() {
             });
             console.log(error);
         }
+    }
+
+    const handleForgotPassword = () => {
+        if (!email) {
+            toast.error("Email is required", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            return;
+        }
+        sendPasswordResetEmail(auth, email).then(() => {
+            toast.success("Password reset email sent", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }).catch((error) => {
+            toast.error(error.message, {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            console.log(error);
+        });
     }
     return (
         <div
@@ -126,6 +146,9 @@ export default function UserLogin() {
                                     </button>
                                 </div>
                             </form>
+                            <div className="mt-4 text-grey-600">Forgot Password? 
+                            <span style={{ color: "blue", cursor: "pointer" }} onClick={handleForgotPassword}> Reset Password</span></div>
+
                             <div className="mt-4 text-grey-600">
                                 Don't have an account?{" "}
                                 <span>
