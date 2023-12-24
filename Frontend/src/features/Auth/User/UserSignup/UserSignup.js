@@ -50,7 +50,7 @@ export default function UserSign() {
     }
   }, [user, navigate]);
 
-  const convertToBase64 = (file)=> {
+  const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
@@ -65,7 +65,7 @@ export default function UserSign() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password || !name || !phoneno || !password_confirmation) {
+    if (!email || !password || !name || !phoneno || !password_confirmation || !image) {
       console.log(email, password, name, phoneno, password_confirmation);
       toast.error("All feilds are required", {
         position: toast.POSITION.TOP_RIGHT,
@@ -86,11 +86,14 @@ export default function UserSign() {
     }
     try {
       const userAuth = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(userAuth.user, {
-        displayName: name,
-      });
-      const imagetemp = null;
-      if(image){
+      let imagetemp = null;
+      if (image) {
+        if (image.size > 1000000) {
+          toast.error("Image size must be less than 1MB", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          return;
+        }
         imagetemp = await convertToBase64(image);
       }
       dispatch(
@@ -117,8 +120,8 @@ export default function UserSign() {
 
   const handelGoogleLogin = async (e) => {
     e.preventDefault();
-    if (!phoneno) {
-      toast.error("Phone Number is required", {
+    if (!phoneno || !image) {
+      toast.error("Phone Number and image is required", {
         position: toast.POSITION.TOP_RIGHT,
       });
       return;

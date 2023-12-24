@@ -3,10 +3,12 @@ import Subbar from "../components/Subbar";
 import Navbar from "../components/Navbar";
 import Listing from "../features/Listing/Listing";
 import axios from "axios";
+import { auth } from "../firebase";
 
 function MainPage() {
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState("");
+  const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +23,25 @@ function MainPage() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      if (!auth.currentUser) {
+        console.log("User is not logged in!");
+        return;
+      }
+      try {
+        const userId = auth.currentUser.uid;
+        const response = await axios.get(`http://localhost:3001/api/userRecommendations/${userId}`);
+        setRecommendations(response.data);
+      } catch (error) {
+        console.error("Error fetching recommendations:", error);
+      }
+    };
+
+    fetchRecommendations();
+  }, [auth.currentUser]); // Ensure that this effect runs only once on component mount
+
+
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
@@ -33,6 +54,7 @@ function MainPage() {
     <>
       <Navbar />
       <Subbar />
+
       <div className="ml-4 flex flex-col items-center"> {/* Updated container */}
         <div className="mb-3" style={{ width: "50%" }}>
           <div className="relative flex w-full items-stretch">
@@ -61,12 +83,43 @@ function MainPage() {
             </span>
           </div>
         </div>
+        {search === "" && auth.currentUser && recommendations.length > 0 && (
+          // console.log(recommendations),
+          <>
+            <h2 className="text-2xl font-bold mb-2" style={{ paddingTop: "2%" }}>Recommended Listings</h2>
+            <div className="flex flex-wrap gap-10 justify-around" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
+              {/* Display recommendations at the top */}
+              {recommendations.map((recommendationId) => {
+                const recommendedListing = listings.find((item) => item._id === recommendationId);
+                // console.log("user" + recommendedListing.title);
+                return recommendedListing && (
+                  <div key={recommendedListing._id}>
+                    <Listing
+                      id={recommendedListing._id}
+                      image={recommendedListing.image}
+                      title={recommendedListing.title}
+                      price={recommendedListing.price}
+                      engine={recommendedListing.engine}
+                      mileage={recommendedListing.mileage}
+                      modelYear={recommendedListing.modelYear}
+                      description={recommendedListing.description}
+                      company={recommendedListing.company} />
+                  </div>
+                )
+              })}
+            </div>
+          </>
+        )}
 
-        
-        <div className="flex flex-wrap gap-10" style={{paddingLeft:"7%"}}> 
+        {search === "" ?
+          (<h2 className="text-2xl font-bold mb-2" style={{ paddingTop: "5%" }}>All Listings</h2>) :
+          (<h2 className="text-2xl font-bold mb-2" style={{ paddingTop: "2%" }}>Search Results</h2>)
+        }
+        <div className="flex flex-wrap gap-10 justify-around" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
           {filteredListings.map((item) => (
-             <div key={item._id}>
+            <div key={item}>
               <Listing
+                id={item._id}
                 image={item.image}
                 title={item.title}
                 price={item.price}

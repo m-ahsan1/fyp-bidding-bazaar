@@ -6,8 +6,8 @@ const analyticsRoutes = require("./routes/analyticsRoutes");
 const userRoutes = require("./routes/userRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const contactus = require("./routes/contactRoutes");
-
-
+const userInteractionsRoutes = require("./routes/userInteractionsRoutes");
+const userRecommendationRoutes = require("./routes/recommendationRoutes");
 
 const cors = require("cors");
 require("dotenv").config();
@@ -18,14 +18,14 @@ const app = express();
 
 
 //stripe
-
 app.use(
   cors({
     origin: "http://localhost:3000",
   })
 );
+app.use(express.json({ limit: "50mb" })); // Set a limit for JSON payload size
+app.use(express.urlencoded({ extended: true, limit: "50mb" })); // Set a limit for URL-encoded payload size
 
-app.use(express.json());
 app.use((req, res, next) => {
   console.log(req.path, res.method);
   next();
@@ -48,9 +48,10 @@ app.use("/api/analytics", analyticsRoutes);
 app.use("/api/user", userRoutes);
 // app.use("/api/notification", notificationRoutes);
 app.use("/api/contactus", contactus);
+app.use("/api/userInteractions", userInteractionsRoutes);
+app.use("/api/userRecommendations", userRecommendationRoutes);
 
 //strip
-
 app.post("/api/payment", async (req, res) => {
   let status, error;
   const { token, amount } = req.body;

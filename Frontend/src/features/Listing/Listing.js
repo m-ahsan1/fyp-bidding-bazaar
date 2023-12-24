@@ -2,8 +2,10 @@ import axios from "axios";
 import React from "react";
 import StripeCheckout from "react-stripe-checkout";
 import jsPDF from "jspdf";
+import { auth } from "../../firebase";
 
 function Listing({
+  id,
   image,
   title,
   price,
@@ -12,7 +14,7 @@ function Listing({
   modelYear,
   description,
   company,
-}){
+}) {
   const publishableKey =
     "pk_test_51OJKAXLYINFqcfoRE0wdt2axn9TVcPLJMeGZzmFBavqw5c8x2xTSRqxnVsjuGMWZIWDsYT6M4MB7eW8bUPFRNy2Z00u3wQxOhi";
   const payNow = async (token, price) => {
@@ -34,6 +36,25 @@ function Listing({
     }
   };
 
+  const postInteraction = async () => {
+    if (!auth.currentUser) {
+      console.log("User is not logged in!");
+      return;
+    }
+    try {
+      const response = await axios.post("http://localhost:3001/api/userInteractions", {
+        userId: auth.currentUser.uid,
+        listingId: id,
+      });
+
+      if (response.status === 200) {
+        console.log("Interaction was sucessful!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const generatePDF = async () => {
     const doc = new jsPDF();
     // url is after semi-colon
@@ -48,15 +69,19 @@ function Listing({
       doc.text(`Mileage: ${mileage} miles`, 70, 190);
       doc.text(`Model Year: ${modelYear}`, 70, 205);
       doc.text(description, 70, 220, { align: "justify", width: 150 });
-  
+
       doc.save("car-details.pdf");
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
   };
 
+  const hadelClick = async () => {
+    await postInteraction();
+  };
+
   return (
-    <div className="w-[400px] overflow-hidden rounded-lg shadow-lg">
+    <div className="w-[400px] overflow-hidden rounded-lg shadow-lg" onClick={hadelClick}>
       <img className="w-[400px] h-[200px]" src={image} alt="Listed Car"></img>
       <div className="px-6 py-4">
         <div className="flex flex-row justify-between">
@@ -97,11 +122,11 @@ function Listing({
             shippingAddress
             amount={price}
             description={"Your total is " + price}
-          token={payNow}
-        />
+            token={payNow}
+          />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 }
 export default Listing;
