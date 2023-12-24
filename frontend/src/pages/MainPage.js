@@ -4,11 +4,23 @@ import Navbar from "../components/Navbar";
 import Listing from "../features/Listing/Listing";
 import axios from "axios";
 import { auth } from "../firebase";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/slices/userSlice";
 
 function MainPage() {
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState("");
   const [recommendations, setRecommendations] = useState([]);
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    if (user) {
+      console.log("User is logged in!");
+      return;
+    }
+    setRecommendations([]);
+
+  }, [user]);
 
   useEffect(() => {
     const fetchData = async () => {
