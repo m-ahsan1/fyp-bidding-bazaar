@@ -2,10 +2,11 @@ const UserInteraction = require('../models/userInteractionsModel');
 
 // post user interaction
 const postUserInteraction = async (req, res) => {
-    const { userId, listingId } = req.body;
+    const { userId, listingId, interactionType } = req.body;
     const newUserInteraction = new UserInteraction({
         userId,
         listingId,
+        interactionType,
     });
     try {
         await newUserInteraction.save();

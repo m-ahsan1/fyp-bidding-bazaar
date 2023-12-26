@@ -4,7 +4,7 @@ const UserInteraction = require('../models/userInteractionsModel');
 const getUserRecommendations = async (req, res) => {
     const { userId } = req.params;
     try {
-        const userInteractions = await UserInteraction.find({ userId:userId });
+        const userInteractions = await UserInteraction.find({ userId: userId });
 
         // Find all users who have interacted with the same listings
         const otherUsers = await UserInteraction.find({

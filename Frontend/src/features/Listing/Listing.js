@@ -30,13 +30,14 @@ function Listing({
 
       if (response.status === 200) {
         console.log("Payment was sucessful!");
+        await postInteraction("pay");
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const postInteraction = async () => {
+  const postInteraction = async (type) => {
     if (!auth.currentUser) {
       console.log("User is not logged in!");
       return;
@@ -45,6 +46,7 @@ function Listing({
       const response = await axios.post("http://localhost:3001/api/userInteractions", {
         userId: auth.currentUser.uid,
         listingId: id,
+        interactionType: type,
       });
 
       if (response.status === 200) {
@@ -71,13 +73,14 @@ function Listing({
       doc.text(description, 70, 220, { align: "justify", width: 150 });
 
       doc.save("car-details.pdf");
+      await postInteraction("pdf");
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
   };
 
   const hadelClick = async () => {
-    await postInteraction();
+    await postInteraction("click");
   };
 
   return (
