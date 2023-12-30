@@ -1,7 +1,8 @@
 // Import necessary modules and setup express router
+const _ = require("lodash") 
 const express = require("express");
 const router = express.Router();
-const { Admin, validateAdmin } = require('../models/adminModel'); // Update the path to your admin model file
+const { Admin, validateAdmin } = require('../models/adminModel'); 
 
 // GET route to fetch all admins
 router.get('/', async (req, res) => {
@@ -43,7 +44,7 @@ router.post('/', async (req, res) => {
     await newAdmin.save();
 
     // Respond with the created admin object
-    res.status(201).send(newAdmin);
+    res.status(201).send(_.pick(newAdmin,["_id","username","email"]));
   } catch (err) {
     // Handle server errors
     console.error(err);
