@@ -9,6 +9,7 @@ const contactus = require("./routes/contactRoutes");
 const userInteractionsRoutes = require("./routes/userInteractionsRoutes");
 const userRecommendationRoutes = require("./routes/recommendationRoutes");
 const userAnalyticsRoutes = require("./routes/userAnalyticsRoutes");
+const admin = require("./routes/admin")
 
 const cors = require("cors");
 require("dotenv").config();
@@ -52,6 +53,7 @@ app.use("/api/contactus", contactus);
 app.use("/api/userInteractions", userInteractionsRoutes);
 app.use("/api/userRecommendations", userRecommendationRoutes);
 app.use("/api/userAnalytics", userAnalyticsRoutes);
+app.use("/api/admin", admin);
 
 //strip
 app.post("/api/payment", async (req, res) => {
