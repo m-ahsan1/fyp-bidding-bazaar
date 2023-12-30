@@ -34,11 +34,7 @@ router.post('/', async (req, res) => {
     }
 
     // Create a new admin instance using the Admin model
-    const newAdmin = new Admin({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password
-    });
+    const newAdmin = new Admin(_.pick(req.body,["username","email","password"]));
 
     // Save the new admin to the database
     await newAdmin.save();
