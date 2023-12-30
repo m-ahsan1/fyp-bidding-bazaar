@@ -1,5 +1,6 @@
 // Import necessary modules and setup express router
 const _ = require("lodash") 
+const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
 const { Admin, validateAdmin } = require('../models/adminModel'); 
@@ -35,7 +36,8 @@ router.post('/', async (req, res) => {
 
     // Create a new admin instance using the Admin model
     const newAdmin = new Admin(_.pick(req.body,["username","email","password"]));
-
+    const salt = await bcrypt.genSalt(10);
+    newAdmin.password = await bcrypt.hash(newAdmin.password,salt);
     // Save the new admin to the database
     await newAdmin.save();
 
