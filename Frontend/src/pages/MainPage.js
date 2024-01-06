@@ -34,7 +34,7 @@ function MainPage() {
 
     fetchData();
   }, []);
-
+  
   useEffect(() => {
     const fetchRecommendations = async () => {
       if (!auth.currentUser) {
@@ -49,9 +49,10 @@ function MainPage() {
         console.error("Error fetching recommendations:", error);
       }
     };
-
+  
     fetchRecommendations();
-  }, [auth.currentUser]); // Ensure that this effect runs only once on component mount
+  }, []); // Remove 'auth.currentUser' from the dependency array
+  
 
 
   const handleSearchChange = (e) => {
