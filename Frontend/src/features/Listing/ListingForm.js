@@ -1,7 +1,6 @@
 // ListingForm.js
 import React, { useState } from "react";
 import axios from "axios";
-import addNotification from 'react-push-notification';
 
 const ListingForm = () => {
   const [formData, setFormData] = useState({
@@ -63,23 +62,11 @@ const ListingForm = () => {
     axios.post("http://localhost:3001/api/listings", formData)
       .then(function (response) {
         console.log(response);
-        addNotification({
-          title: 'Car posted',
-          subtitle: 'This is a subtitle',
-          message: 'Car has been posted successfully',
-          theme: 'darkblue',
-          native: true // when using native, your OS will handle theming.
-        });
+        
       })
       .catch(function (error) {
         console.log(error);
-        addNotification({
-          title: 'Car not posted',
-          subtitle: 'This is a subtitle',
-          message: 'Car has not been posted',
-          theme: 'darkblue',
-          native: true // when using native, your OS will handle theming.
-        });
+       
       });
     console.log("Listing form submitted.");
 
