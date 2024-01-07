@@ -1,4 +1,5 @@
 const UserInteraction = require('../models/userInteractionsModel');
+const Listing = require('../models/listingsModel');
 
 const getUserPDFanalytics = async (req, res) => {
     const { userId } = req.params;
@@ -39,8 +40,19 @@ const getUserClickanalytics = async (req, res) => {
     }
 }
 
+const getUserCaranalytics = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const userCars = await Listing.find({ uid: userId });
+        res.status(200).json({ carCount: userCars.length });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
     getUserPDFanalytics,
     getUserPayanalytics,
     getUserClickanalytics,
+    getUserCaranalytics,
 }

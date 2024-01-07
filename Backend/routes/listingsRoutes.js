@@ -28,6 +28,7 @@ router.post("/", async (req, res) => {
     modelYear: req.body.modelYear,
     description: req.body.description,
     company: req.body.company,
+    uid: req.body.uid,
   });
 
   try {

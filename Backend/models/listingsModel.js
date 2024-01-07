@@ -35,6 +35,10 @@ const listingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  uid: {
+    type: String,
+    required: true,
+  },
 });
 
 // Create the Listing model

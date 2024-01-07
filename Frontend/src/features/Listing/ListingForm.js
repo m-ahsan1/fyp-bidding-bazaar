@@ -1,6 +1,10 @@
 // ListingForm.js
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/slices/userSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ListingForm = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +19,8 @@ const ListingForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+
+  const user = useSelector(selectUser)
 
   function convertToBase64(file) {
     return new Promise((resolve, reject) => {
@@ -59,27 +65,41 @@ const ListingForm = () => {
     // if (Object.keys(newErrors).length === 0) {
 
     console.log(formData);
-    axios.post("http://localhost:3001/api/listings", formData)
-      .then(function (response) {
-        console.log(response);
-        
-      })
-      .catch(function (error) {
-        console.log(error);
-       
-      });
-    console.log("Listing form submitted.");
 
-    setFormData({
-      image: "",
-      title: "",
-      price: "",
-      engine: "",
-      mileage: "",
-      modelYear: "",
-      description: "",
-      company: "",
-    });
+    if (user === null) {
+      toast.error("You are not logged in!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+    else {
+      const data = {
+        ...formData,
+        uid: user.uid,
+      }
+      axios.post("http://localhost:3001/api/listings", data)
+        .then(function (response) {
+          console.log(response);
+
+        })
+        .catch(function (error) {
+          console.log(error);
+
+        });
+      console.log("Listing form submitted.");
+
+      setFormData({
+        image: "",
+        title: "",
+        price: "",
+        engine: "",
+        mileage: "",
+        modelYear: "",
+        description: "",
+        company: "",
+      });
+      
+    }
   };
 
   return (
@@ -203,6 +223,7 @@ const ListingForm = () => {
         </button>
       </form>
       <br></br>
+      <ToastContainer />
     </>
   );
 };

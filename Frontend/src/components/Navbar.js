@@ -12,12 +12,6 @@ import "react-toastify/dist/ReactToastify.css";
 const Navbar = () => {
   const user = useSelector(selectUser);
 
-  useEffect(() => {
-
-  }, [user]);
-
-
-
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
