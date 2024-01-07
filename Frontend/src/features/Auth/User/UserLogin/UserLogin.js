@@ -67,9 +67,6 @@ export default function UserLogin() {
                     navigate('/', { replace: true });
                 }
                 else {
-                    toast.error("Error in Google Login", {
-                        position: toast.POSITION.TOP_RIGHT,
-                    });
                     dispatch(logout());
                     auth.signOut();
                 }
