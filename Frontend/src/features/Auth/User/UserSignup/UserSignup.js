@@ -63,24 +63,61 @@ export default function UserSign() {
     });
   }
 
+  const emailValidate = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    if (re.test(email)) {
+      return true;
+    }
+    else {
+      toast.error("Email is not valid", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return false;
+    }
+  }
+
+  const passwordValidate = (password) => {
+    const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+    if (re.test(password)) {
+      return true;
+    }
+    else {
+      toast.error("Password must contain at least 8 characters, one uppercase, and one number", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return false;
+    }
+  }
+
+  const phonenoValidate = (phoneno) => {
+    const re = /^\d{11}$/;
+    if (re.test(phoneno)) {
+      return true;
+    }
+    else {
+      toast.error("Phone Number must be 11 digits", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return false;
+    }
+  }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password || !name || !phoneno || !password_confirmation || !image) {
       console.log(email, password, name, phoneno, password_confirmation);
       toast.error("All feilds are required", {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_CENTER,
       });
       return;
     }
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+    if (!emailValidate(email) || !passwordValidate(password) || !phonenoValidate(phoneno)) {
       return;
     }
     if (password !== password_confirmation) {
-      toast.error("Password must match", {
-        position: toast.POSITION.TOP_RIGHT,
+      toast.error("Passwords must match", {
+        position: toast.POSITION.TOP_CENTER,
       });
       return;
     }
@@ -90,7 +127,7 @@ export default function UserSign() {
       if (image) {
         if (image.size > 1000000) {
           toast.error("Image size must be less than 1MB", {
-            position: toast.POSITION.TOP_RIGHT,
+            position: toast.POSITION.TOP_CENTER,
           });
           return;
         }
@@ -106,12 +143,12 @@ export default function UserSign() {
         })
       );
       toast.success("User created successfully", {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_CENTER,
       });
       navigate("/", { replace: true });
     } catch (error) {
       toast.error(error.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_CENTER,
       });
       console.log(error);
     }
@@ -122,8 +159,11 @@ export default function UserSign() {
     e.preventDefault();
     if (!phoneno || !image) {
       toast.error("Phone Number and image is required", {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_CENTER,
       });
+      return;
+    }
+    if (!phonenoValidate(phoneno)) {
       return;
     }
     const provider = new GoogleAuthProvider();
@@ -142,18 +182,18 @@ export default function UserSign() {
         );
         console.log("User id:", auth.currentUser.uid);
         toast.success("User created successfully", {
-          position: toast.POSITION.TOP_RIGHT,
+          position: toast.POSITION.TOP_CENTER,
         });
         navigate("/", { replace: true });
       }).catch((error) => {
         toast.error(error.message, {
-          position: toast.POSITION.TOP_RIGHT,
+          position: toast.POSITION.TOP_CENTER,
         });
         console.log(error);
       });
     } catch (error) {
       toast.error(error.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_CENTER,
       });
       console.log(error);
     }
@@ -161,23 +201,23 @@ export default function UserSign() {
 
   return (
     <div
-      className="min-h-screen min-w-screen-md flex items-center justify-center"
-      style={{ backgroundImage: 'url("/images/login-signup-page-car-image.jpg")', backgroundSize: 'cover' }}
+      className="min-h-screen min-w-screen-md flex items-center justify-center max-h-screen max-w-screen"
+      style={{ backgroundImage: 'url("/images/login-signup-page-car-image.jpg")', backgroundSize: 'unset' }}
     >
-      <div className="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="bg-white overflow-y-auto p-4 w-full max-w-md mx-auto rounded-lg shadow-md sm:p-10 flex flex-col h-full ">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center max-h-screen">
+        <div className="bg-white overflow-y-auto overflow-x-auto p-4 w-full max-w-lg mx-auto rounded-lg shadow-2xl sm:p-10 flex flex-col max-h-full ">
 
           <div className="flex flex-col items-center pt-4 sm:justify-center sm:pt-0 flex-grow">
             <div>
               <Link to="/">
                 <img
-                  src="/images/logo.png" 
+                  src="/images/logo.png"
                   className="w-100 h-35"
                 />
               </Link>
             </div>
             <div className="w-full mt-6">
-              <form onSubmit={handleSubmit} className="flex flex-col">
+              <form onSubmit={handleSubmit} className="flex flex-col" noValidate>
                 <div className="mt-4">
                   <label
                     htmlFor="name"
@@ -189,7 +229,8 @@ export default function UserSign() {
                     <input
                       type="text"
                       name="name"
-                      onChange={handleInputChange}
+                      onInput={handleInputChange}
+                      placeholder="Enter your name"  // Placeholder for the field
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -205,7 +246,8 @@ export default function UserSign() {
                     <input
                       type="email"
                       name="email"
-                      onChange={handleInputChange}
+                      onInput={handleInputChange}
+                      placeholder="Enter your email"  // Placeholder for the field
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -221,7 +263,8 @@ export default function UserSign() {
                     <input
                       type="phoneno"
                       name="phoneno"
-                      onChange={handleInputChange}
+                      onInput={handleInputChange}
+                      placeholder="Enter your phone number"  // Placeholder for the field
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -237,7 +280,8 @@ export default function UserSign() {
                     <input
                       type="password"
                       name="password"
-                      onChange={handleInputChange}
+                      onInput={handleInputChange}
+                      placeholder="Enter your password"  // Placeholder for the field
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -253,7 +297,8 @@ export default function UserSign() {
                     <input
                       type="password"
                       name="password_confirmation"
-                      onChange={handleInputChange}
+                      onInput={handleInputChange}
+                      placeholder="Confirm your password"  // Placeholder for the field
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -270,7 +315,7 @@ export default function UserSign() {
                       type="file"
                       accept=".jpeg, .png, .jpg"
                       name="image"
-                      onChange={handleInputChange}
+                      onInput={handleInputChange}
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>

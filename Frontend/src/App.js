@@ -43,7 +43,7 @@ function App() {
           auth.signOut();
           sendEmailVerification(userAuth).catch((error) => {
             toast.error(error.message, {
-              position: toast.POSITION.TOP_RIGHT,
+              position: toast.POSITION.TOP_CENTER,
             });
             console.log(error);
           });

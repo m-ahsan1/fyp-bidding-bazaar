@@ -17,15 +17,41 @@ export default function UserLogin() {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
 
+    // Function to validate form
+    const validateForm = () => {
+        // Email format validation using a regular expression
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+        if (!emailRegex.test(email)) {
+            toast.error("Please enter a valid email address", {
+                position: toast.POSITION.TOP_CENTER,
+            });
+            return false;
+        }
+    
+        if (!password) {
+            toast.error("Password is required", {
+                position: toast.POSITION.TOP_CENTER,
+            });
+            return false;
+        }
+    
+        return true;
+    };
+    
     // Function to handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!email || !password) {
             toast.error("Both email and password are required", {
-                position: toast.POSITION.TOP_RIGHT,
+                position: toast.POSITION.TOP_CENTER,
             });
             return;
         }
+
+        if(!validateForm())
+            return;
 
         try {
             signInWithEmailAndPassword(auth, email, password)
@@ -35,13 +61,13 @@ export default function UserLogin() {
                 })
                 .catch((error) => {
                     toast.error(error.message, {
-                        position: toast.POSITION.TOP_RIGHT,
+                        position: toast.POSITION.TOP_CENTER,
                     });
                     console.log(error);
                 });
         } catch (error) {
             toast.error(error.message, {
-                position: toast.POSITION.TOP_RIGHT,
+                position: toast.POSITION.TOP_CENTER,
             });
             console.log(error);
         }
@@ -54,7 +80,7 @@ export default function UserLogin() {
             navigate('/', { replace: true });
         }).catch((error) => {
             toast.error(error.message, {
-                position: toast.POSITION.TOP_RIGHT,
+                position: toast.POSITION.TOP_CENTER,
             });
             console.log(error);
         });
@@ -74,7 +100,7 @@ export default function UserLogin() {
 
         } catch (error) {
             toast.error(error.message, {
-                position: toast.POSITION.TOP_RIGHT,
+                position: toast.POSITION.TOP_CENTER,
             });
             console.log(error);
         }
@@ -83,17 +109,17 @@ export default function UserLogin() {
     const handleForgotPassword = () => {
         if (!email) {
             toast.error("Email is required", {
-                position: toast.POSITION.TOP_RIGHT,
+                position: toast.POSITION.TOP_CENTER,
             });
             return;
         }
         sendPasswordResetEmail(auth, email).then(() => {
             toast.success("Password reset email sent", {
-                position: toast.POSITION.TOP_RIGHT,
+                position: toast.POSITION.TOP_CENTER,
             });
         }).catch((error) => {
             toast.error(error.message, {
-                position: toast.POSITION.TOP_RIGHT,
+                position: toast.POSITION.TOP_CENTER,
             });
             console.log(error);
         });
@@ -118,7 +144,7 @@ export default function UserLogin() {
                             </Link>
                         </div>
                         <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-lg sm:rounded-lg">
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit} noValidate>
                                 <div className="mt-4">
                                     <label
                                         htmlFor="email"
@@ -133,6 +159,8 @@ export default function UserLogin() {
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            placeholder="Enter your email"
+                                            autoFocus
                                         />
                                     </div>
                                 </div>
@@ -150,6 +178,7 @@ export default function UserLogin() {
                                             name="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Enter your password"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         />
                                     </div>
