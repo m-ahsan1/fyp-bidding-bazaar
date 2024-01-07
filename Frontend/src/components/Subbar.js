@@ -2,8 +2,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/slices/userSlice";
 
 const Subbar = () => {
+  const user = useSelector(selectUser);
   return (
     <div>
       <div id="secondBar">
@@ -11,7 +14,12 @@ const Subbar = () => {
         <center>
         <span>
           &nbsp;
-          <a href="#"><Link to="/listings">Post Car</Link></a> &nbsp; &nbsp;
+          {user ? (
+              <a href="#"><Link to="/listings">Post Car</Link></a>
+            ) : (
+              <span style={{ cursor: "not-allowed" }}>Post Car</span>
+            )}
+            &nbsp; &nbsp;
           <a href="#"><Link to="/blogs">Blogs</Link></a> &nbsp; &nbsp;
           <a href="#"><Link to="/team">Team</Link></a> &nbsp; &nbsp;
         </span>
