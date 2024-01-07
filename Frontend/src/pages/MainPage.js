@@ -166,6 +166,7 @@ function MainPage() {
                 description={item.description}
                 company={item.company}
                 currentBid={item.currentBid}
+                uid={item.uid}
               />
             </div>
           ))}
