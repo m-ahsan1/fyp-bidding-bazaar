@@ -1,3 +1,4 @@
+const config = require('config');
 const express = require("express");
 const mongoose = require("mongoose");
 const blogsRoutes = require("./routes/blogsRoutes");
@@ -11,6 +12,8 @@ const userRecommendationRoutes = require("./routes/recommendationRoutes");
 const userAnalyticsRoutes = require("./routes/userAnalyticsRoutes");
 const admin = require("./routes/admin");
 const adminauth = require("./routes/adminauth");
+
+
 
 const cors = require("cors");
 require("dotenv").config();
