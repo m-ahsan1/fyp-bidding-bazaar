@@ -51,7 +51,8 @@ function MainPage() {
     };
   
     fetchRecommendations();
-  }, []); // Remove 'auth.currentUser' from the dependency array
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.currentUser]); // this dependency is necessary to update the navbar when the user logs in or logs out and also to set the recommendations
   
 
 
