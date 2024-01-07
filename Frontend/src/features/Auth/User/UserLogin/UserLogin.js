@@ -4,14 +4,17 @@ import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 
 import { auth } from "../../../../firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, logout } from "../../../../redux/slices/userSlice";
 
 export default function UserLogin() {
     // Declare state variables for email and password
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+
+    const user = useSelector(selectUser);
     const dispatch = useDispatch();
 
     // Function to handle form submission
@@ -44,19 +47,34 @@ export default function UserLogin() {
         }
     };
 
+    const googleMethod = async () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider).then((result) => {
+            console.log(result);
+            navigate('/', { replace: true });
+        }).catch((error) => {
+            toast.error(error.message, {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            console.log(error);
+        });
+    }
 
     const handelGoogleLogin = async () => {
-        const provider = new GoogleAuthProvider();
         try {
-            signInWithPopup(auth, provider).then((result) => {
-                console.log(result);
-                navigate('/', { replace: true });
-            }).catch((error) => {
-                toast.error(error.message, {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-                console.log(error);
+            await googleMethod().then(() => {
+                if (user) {
+                    navigate('/', { replace: true });
+                }
+                else {
+                    toast.error("Error in Google Login", {
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dispatch(logout());
+                    auth.signOut();
+                }
             });
+
         } catch (error) {
             toast.error(error.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -146,8 +164,8 @@ export default function UserLogin() {
                                     </button>
                                 </div>
                             </form>
-                            <div className="mt-4 text-grey-600">Forgot Password? 
-                            <span style={{ color: "blue", cursor: "pointer" }} onClick={handleForgotPassword}> Reset Password</span></div>
+                            <div className="mt-4 text-grey-600">Forgot Password?
+                                <span style={{ color: "blue", cursor: "pointer" }} onClick={handleForgotPassword}> Reset Password</span></div>
 
                             <div className="mt-4 text-grey-600">
                                 Don't have an account?{" "}
