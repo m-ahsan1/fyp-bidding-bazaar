@@ -19,7 +19,6 @@ function MainPage() {
       return;
     }
     setRecommendations([]);
-
   }, [user]);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ function MainPage() {
 
     fetchData();
   }, []);
-  
+
   useEffect(() => {
     const fetchRecommendations = async () => {
       if (!auth.currentUser) {
@@ -43,25 +42,27 @@ function MainPage() {
       }
       try {
         const userId = auth.currentUser.uid;
-        const response = await axios.get(`http://localhost:3001/api/userRecommendations/${userId}`);
+        const response = await axios.get(
+          `http://localhost:3001/api/userRecommendations/${userId}`
+        );
         setRecommendations(response.data);
       } catch (error) {
         console.error("Error fetching recommendations:", error);
       }
     };
-  
-    fetchRecommendations();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth.currentUser]); // this dependency is necessary to update the navbar when the user logs in or logs out and also to set the recommendations
-  
 
+    fetchRecommendations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.currentUser]); // this dependency is necessary to update the navbar when the user logs in or logs out and also to set the recommendations
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
 
   const filteredListings = listings.filter((item) =>
-    search.toLowerCase() === "" ? true : item.title.toLowerCase().includes(search)
+    search.toLowerCase() === ""
+      ? true
+      : item.title.toLowerCase().includes(search)
   );
 
   return (
@@ -69,7 +70,9 @@ function MainPage() {
       <Navbar />
       <Subbar />
 
-      <div className="ml-4 flex flex-col items-center"> {/* Updated container */}
+      <div className="ml-4 flex flex-col items-center">
+        {" "}
+        {/* Updated container */}
         <div className="mb-3" style={{ width: "50%" }}>
           <div className="relative flex w-full items-stretch">
             <input
@@ -100,36 +103,56 @@ function MainPage() {
         {search === "" && auth.currentUser && recommendations.length > 0 && (
           // console.log(recommendations),
           <>
-            <h2 className="text-2xl font-bold mb-2" style={{ paddingTop: "2%" }}>Recommended Listings</h2>
-            <div className="flex flex-wrap gap-10 justify-around" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
+            <h2
+              className="text-2xl font-bold mb-2"
+              style={{ paddingTop: "2%" }}
+            >
+              Recommended Listings
+            </h2>
+            <div
+              className="flex flex-wrap gap-10 justify-around"
+              style={{ paddingLeft: "2%", paddingRight: "2%" }}
+            >
               {/* Display recommendations at the top */}
               {recommendations.map((recommendationId) => {
-                const recommendedListing = listings.find((item) => item._id === recommendationId);
+                const recommendedListing = listings.find(
+                  (item) => item._id === recommendationId
+                );
                 // console.log("user" + recommendedListing.title);
-                return recommendedListing && (
-                  <div key={recommendedListing._id}>
-                    <Listing
-                      id={recommendedListing._id}
-                      image={recommendedListing.image}
-                      title={recommendedListing.title}
-                      price={recommendedListing.price}
-                      engine={recommendedListing.engine}
-                      mileage={recommendedListing.mileage}
-                      modelYear={recommendedListing.modelYear}
-                      description={recommendedListing.description}
-                      company={recommendedListing.company} />
-                  </div>
-                )
+                return (
+                  recommendedListing && (
+                    <div key={recommendedListing._id}>
+                      <Listing
+                        id={recommendedListing._id}
+                        image={recommendedListing.image}
+                        title={recommendedListing.title}
+                        price={recommendedListing.price}
+                        engine={recommendedListing.engine}
+                        mileage={recommendedListing.mileage}
+                        modelYear={recommendedListing.modelYear}
+                        description={recommendedListing.description}
+                        company={recommendedListing.company}
+                      />
+                    </div>
+                  )
+                );
               })}
             </div>
           </>
         )}
-
-        {search === "" ?
-          (<h2 className="text-2xl font-bold mb-2" style={{ paddingTop: "5%" }}>All Listings</h2>) :
-          (<h2 className="text-2xl font-bold mb-2" style={{ paddingTop: "2%" }}>Search Results</h2>)
-        }
-        <div className="flex flex-wrap gap-10 justify-around" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
+        {search === "" ? (
+          <h2 className="text-2xl font-bold mb-2" style={{ paddingTop: "5%" }}>
+            All Listings
+          </h2>
+        ) : (
+          <h2 className="text-2xl font-bold mb-2" style={{ paddingTop: "2%" }}>
+            Search Results
+          </h2>
+        )}
+        <div
+          className="flex flex-wrap gap-10 justify-around"
+          style={{ paddingLeft: "2%", paddingRight: "2%" }}
+        >
           {filteredListings.map((item) => (
             <div key={item}>
               <Listing
@@ -142,6 +165,7 @@ function MainPage() {
                 modelYear={item.modelYear}
                 description={item.description}
                 company={item.company}
+                currentBid={item.currentBid}
               />
             </div>
           ))}

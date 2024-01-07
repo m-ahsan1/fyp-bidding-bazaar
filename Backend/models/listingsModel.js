@@ -35,6 +35,9 @@ const listingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  currentBid: {
+    type: Number,
+  },
   uid: {
     type: String,
     required: true,

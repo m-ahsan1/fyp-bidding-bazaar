@@ -1,6 +1,9 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import StripeCheckout from "react-stripe-checkout";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import { auth } from "../../firebase";
 
@@ -14,6 +17,7 @@ function Listing({
   modelYear,
   description,
   company,
+  currentBid,
 }) {
   const publishableKey =
     "pk_test_51OJKAXLYINFqcfoRE0wdt2axn9TVcPLJMeGZzmFBavqw5c8x2xTSRqxnVsjuGMWZIWDsYT6M4MB7eW8bUPFRNy2Z00u3wQxOhi";
@@ -43,11 +47,14 @@ function Listing({
       return;
     }
     try {
-      const response = await axios.post("http://localhost:3001/api/userInteractions", {
-        userId: auth.currentUser.uid,
-        listingId: id,
-        interactionType: type,
-      });
+      const response = await axios.post(
+        "http://localhost:3001/api/userInteractions",
+        {
+          userId: auth.currentUser.uid,
+          listingId: id,
+          interactionType: type,
+        }
+      );
 
       if (response.status === 200) {
         console.log("Interaction was sucessful!");
@@ -83,8 +90,35 @@ function Listing({
     await postInteraction("click");
   };
 
+  const [newBid, setNewBid] = useState(0);
+  const [showPayButton, setShowPayButton] = useState(false);
+  const handleBid = () => {
+    if (newBid > currentBid) {
+      axios
+        .patch(`/api/listings/${id}`, {
+          currentBid: newBid,
+        })
+        .then((response) => {
+          console.log("Updated listing:", response.data);
+          setShowPayButton(true);
+          toast.success("Bid placed successfully! You can Pay.");
+        })
+        .catch((error) => {
+          console.error(
+            "Error updating listing:",
+            error.response ? error.response.data : error.message
+          );
+        });
+    } else {
+      toast.error("New bid must be greater than the current bid");
+    }
+  };
+
   return (
-    <div className="w-[400px] overflow-hidden rounded-lg shadow-lg" onClick={hadelClick}>
+    <div
+      className="w-[400px] overflow-hidden rounded-lg shadow-lg"
+      onClick={hadelClick}
+    >
       <img className="w-[400px] h-[200px]" src={image} alt="Listed Car"></img>
       <div className="px-6 py-4">
         <div className="flex flex-row justify-between">
@@ -116,17 +150,43 @@ function Listing({
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
           {mileage}
         </span>
+        <span>Current Bid: {currentBid}</span>
         <div className="flex flex-row justify-between">
-          <StripeCheckout
-            stripeKey={publishableKey}
-            label="Pay"
-            name="Pay with Credit Card"
-            billingAddress
-            shippingAddress
-            amount={price}
-            description={"Your total is " + price}
-            token={payNow}
-          />
+          <Popup
+            trigger={
+              <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                Bid
+              </button>
+            }
+            position="right center"
+          >
+            <input
+              type="text"
+              placeholder="Enter bid amount"
+              value={newBid}
+              onChange={(e) => setNewBid(e.target.value)}
+            />
+
+            <button
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              onClick={() => handleBid()}
+            >
+              Bid
+            </button>
+          </Popup>
+
+          {showPayButton && (
+            <StripeCheckout
+              stripeKey={publishableKey}
+              label="Pay"
+              name="Pay with Credit Card"
+              billingAddress
+              shippingAddress
+              amount={price}
+              description={"Your total is " + price}
+              token={payNow}
+            />
+          )}
         </div>
       </div>
     </div>

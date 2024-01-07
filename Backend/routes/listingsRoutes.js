@@ -18,6 +18,7 @@ router.get("/:id", getListing, (req, res) => {
 });
 
 // Create a new listing
+
 router.post("/", async (req, res) => {
   const listing = new Listing({
     image: req.body.image,
@@ -28,6 +29,7 @@ router.post("/", async (req, res) => {
     modelYear: req.body.modelYear,
     description: req.body.description,
     company: req.body.company,
+    currentBid: 0,
     uid: req.body.uid,
   });
 
@@ -65,7 +67,9 @@ router.patch("/:id", getListing, async (req, res) => {
   if (req.body.company != null) {
     res.listing.company = req.body.company;
   }
-
+  if (req.body.currentBid != null) {
+    res.listing.currentBid = req.body.currentBid;
+  }
   try {
     const updatedListing = await res.listing.save();
     res.json(updatedListing);
