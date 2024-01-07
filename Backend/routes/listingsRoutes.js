@@ -81,7 +81,7 @@ router.patch("/:id", getListing, async (req, res) => {
 // Delete a listing by ID
 router.delete("/:id", getListing, async (req, res) => {
   try {
-    await res.listing.remove();
+    await res.listing.deleteOne();
     res.json({ message: "Listing deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
