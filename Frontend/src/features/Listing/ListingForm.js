@@ -20,7 +20,7 @@ const ListingForm = () => {
 
   const [errors, setErrors] = useState({});
 
-  const user = useSelector(selectUser)
+  const user = useSelector(selectUser);
 
   function convertToBase64(file) {
     return new Promise((resolve, reject) => {
@@ -46,59 +46,112 @@ const ListingForm = () => {
     }
   };
 
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { ...errors };
+
+    // Check for empty fields
+    if (!formData.title.trim()) {
+      newErrors.title = "Title is required";
+      valid = false;
+    } else {
+      newErrors.title = "";
+    }
+
+    if (!formData.engine.trim()) {
+      newErrors.engine = "Engine is required";
+      valid = false;
+    } else {
+      newErrors.engine = "";
+    }
+
+    if (!formData.mileage.trim()) {
+      newErrors.mileage = "Mileage is required";
+      valid = false;
+    } else {
+      newErrors.mileage = "";
+    }
+
+    if (!formData.modelYear.trim()) {
+      newErrors.modelYear = "Model Year is required";
+      valid = false;
+    } else {
+      // Model year should be a number and exactly 4 digits
+      if (!/^\d{4}$/.test(formData.modelYear)) {
+        newErrors.modelYear = "Model year should be 4 digits.";
+        valid = false;
+      } else {
+        newErrors.modelYear = "";
+      }
+    }
+
+    if (!formData.description.trim()) {
+      newErrors.description = "Description is required";
+      valid = false;
+    } else {
+      // Description should not contain numbers
+      if (/[\d]/.test(formData.description)) {
+        newErrors.description = "Description should not have numbers.";
+        valid = false;
+      } else {
+        newErrors.description = "";
+      }
+    }
+
+    if (!formData.company.trim()) {
+      newErrors.company = "Company is required";
+      valid = false;
+    } else {
+      // Company should not contain numbers
+      if (/[\d]/.test(formData.company)) {
+        newErrors.company = "Company should not have numbers.";
+        valid = false;
+      } else {
+        newErrors.company = "";
+      }
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate form fields
-    const newErrors = {};
-    if (!formData.title) newErrors.title = "Title is required";
-    if (!formData.engine) newErrors.engine = "Engine is required";
-    if (!formData.mileage) newErrors.mileage = "Mileage is required";
-    if (!formData.modelYear) newErrors.modelYear = "Model Year is required";
-    if (!formData.description)
-      newErrors.description = "Description is required";
-    if (!formData.company) newErrors.company = "Company is required";
+    if (validateForm()) {
+      console.log(formData);
 
-    setErrors(newErrors);
-
-    // If there are no errors, handle form submission logic here
-    // if (Object.keys(newErrors).length === 0) {
-
-    console.log(formData);
-
-    if (user === null) {
-      toast.error("You are not logged in!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-      return;
-    }
-    else {
-      const data = {
-        ...formData,
-        uid: user.uid,
-      }
-      axios.post("http://localhost:3001/api/listings", data)
-        .then(function (response) {
-          console.log(response);
-
-        })
-        .catch(function (error) {
-          console.log(error);
-
+      if (user === null) {
+        toast.error("You are not logged in!", {
+          position: toast.POSITION.TOP_CENTER,
         });
-      console.log("Listing form submitted.");
+        return;
+      } else {
+        const data = {
+          ...formData,
+          uid: user.uid,
+        };
+        axios
+          .post("http://localhost:3001/api/listings", data)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        console.log("Listing form submitted.");
 
-      setFormData({
-        image: "",
-        title: "",
-        price: "",
-        engine: "",
-        mileage: "",
-        modelYear: "",
-        description: "",
-        company: "",
-      });
-      
+        setFormData({
+          image: "",
+          title: "",
+          price: "",
+          engine: "",
+          mileage: "",
+          modelYear: "",
+          description: "",
+          company: "",
+        });
+      }
     }
   };
 
@@ -109,10 +162,19 @@ const ListingForm = () => {
         onSubmit={handleSubmit}
         className="bg-gray-100 p-6 rounded-lg shadow-md w-full max-w-md mx-auto"
       >
-        <center><h1 style={{ fontSize: "40px" }}><b>Post Car</b></h1></center>
-        <br></br><hr></hr><br></br>
+        <center>
+          <h1 style={{ fontSize: "40px" }}>
+            <b>Post Car</b>
+          </h1>
+        </center>
+        <br></br>
+        <hr></hr>
+        <br></br>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="image"
+          >
             Image:
           </label>
           <input
@@ -125,7 +187,10 @@ const ListingForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="title"
+          >
             Title:
           </label>
           <input
@@ -139,7 +204,9 @@ const ListingForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Price:</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Price:
+          </label>
           <input
             type="text"
             name="price"
@@ -150,7 +217,9 @@ const ListingForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Engine:</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Engine:
+          </label>
           <input
             type="text"
             name="engine"
@@ -162,7 +231,9 @@ const ListingForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Mileage:</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Mileage:
+          </label>
           <input
             type="text"
             name="mileage"
@@ -174,7 +245,9 @@ const ListingForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Model Year:</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Model Year:
+          </label>
           <input
             type="text"
             name="modelYear"
@@ -182,11 +255,15 @@ const ListingForm = () => {
             onChange={handleChange}
             className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
-          {errors.modelYear && <p className="text-red-500">{errors.modelYear}</p>}
+          {errors.modelYear && (
+            <p className="text-red-500">{errors.modelYear}</p>
+          )}
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Description:
+          </label>
           <textarea
             name="description"
             value={formData.description}
@@ -199,7 +276,9 @@ const ListingForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Company</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Company
+          </label>
           <select
             name="company"
             value={formData.company}
@@ -215,7 +294,8 @@ const ListingForm = () => {
           {errors.company && <p className="text-red-500">{errors.company}</p>}
         </div>
 
-        <button style={{ width: "100%" }}
+        <button
+          style={{ width: "100%" }}
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-40 rounded focus:outline-none focus:shadow-outline"
         >
