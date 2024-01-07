@@ -33,14 +33,18 @@ const Navbar = () => {
             </Link>
           </div>
           <div id="rightnav">
-            <button
-              type="button"
-              className="btn btn-outline-info"
-              id="search-btn"
-            >
-              Buy Tokens
-            </button>
-            &nbsp;&nbsp;
+            {user ? (
+              <><button
+                type="button"
+                className="btn btn-outline-info"
+                id="search-btn"
+              >
+                Buy Tokens
+              </button>
+                &nbsp;&nbsp;</>
+            ) : (
+              <></>
+            )}
             <ul id="navbar-list">
               {user ? (
                 <>
