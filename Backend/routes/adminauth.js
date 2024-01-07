@@ -1,28 +1,16 @@
 // Import necessary modules and setup express router
+const jwt = require('jsonwebtoken');
+const Joi = require('joi');
 const _ = require("lodash") 
 const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
 const { Admin} = require('../models/adminModel'); 
 
-// GET route to fetch all admins
-router.get('/', async (req, res) => {
-  try {
-    // Fetch all admins from the database
-    const admins = await Admin.find();
-    
-    // Respond with the retrieved admins
-    res.json(admins);
-  } catch (err) {
-    // Handle server errors
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// POST route to create a new admin
+// POST route to login admin
 router.post('/', async (req, res) => {
   // Validate the request body using Joi schema
-  const { error } = validateAdmin(req.body);
+  const { error } = validate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
@@ -30,19 +18,19 @@ router.post('/', async (req, res) => {
   try {
     // Check if the email already exists
     let existingAdmin = await Admin.findOne({ email: req.body.email });
-    if (existingAdmin) {
-      return res.status(400).send('Email already exists');
+    if (!existingAdmin) {
+      return res.status(400).send('Invalid email or password.');
     }
 
-    // Create a new admin instance using the Admin model
-    const newAdmin = new Admin(_.pick(req.body,["username","email","password"]));
-    const salt = await bcrypt.genSalt(10);
-    newAdmin.password = await bcrypt.hash(newAdmin.password,salt);
-    // Save the new admin to the database
-    await newAdmin.save();
+    const validPassword = await bcrypt.compare(req.body.password, existingAdmin.password);
+    if (!validPassword) {
+      return res.status(400).send('Invalid email or password.');
+    }
 
-    // Respond with the created admin object
-    res.status(201).send(_.pick(newAdmin,["_id","username","email"]));
+    const token = jwt.sign({ _id : existingAdmin._id}, 'jwtPrivateKey');
+
+    res.send(token);
+
   } catch (err) {
     // Handle server errors
     console.error(err);
@@ -52,12 +40,12 @@ router.post('/', async (req, res) => {
 
 function validate(req) {
   const schema = Joi.object({
-    username: Joi.string().required().min(5).max(50),
     email: Joi.string().required().email().max(255),
     password: Joi.string().required().min(5).max(1024)
   });
 
-  return schema.validate(admin);
+  return schema.validate(req);
 }
+
 
 module.exports = router;
