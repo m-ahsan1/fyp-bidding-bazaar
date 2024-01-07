@@ -95,7 +95,7 @@ function Listing({
   const handleBid = () => {
     if (newBid > currentBid) {
       axios
-        .patch(`/api/listings/${id}`, {
+        .patch(`http://localhost:3001/api/listings/${id}`, {
           currentBid: newBid,
         })
         .then((response) => {
