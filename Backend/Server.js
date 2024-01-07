@@ -55,7 +55,7 @@ app.use("/api/userInteractions", userInteractionsRoutes);
 app.use("/api/userRecommendations", userRecommendationRoutes);
 app.use("/api/userAnalytics", userAnalyticsRoutes);
 app.use("/api/admin", admin); //admin signup
-app.use("/api/adminauth", adminauth);
+app.use("/api/adminauth", adminauth); //admin auth
 
 //strip
 app.post("/api/payment", async (req, res) => {

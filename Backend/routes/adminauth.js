@@ -3,7 +3,7 @@ const _ = require("lodash")
 const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
-const { Admin, validateAdmin } = require('../models/adminModel'); 
+const { Admin} = require('../models/adminModel'); 
 
 // GET route to fetch all admins
 router.get('/', async (req, res) => {
@@ -49,5 +49,15 @@ router.post('/', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+function validate(req) {
+  const schema = Joi.object({
+    username: Joi.string().required().min(5).max(50),
+    email: Joi.string().required().email().max(255),
+    password: Joi.string().required().min(5).max(1024)
+  });
+
+  return schema.validate(admin);
+}
 
 module.exports = router;
