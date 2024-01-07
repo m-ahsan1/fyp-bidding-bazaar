@@ -1,4 +1,5 @@
 // Import necessary modules and setup express router
+const config = require('config');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const _ = require("lodash") 
@@ -27,7 +28,10 @@ router.post('/', async (req, res) => {
       return res.status(400).send('Invalid email or password.');
     }
 
-    const token = jwt.sign({ _id : existingAdmin._id}, 'jwtPrivateKey');
+    const privateKey = process.env.JWT_PRIVATE_KEY;
+
+    // Use the privateKey variable to sign your token
+    const token = jwt.sign({ _id: existingAdmin._id }, privateKey);
 
     res.send(token);
 
