@@ -19,17 +19,17 @@ const Navbar = () => {
     toast.success("Logout Successfully");
     console.log(auth)
   }
-  
+
   return (
     <div>
       <nav>
         <div id="RealNav">
           <div id="logo-container">
             <Link to="/" style={{ textDecoration: "none" }}>
-              {" "}
-              <h1 id="logo">
-                <b>BiddingBazaar</b>
-              </h1>
+              <img
+                src="/images/logo.png"
+                className="w-45 h-20"
+              />
             </Link>
           </div>
           <div id="rightnav">

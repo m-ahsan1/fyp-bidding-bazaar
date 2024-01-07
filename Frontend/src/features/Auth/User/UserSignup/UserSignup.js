@@ -167,13 +167,12 @@ export default function UserSign() {
       <div className="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center">
         <div className="bg-white overflow-y-auto p-4 w-full max-w-md mx-auto rounded-lg shadow-md sm:p-10 flex flex-col h-full ">
 
-          <div className="flex flex-col items-center pt-6 sm:justify-center sm:pt-0 flex-grow">
+          <div className="flex flex-col items-center pt-4 sm:justify-center sm:pt-0 flex-grow">
             <div>
               <Link to="/">
                 <img
-                  src="/favicon.ico" // Replace with the correct path to your favicon
-                  alt="Favicon"
-                  className="w-20 h-20"
+                  src="/images/logo.png" 
+                  className="w-100 h-35"
                 />
               </Link>
             </div>
