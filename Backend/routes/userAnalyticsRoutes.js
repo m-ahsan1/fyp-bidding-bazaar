@@ -18,6 +18,6 @@ router.get('/pay/:userId', getUserPayanalytics);
 router.get('/click/:userId', getUserClickanalytics);
 
 // get user car analytics
-router.get('cars/:userId', getUserCaranalytics);
+router.get('/cars/:userId', getUserCaranalytics);
 
 module.exports = router;

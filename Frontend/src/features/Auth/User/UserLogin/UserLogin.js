@@ -110,9 +110,13 @@ export default function UserLogin() {
                 <div className="bg-white overflow-y-auto p-4 w-full max-w-md mx-auto rounded-lg shadow-md sm:p-10 flex flex-col h-full ">
                     <div className="flex flex-col items-center pt-6 sm:justify-center sm:pt-0 flex-grow">
                         <div>
-                            <a href="/">
-                                <h3 className="text-4xl font-bold text-purple-600">Logo</h3>
-                            </a>
+                            <Link to="/">
+                                <img
+                                    src="/favicon.ico" // Replace with the correct path to your favicon
+                                    alt="Favicon"
+                                    className="w-10 h-10"
+                                />
+                            </Link>
                         </div>
                         <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-lg sm:rounded-lg">
                             <form onSubmit={handleSubmit}>

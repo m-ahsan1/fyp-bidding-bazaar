@@ -169,9 +169,13 @@ export default function UserSign() {
 
           <div className="flex flex-col items-center pt-6 sm:justify-center sm:pt-0 flex-grow">
             <div>
-              <a href="/">
-                <h3 className="text-4xl font-bold text-purple-600">Logo</h3>
-              </a>
+              <Link to="/">
+                <img
+                  src="/favicon.ico" // Replace with the correct path to your favicon
+                  alt="Favicon"
+                  className="w-20 h-20"
+                />
+              </Link>
             </div>
             <div className="w-full mt-6">
               <form onSubmit={handleSubmit} className="flex flex-col">

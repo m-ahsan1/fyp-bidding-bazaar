@@ -14,7 +14,7 @@ const UserProfile = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [analytics, setAnalytics] = useState({ pdfCount: 0, payCount: 0, clickCount: 0 });
+  const [analytics, setAnalytics] = useState({ pdfCount: 0, payCount: 0, carCount: 0 });
   const chartRef = useRef(null);
 
 
@@ -23,8 +23,8 @@ const UserProfile = () => {
       try {
         const pdfResponse = await axios.get(`http://localhost:3001/api/userAnalytics/pdf/${auth.currentUser.uid}`);
         const payResponse = await axios.get(`http://localhost:3001/api/userAnalytics/pay/${auth.currentUser.uid}`);
-        const clickResponse = await axios.get(`http://localhost:3001/api/userAnalytics/click/${auth.currentUser.uid}`);
-        setAnalytics({ pdfCount: pdfResponse.data.pdfCount, payCount: payResponse.data.payCount, clickCount: clickResponse.data.clickCount });
+        const carResponse = await axios.get(`http://localhost:3001/api/userAnalytics/cars/${auth.currentUser.uid}`);
+        setAnalytics({ pdfCount: pdfResponse.data.pdfCount, payCount: payResponse.data.payCount, carCount: carResponse.data.carCount });
         console.log(analytics);
       } catch (error) {
         console.error('Failed to fetch user analytics:', error);
@@ -58,10 +58,10 @@ const UserProfile = () => {
           canvas.chart = new Chart(ctx, {
             type: 'bar',
             data: {
-              labels: ['PDF Count', 'Pay Count', 'Click Count'],
+              labels: ['PDF Count', 'Pay Count', 'Total User Cars'],
               datasets: [{
                 label: 'Analytics',
-                data: [analytics.pdfCount, analytics.payCount, analytics.clickCount],
+                data: [analytics.pdfCount, analytics.payCount, analytics.carCount],
                 backgroundColor: [
                   'rgba(75, 192, 192, 0.6)', // Teal
                   'rgba(255, 99, 132, 0.6)', // Red
