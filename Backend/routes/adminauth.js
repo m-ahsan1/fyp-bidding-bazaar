@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
 const { Admin} = require('../models/adminModel'); 
+const auth = require('../middleware/auth');
 
 // POST route to login admin
 router.post('/', async (req, res) => {
@@ -28,10 +29,7 @@ router.post('/', async (req, res) => {
       return res.status(400).send('Invalid email or password.');
     }
 
-    const privateKey = process.env.JWT_PRIVATE_KEY;
-
-    // Use the privateKey variable to sign your token
-    const token = jwt.sign({ _id: existingAdmin._id }, privateKey);
+    const token = existingAdmin.generateAuthToken();
 
     res.send(token);
 
