@@ -1,17 +1,54 @@
 import React, { useState } from "react";
+import axios from "axios"; // Import Axios
 import "./AdminLogin.css"; // Make sure to import your CSS file
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your login logic here or route to a login function
-    console.log("Login logic will go here");
+
+    try {
+      const response = await axios.post("http://localhost:3001/api/adminauth", {
+        email,
+        password,
+      });
+
+      // Assuming the API returns a token upon successful login
+      const token = response.data;
+
+      const expirationTime = new Date().getTime() + 5 * 60 * 1000; // 5 minutes
+      localStorage.setItem("token", token);
+      localStorage.setItem("tokenExpiration", expirationTime);
+      console.log("Login successful. Token:", token);
+
+      navigate('/adminhome', { replace: true });
+
+      // Store the token in local storage or state for further use (example: authentication)
+      // localStorage.setItem("token", token);
+      // You can redirect or perform actions after successful login
+      
+    } catch (error) {
+      // Handle error cases
+      console.error("Login error:", error);
+      // Handle specific error messages or display to the user
+    }
   };
 
   return (
@@ -34,16 +71,24 @@ const AdminLogin = () => {
               <h2>Admin Login</h2>
 
               <div className="input_box">
-                <input type="email" placeholder="Enter your email" required />
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={handleEmailChange}
+                required
+              />
                 <i className="uil uil-envelope-alt email"></i>
               </div>
 
               <div className="input_box">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  required
-                />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={password}
+                onChange={handlePasswordChange}
+                required
+              />
                 <i
                   className={`uil ${
                     showPassword ? "uil-eye" : "uil-eye-slash"
