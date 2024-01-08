@@ -63,7 +63,7 @@ function BlogsPage() {
   return (
     <div>
       <Navbar />
-      <div>
+      {/*<div>
         <button
           onClick={handleShowForm}
           className="bg-black text-white rounded-2xl w-[150px] h-[35px]"
@@ -71,7 +71,7 @@ function BlogsPage() {
           Write a Blog
         </button>
         {showForm && <BlogEditor setShowForm={setShowForm} />}
-      </div>
+      </div>*/}
       <BlogContainer>
       <center>
         <br></br>

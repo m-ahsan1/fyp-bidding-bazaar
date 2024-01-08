@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import BlogEditor from "../features/Blogs/WriteBlog";
 
 function AnalyticsComponent() {
   const [serverStats, setServerStats] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:3001/api/analytics')
@@ -30,6 +34,11 @@ function AnalyticsComponent() {
   const usedMemoryMB = (totalMemoryMB - freeMemoryMB).toFixed(2);
   const memoryUsagePercentage = ((usedMemoryMB / totalMemoryMB) * 100).toFixed(2);
 
+  const handleShowForm = () => {
+    setShowForm(!showForm);
+  };
+
+
   return (
     <div>
       <h2>Server Resource Utilization</h2>
@@ -39,6 +48,23 @@ function AnalyticsComponent() {
       <p>Total Memory: {totalMemoryMB} MB</p>
       <p>Free Memory: {freeMemoryMB} MB</p>
       {/* Add additional visualizations or components based on your needs */}
+
+      <br></br>
+      <hr></hr>
+      <br></br>
+      <center>
+      <div>
+        <button
+          onClick={handleShowForm}
+          className="bg-black text-white rounded-2xl w-[150px] h-[35px]"
+        >
+          Write a Blog
+        </button>
+        <br></br>
+        {showForm && <BlogEditor setShowForm={setShowForm} />}
+      </div>
+      </center>
+
     </div>
   );
 }
