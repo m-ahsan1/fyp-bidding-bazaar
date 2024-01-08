@@ -73,16 +73,17 @@ function BlogsPage() {
         {showForm && <BlogEditor setShowForm={setShowForm} />}
       </div>
       <BlogContainer>
-        <h2>Blogs </h2>
+      <center>
+        <br></br>
+        <h1 style={{ fontSize: 20, textAlign: "center" }}><b>Blogs</b></h1>
+        <br></br>
+        </center>
         {blogs.map((blog) => (
           <BlogItem key={blog._id}>
-            <h3>{blog.title}</h3>
-            <p>{blog.body}</p>
-            <MdDelete
-              style={{ width: "30px", height: "30px", color: "red" }}
-              onClick={() => handleDelete(blog._id)}
-            />
-          </BlogItem>
+          <h3 style={{ fontSize: 25, textAlign: "center" }}>{blog.title}</h3>
+          <div dangerouslySetInnerHTML={{ __html: blog.body }}></div>
+          {/* Rest of your code */}
+        </BlogItem>
         ))}
       </BlogContainer>
     </div>
