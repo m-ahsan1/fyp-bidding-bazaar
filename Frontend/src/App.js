@@ -1,6 +1,6 @@
 import ListingsPage from "./features/Listing/ListingsPage";
 import MainPage from "./pages/MainPage";
-import AdminLogin from "./features/Auth/Admin/AdminLogin";
+import AdminLogin from "./features/Auth/User/UserLogin/AdminLogin";
 import ContactForm from "./features/Contactus/Contactus";
 import UserProfile from "./features/UserProfile/UserProfile";
 import Team from "./features/TeamPage/team";

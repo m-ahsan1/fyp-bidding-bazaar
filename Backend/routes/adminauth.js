@@ -28,12 +28,11 @@ router.post('/', async (req, res) => {
       return res.status(400).send('Invalid email or password.');
     }
 
-    const privateKey = process.env.JWT_PRIVATE_KEY;
+    const token = existingAdmin.generateAuthToken();
 
-    // Use the privateKey variable to sign your token
-    const token = jwt.sign({ _id: existingAdmin._id }, privateKey);
+    
 
-    res.send(token);
+    res.send({token});
 
   } catch (err) {
     // Handle server errors
