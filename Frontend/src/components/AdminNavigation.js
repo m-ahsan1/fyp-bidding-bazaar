@@ -10,7 +10,7 @@ function AdminNavigation() {
       <div className="sidebar">
       <Link></Link>
       <Link to="/adminhome">Analytics</Link>
-      <Link to="/admin">Logout</Link>
+      <Link to="/adminhome">Logout</Link>
       </div>
 
       

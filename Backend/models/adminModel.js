@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 
 const adminSchema = new mongoose.Schema({
@@ -7,13 +6,6 @@ const adminSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, maxlength: 255, minlength: 5 },
   password: { type: String, required: true, maxlength: 1024, minlength: 5 }
 });
-
-adminSchema.methods.generateAuthToken = function(){
-  const privateKey = process.env.JWT_PRIVATE_KEY;
-    // Use the privateKey variable to sign your token
-    const token = jwt.sign({ _id: this._id }, privateKey);
-    return token;
-}
 
 function validateAdmin(admin) {
   const schema = Joi.object({
