@@ -47,7 +47,9 @@ function App() {
             });
             console.log(error);
           });
-          toast.error("Please verify your email first and login again");
+          toast.error("Please verify your email first and login again", {
+            position: toast.POSITION.TOP_CENTER,
+          });
         }
       } else {
         console.log("User not logged in");
