@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import cv2
 from ultralytics import YOLO
+import numpy as np
 
 app = Flask(__name__)
 model = YOLO('yolov8x.pt')
