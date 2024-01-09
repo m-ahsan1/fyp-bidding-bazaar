@@ -115,6 +115,7 @@ export default function UserSign() {
     if (!emailValidate(email) || !passwordValidate(password) || !phonenoValidate(phoneno)) {
       return;
     }
+
     if (password !== password_confirmation) {
       toast.error("Passwords must match", {
         position: toast.POSITION.TOP_CENTER,
@@ -123,20 +124,11 @@ export default function UserSign() {
     }
     try {
       const userAuth = await createUserWithEmailAndPassword(auth, email, password);
-      let imagetemp = null;
-      if (image) {
-        if (image.size > 1000000) {
-          toast.error("Image size must be less than 1MB", {
-            position: toast.POSITION.TOP_CENTER,
-          });
-          return;
-        }
-        imagetemp = await convertToBase64(image);
-      }
+      let imagetemp = await convertToBase64(image);
       dispatch(
         createUser({
           email: userAuth.user.email,
-          username: userAuth.user.displayName,
+          username: name,
           phone: phoneno,
           uid: userAuth.user.uid,
           image: imagetemp,
@@ -231,6 +223,7 @@ export default function UserSign() {
                       name="name"
                       onInput={handleInputChange}
                       placeholder="Enter your name"  // Placeholder for the field
+                      autoComplete="on"
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -248,6 +241,7 @@ export default function UserSign() {
                       name="email"
                       onInput={handleInputChange}
                       placeholder="Enter your email"  // Placeholder for the field
+                      autoComplete="on"
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -265,6 +259,7 @@ export default function UserSign() {
                       name="phoneno"
                       onInput={handleInputChange}
                       placeholder="Enter your phone number"  // Placeholder for the field
+                      autoComplete="on"
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -282,6 +277,7 @@ export default function UserSign() {
                       name="password"
                       onInput={handleInputChange}
                       placeholder="Enter your password"  // Placeholder for the field
+                      autoComplete="on"
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -299,6 +295,7 @@ export default function UserSign() {
                       name="password_confirmation"
                       onInput={handleInputChange}
                       placeholder="Confirm your password"  // Placeholder for the field
+                      autoComplete="on"
                       className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
