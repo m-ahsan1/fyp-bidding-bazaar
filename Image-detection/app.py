@@ -10,21 +10,22 @@ model = YOLO('yolov8x.pt')
 def detect_car():
     if 'image' not in request.files:
         return jsonify({'error': 'No image provided'})
+    else:
+        return jsonify({'d':'vsd'})
 
     image_file = request.files['image']
     np_img = cv2.imdecode(np.fromstring(image_file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
     
     results = model(np_img)
-    result = results.xyxy[0]
+    boxes = results.xyxy[0]  # Accessing the bounding boxes directly
     
     car_detected = False
-    boxes = result.xyxy
 
     for box in boxes:
         class_index = int(box[-1])
         confidence = box[4]
-
-        class_name = result.names[class_index]
+        class_name = model.names[class_index]  # Accessing class names from model object
+        
         if (class_name == 'car' or class_name == 'truck') and confidence >= 0.7:
             car_detected = True
             break

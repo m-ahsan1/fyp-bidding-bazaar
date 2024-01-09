@@ -1,2 +1,11 @@
-/venv/Lib/site-packages
+/venv
 /yolov8x.pt
+
+__pycache__/
+*.pyc
+*.pyo
+
+logs/
+*.log
+*.swp
+*.swo
