@@ -140,6 +140,9 @@ const ListingForm = () => {
             console.log(error);
           });
         console.log("Listing form submitted.");
+        toast.success("Listing added!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
 
         setFormData({
           image: "",
