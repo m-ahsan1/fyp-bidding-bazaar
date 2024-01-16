@@ -2,8 +2,7 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+If you find any bad code or vurnability please let us know.
 
 | Version | Supported          |
 | ------- | ------------------ |
