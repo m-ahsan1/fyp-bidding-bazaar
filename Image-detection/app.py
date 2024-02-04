@@ -32,6 +32,7 @@ def detect_car():
 
     if car_detected:
         return jsonify({'message': 'A car is detected in the image.'})
+    
     else:
         return jsonify({'message': 'A car is not detected in the image.'})
 
