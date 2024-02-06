@@ -7,6 +7,10 @@ import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import { auth } from "../../firebase";
 
+import { deleteListing } from "../..//redux/slices/listingSlice";
+
+import { useDispatch } from "react-redux";
+
 function Listing({
   id,
   image,
@@ -20,6 +24,8 @@ function Listing({
   currentBid,
   uid,
 }) {
+  const dispatch = useDispatch();
+
   const publishableKey =
     "pk_test_51OJKAXLYINFqcfoRE0wdt2axn9TVcPLJMeGZzmFBavqw5c8x2xTSRqxnVsjuGMWZIWDsYT6M4MB7eW8bUPFRNy2Z00u3wQxOhi";
   const payNow = async (token, price) => {
@@ -87,7 +93,7 @@ function Listing({
     }
   };
 
-  const hadelClick = async () => {
+  const handleClick = async () => {
     await postInteraction("click");
   };
 
@@ -116,26 +122,13 @@ function Listing({
   };
 
   const handleDelete = () => {
-    deleteListing(id);
-  };
-  const deleteListing = async (listingId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/listings/${listingId}`
-      );
-      console.log("Listing deleted successfully:", response.data);
-    } catch (error) {
-      console.error(
-        "Error deleting listing:",
-        error.response ? error.response.data : error.message
-      );
-    }
+    dispatch(deleteListing(id));
   };
 
   return (
     <div
       className="w-[400px] overflow-hidden rounded-lg shadow-lg"
-      onClick={hadelClick}
+      onClick={handleClick}
     >
       <img className="w-[400px] h-[200px]" src={image} alt="Listed Car"></img>
       <div className="px-6 py-4">

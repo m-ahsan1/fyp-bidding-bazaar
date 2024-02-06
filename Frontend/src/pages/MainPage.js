@@ -4,15 +4,18 @@ import Navbar from "../components/Navbar";
 import Listing from "../features/Listing/Listing";
 import axios from "axios";
 import { auth } from "../firebase";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../redux/slices/userSlice";
+import { fetchListings } from "../redux/slices/listingSlice";
 
 function MainPage() {
-  const [listings, setListings] = useState([]);
   const [search, setSearch] = useState("");
   const [recommendations, setRecommendations] = useState([]);
   const user = useSelector(selectUser);
 
+  const dispatch = useDispatch();
+  const listings = useSelector((state) => state.listing.items);
+  console.log("listing", listings);
   useEffect(() => {
     if (user) {
       console.log("User is logged in!");
@@ -22,17 +25,8 @@ function MainPage() {
   }, [user]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/api/listings");
-        setListings(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+    dispatch(fetchListings());
+  }, [dispatch, listings]);
 
   useEffect(() => {
     const fetchRecommendations = async () => {

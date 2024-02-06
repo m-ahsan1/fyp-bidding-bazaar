@@ -1,11 +1,11 @@
 // src/app/store.js
 import { configureStore } from "@reduxjs/toolkit";
-import listingsSlice from "./slices/listingsSlice";
-import useReducer from "./slices/userSlice"
+import listingSlice from "./slices/listingSlice";
+import useReducer from "./slices/userSlice";
 
 const store = configureStore({
   reducer: {
-    listing: listingsSlice,
+    listing: listingSlice,
     user: useReducer,
   },
 });
