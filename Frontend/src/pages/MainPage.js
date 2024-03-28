@@ -53,11 +53,12 @@ function MainPage() {
     setSearch(e.target.value);
   };
 
-  const filteredListings = listings.filter((item) =>
-    search.toLowerCase() === ""
-      ? true
-      : item.title.toLowerCase().includes(search)
-  );
+  const filteredListings = Array.isArray(listings) ? 
+  listings.filter((item) =>
+    search.toLowerCase() === "" ? true : item.title.toLowerCase().includes(search)
+  ) :
+  [];
+
 
   return (
     <>

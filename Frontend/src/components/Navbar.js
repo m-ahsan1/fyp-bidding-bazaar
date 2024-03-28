@@ -46,6 +46,11 @@ const Navbar = () => {
               <></>
             )}
             <ul id="navbar-list">
+              <li>
+                <Link to="/" style={{ color: "purple" }}>
+                  Home
+                </Link>
+              </li>
               {user ? (
                 <>
                   <li>
@@ -117,6 +122,13 @@ const Navbar = () => {
             >
               Buy Tokens
             </button></p><br></br>
+            <>
+                <hr />
+                <p><Link to="/" style={{ color: "purple" }}>
+                  Home
+                </Link>
+                </p>
+              </>
             {user && (
               <>
                 <hr />
