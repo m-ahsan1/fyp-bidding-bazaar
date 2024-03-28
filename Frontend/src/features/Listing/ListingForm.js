@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ListingForm = () => {
+  // State to manage form data and errors
   const [formData, setFormData] = useState({
     image: "",
     title: "",
@@ -20,9 +21,11 @@ const ListingForm = () => {
 
   const [errors, setErrors] = useState({});
 
+  // Fetch user information from Redux store
   const user = useSelector(selectUser);
 
-  function convertToBase64(file) {
+  // Function to convert file to base64
+  const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
@@ -33,19 +36,20 @@ const ListingForm = () => {
         reject(error);
       };
     });
-  }
+  };
 
+  // Handle form input changes
   const handleChange = async (e) => {
     if (e.target.name === "image") {
       const file = e.target.files[0];
       const base64 = await convertToBase64(file);
-      console.log(base64);
       setFormData({ ...formData, [e.target.name]: base64 });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
   };
 
+  // Validate form fields
   const validateForm = () => {
     let valid = true;
     const newErrors = { ...errors };
@@ -115,12 +119,11 @@ const ListingForm = () => {
     return valid;
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log(formData);
-
       if (user === null) {
         toast.error("You are not logged in!", {
           position: toast.POSITION.TOP_CENTER,
@@ -131,6 +134,7 @@ const ListingForm = () => {
           ...formData,
           uid: user.uid,
         };
+        // Post form data to server
         axios
           .post("http://localhost:3001/api/listings", data)
           .then(function (response) {
@@ -139,11 +143,8 @@ const ListingForm = () => {
           .catch(function (error) {
             console.log(error);
           });
-        console.log("Listing form submitted.");
-        toast.success("Listing added!", {
-          position: toast.POSITION.TOP_CENTER,
-        });
 
+        // Reset form fields after successful submission
         setFormData({
           image: "",
           title: "",
@@ -154,13 +155,18 @@ const ListingForm = () => {
           description: "",
           company: "",
         });
+
+        // Display success message
+        toast.success("Listing added!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       }
     }
   };
 
   return (
     <>
-      <br></br>
+      <br />
       <form
         onSubmit={handleSubmit}
         className="bg-gray-100 p-6 rounded-lg shadow-md w-full max-w-md mx-auto"
@@ -170,9 +176,9 @@ const ListingForm = () => {
             <b>Post Car</b>
           </h1>
         </center>
-        <br></br>
-        <hr></hr>
-        <br></br>
+        <br />
+        <hr />
+        <br />
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -208,7 +214,7 @@ const ListingForm = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Price:
+            Price (PKR):
           </label>
           <input
             type="text"
@@ -221,7 +227,7 @@ const ListingForm = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Engine:
+            Engine (cc):
           </label>
           <input
             type="text"
@@ -232,7 +238,7 @@ const ListingForm = () => {
           />
           {errors.engine && <p className="text-red-500">{errors.engine}</p>}
         </div>
-
+        
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Mileage:
@@ -280,7 +286,7 @@ const ListingForm = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-          Manufacturer
+            Manufacturer
           </label>
           <select
             name="company"
@@ -305,7 +311,7 @@ const ListingForm = () => {
           Submit
         </button>
       </form>
-      <br></br>
+      <br />
       <ToastContainer />
     </>
   );
