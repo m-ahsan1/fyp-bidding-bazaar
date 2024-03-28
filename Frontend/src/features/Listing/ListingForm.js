@@ -99,12 +99,12 @@ const ListingForm = () => {
     }
 
     if (!formData.company.trim()) {
-      newErrors.company = "Company is required";
+      newErrors.company = "Manufacturer is required";
       valid = false;
     } else {
       // Company should not contain numbers
       if (/[\d]/.test(formData.company)) {
-        newErrors.company = "Company should not have numbers.";
+        newErrors.company = "Manufacturer should not have numbers.";
         valid = false;
       } else {
         newErrors.company = "";
@@ -280,7 +280,7 @@ const ListingForm = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Company
+          Manufacturer
           </label>
           <select
             name="company"
