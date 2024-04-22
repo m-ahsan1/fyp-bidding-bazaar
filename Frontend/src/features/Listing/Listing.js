@@ -6,9 +6,7 @@ import "reactjs-popup/dist/index.css";
 import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import { auth } from "../../firebase";
-
 import { deleteListing } from "../..//redux/slices/listingSlice";
-
 import { useDispatch } from "react-redux";
 
 function Listing({
@@ -78,11 +76,11 @@ function Listing({
       doc.addImage(image, "JPEG", 10, 10, 150, 100);
       doc.setFontSize(16);
       doc.text(title, 70, 120);
-      doc.text(`Price: ${price}`, 70, 140);
+      doc.text(`Price: ${price} PKR`, 70, 140);
       doc.setFontSize(12);
-      doc.text(`Company: ${company}`, 70, 160);
-      doc.text(`Engine: ${engine}`, 70, 175);
-      doc.text(`Mileage: ${mileage} miles`, 70, 190);
+      doc.text(`Manufacturer: ${company}`, 70, 160);
+      doc.text(`Engine: ${engine} cc`, 70, 175);
+      doc.text(`Mileage: ${mileage} kms`, 70, 190);
       doc.text(`Model Year: ${modelYear}`, 70, 205);
       doc.text(description, 70, 220, { align: "justify", width: 150 });
 
@@ -125,6 +123,8 @@ function Listing({
     dispatch(deleteListing(id));
   };
 
+  const shortenDescription = description.length > 150 ? description.substring(0, 150) + "..." : description;
+
   return (
     <div
       className="w-[400px] overflow-hidden rounded-lg shadow-lg"
@@ -133,11 +133,11 @@ function Listing({
       <img className="w-[400px] h-[200px]" src={image} alt="Listed Car"></img>
       <div className="px-6 py-4">
         <div className="flex flex-row justify-between">
-          <div className="font-bold text-xl mb-2  whitespace-normal">
+          <div className="font-bold text-lg mb-2 whitespace-normal">
             {title}
           </div>
-          <div className="font-bold text-xl mb-2  whitespace-normal text-green-400">
-            {price}
+          <div className="font-bold text-lg mb-2 whitespace-normal text-green-400">
+            {price} PKR
           </div>
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
@@ -146,20 +146,20 @@ function Listing({
             PDF
           </button>
         </div>
-        <p className="text-gray-700 text-base">{description}</p>
+        <p className="text-gray-700 text-sm">{shortenDescription}</p>
       </div>
       <div className="px-6 pt-4 pb-2">
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
           {company}
         </span>
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          {engine}
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
+          {engine} cc
         </span>
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
           {modelYear}
         </span>
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          {mileage}
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
+          {mileage} kms
         </span>
         <span>Current Bid: {currentBid}</span>
 
@@ -167,7 +167,7 @@ function Listing({
           <div className="flex flex-row justify-between">
             <Popup
               trigger={
-                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                   Bid
                 </button>
               }
@@ -181,7 +181,7 @@ function Listing({
               />
 
               <button
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                 onClick={() => handleBid()}
               >
                 Bid
@@ -204,7 +204,7 @@ function Listing({
         ) : (
           <div>
             <button
-              className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+              className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
               onClick={handleDelete}
             >
               Delete

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/slices/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const ListingForm = () => {
   // State to manage form data and errors
@@ -23,6 +24,8 @@ const ListingForm = () => {
 
   // Fetch user information from Redux store
   const user = useSelector(selectUser);
+
+  const navigate = useNavigate();
 
   // Function to convert file to base64
   const convertToBase64 = (file) => {
@@ -160,6 +163,9 @@ const ListingForm = () => {
         toast.success("Listing added!", {
           position: toast.POSITION.TOP_CENTER,
         });
+
+        // Redirect to home page
+        navigate("/");
       }
     }
   };
