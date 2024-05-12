@@ -26,7 +26,7 @@ function MainPage() {
 
   useEffect(() => {
     dispatch(fetchListings());
-  }, [dispatch, listings]);
+  }, []);
 
   useEffect(() => {
     const fetchRecommendations = async () => {
