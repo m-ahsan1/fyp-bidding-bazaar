@@ -13,9 +13,12 @@ export default function UserSign() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phoneno, setPhoneno] = useState("");
+  const [token, settoken] = useState("50");
   const [password_confirmation, setPassword_confirmation] = useState("");
   const [image, setImage] = useState(null);
   const user = useSelector(selectUser)
+
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -132,7 +135,7 @@ export default function UserSign() {
           phone: phoneno,
           uid: userAuth.user.uid,
           image: imagetemp,
-          token:0,
+          token:"50",
         })
       );
       toast.success("User created successfully", {
@@ -171,6 +174,7 @@ export default function UserSign() {
             uid: result.user.uid,
             phone: phoneno,
             image: imagetemp,
+            token: "50",
           })
         );
         console.log("User id:", auth.currentUser.uid);

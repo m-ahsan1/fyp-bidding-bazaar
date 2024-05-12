@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   cnic: { type: String, required: false },
   currentAddress: { type: String, required: false },
-  token:{type:Int16Array,required:false},
+  token: { type: String, required: false }
 
   
   // listings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Listing' }],

@@ -27,7 +27,7 @@ const getUser = async (req, res, next) => {
 
 // Create a new user
 const createUser = async (req, res, next) => {
-    const { username, email, uid, image, phone, cnic, currentAddress } = req.body;
+    const { username, email, uid, image, phone, cnic, currentAddress,token } = req.body;
     // if (!username || !email || !phone || !cnic || !currentAddress) {
     //     return res.status(400).json({ message: "Please provide all details" });
     // }
@@ -39,6 +39,7 @@ const createUser = async (req, res, next) => {
         cnic,
         uid,
         currentAddress,
+        token,
     });
     try {
         const newUser = await nuser.save();

@@ -30,7 +30,9 @@ export const createUser = createAsyncThunk(
       cnic: userData.cnic,
       currentAddress: userData.currentAddress,
       uid: userData.uid,
-    };
+      token:userData.token,
+      
+    };console.log(user);
     try {
       const response = await axios.post(
         "http://localhost:3001/api/user",
