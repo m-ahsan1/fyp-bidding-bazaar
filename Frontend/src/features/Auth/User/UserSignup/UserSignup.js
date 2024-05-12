@@ -132,6 +132,7 @@ export default function UserSign() {
           phone: phoneno,
           uid: userAuth.user.uid,
           image: imagetemp,
+          token:0,
         })
       );
       toast.success("User created successfully", {
