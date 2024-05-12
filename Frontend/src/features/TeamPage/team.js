@@ -8,7 +8,7 @@ import Navbar from "../../components/Navbar";
 const Team = () => {
   const teamMembers = [
     {
-      name: "John Doe",
+      name: "Abdullah Sohail",
       position: "CEO & Founder",
       image: teamMember1Image,
       description:
