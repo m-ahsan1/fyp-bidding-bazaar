@@ -1,0 +1,8 @@
+Flask
+opencv-python
+opencv-python-headless
+numpy
+ultralytics
+pandas
+xgboost
+scikit-learn

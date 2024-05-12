@@ -2,6 +2,11 @@ from flask import Flask, request, jsonify
 import cv2
 from ultralytics import YOLO
 import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import xgboost as xgb
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.preprocessing import LabelEncoder
 
 app = Flask(__name__)
 model = YOLO('yolov8x.pt')
@@ -35,6 +40,8 @@ def detect_car():
     
     else:
         return jsonify({'message': 'A car is not detected in the image.'})
+    
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
