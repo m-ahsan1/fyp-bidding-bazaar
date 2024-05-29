@@ -26,7 +26,7 @@ function MainPage() {
 
   useEffect(() => {
     dispatch(fetchListings());
-  }, [dispatch]);
+  }, [dispatch, listings]);
 
   useEffect(() => {
     const fetchRecommendations = async () => {
@@ -53,11 +53,11 @@ function MainPage() {
     setSearch(e.target.value);
   };
 
-  const filteredListings = Array.isArray(listings) ? 
-  listings.filter((item) =>
-    search.toLowerCase() === "" ? true : item.title.toLowerCase().includes(search)
-  ) :
-  [];
+  const filteredListings = Array.isArray(listings) ?
+    listings.filter((item) =>
+      search.toLowerCase() === "" ? true : item.title.toLowerCase().includes(search)
+    ) :
+    [];
 
 
   return (

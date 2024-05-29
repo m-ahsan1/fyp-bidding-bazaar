@@ -2,6 +2,7 @@
 import React from "react";
 import ListingForm from "./ListingForm";
 import Navbar from "../../components/Navbar";
+import Subbar from "../../components/Subbar";
 
 const ListingsPage = () => {
   
@@ -16,6 +17,7 @@ const ListingsPage = () => {
   return (
     <div style={divStyle}>
       <Navbar />
+      <Subbar />
       {<ListingForm />}
 
       

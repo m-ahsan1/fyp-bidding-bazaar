@@ -3,6 +3,7 @@ import bootstrapBundleMin from "bootstrap/dist/js/bootstrap.bundle.min";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import Navbar from "../../components/Navbar";
+import Subbar from "../../components/Subbar";
 
 const ContactForm = () => {
   const [formStatus, setFormStatus] = useState("Send");
@@ -48,6 +49,7 @@ const ContactForm = () => {
   return (
     <>
       <Navbar />
+      <Subbar />
       
 
       <div className="container mt-5" style={{ maxWidth: "70%" }}>

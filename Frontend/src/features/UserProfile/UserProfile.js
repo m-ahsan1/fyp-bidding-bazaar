@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useEffect, useRef } from 'react';
 import { auth } from '../../firebase';
 import Chart from 'chart.js/auto';
+import Subbar from '../../components/Subbar';
 
 const UserProfile = () => {
   const user = useSelector(selectUser);
@@ -168,6 +169,7 @@ const UserProfile = () => {
     user ? (
       <>
         <Navbar />
+        <Subbar />
         <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
           <h1 className="text-2xl font-bold mb-4">User Profile</h1>
 
