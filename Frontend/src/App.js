@@ -9,6 +9,7 @@ import AdminHomePage from "./pages/AdminHomePage";
 import BlogsPage from "./features/Blogs/BlogsPage";
 import UserSign from "./features/Auth/User/UserSignup/UserSignup";
 import UserLogin from "./features/Auth/User/UserLogin/UserLogin";
+import Prediction from "./features/Prediction/prediction";
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserData, login, logout, selectUser } from './redux/slices/userSlice';
@@ -73,6 +74,7 @@ function App() {
           <Route path="/user-signup" element={<UserSign />} />
           <Route path="/user-login" element={<UserLogin />} />
           <Route path="/team" element={<Team />} />
+          <Route path="/predict" element={<Prediction />} />
         </Routes>
       </Router>
       <ToastContainer />

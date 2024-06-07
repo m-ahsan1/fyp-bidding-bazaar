@@ -22,6 +22,7 @@ const Subbar = () => {
             &nbsp; &nbsp;
           <a href="#"><Link to="/blogs">Blogs</Link></a> &nbsp; &nbsp;
           <a href="#"><Link to="/team">Team</Link></a> &nbsp; &nbsp;
+          <a href="#"><Link to="/predict">Predict Price</Link></a> &nbsp; &nbsp;
         </span>
         </center>
         <hr />
@@ -44,6 +45,7 @@ const Subbar = () => {
           
           <Dropdown.Menu style={{ width: "100%" }}>
             <Dropdown.Item href="#"><Link to="/listings">Post Car</Link></Dropdown.Item>
+            <Dropdown.Item href="#"><Link to="/predict">Predict Price</Link></Dropdown.Item>
             <Dropdown.Item href="#"><Link to="/blogs">Blogs</Link></Dropdown.Item>
             <Dropdown.Item href="#"><Link to="/team">Team</Link></Dropdown.Item>
           </Dropdown.Menu>
