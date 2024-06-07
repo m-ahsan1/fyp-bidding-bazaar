@@ -15,13 +15,13 @@ const ListingsPage = () => {
   };
 
   return (
-    <div style={divStyle}>
-      <Navbar />
+    <>
+    <Navbar />
       <Subbar />
+    <div style={divStyle}>
       {<ListingForm />}
-
-      
     </div>
+    </>
   );
 };
 

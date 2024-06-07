@@ -22,7 +22,7 @@ const Subbar = () => {
             &nbsp; &nbsp;
           <a href="#"><Link to="/blogs">Blogs</Link></a> &nbsp; &nbsp;
           <a href="#"><Link to="/team">Team</Link></a> &nbsp; &nbsp;
-          <a href="#"><Link to="/predict">Predict Price</Link></a> &nbsp; &nbsp;
+          <a href="#"><Link to="/predict">Predict Price</Link></a>
         </span>
         </center>
         <hr />
