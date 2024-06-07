@@ -3,6 +3,7 @@ import React from "react";
 import Prepage from "./predictionpage";
 import Navbar from "../../components/Navbar";
 import Subbar from "../../components/Subbar";
+import Footer from "../../components/footer";
 
 const Prediction = () => {
   
@@ -19,8 +20,9 @@ const Prediction = () => {
     <Navbar />
     <Subbar />
     <div style={divStyle}>
-      {<Prepage />}
+      <Prepage />
     </div>
+    <Footer />
     </>
   );
 };

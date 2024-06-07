@@ -4,6 +4,7 @@ import teamMember2Image from "./2.jpg";
 import teamMember3Image from "./3.jpg";
 import Navbar from "../../components/Navbar";
 import Subbar from "../../components/Subbar";
+import Footer from "../../components/footer";
 
 const Team = () => {
   const teamMembers = [
@@ -74,6 +75,7 @@ const Team = () => {
           </div>
         </div>
       </center>
+      <Footer />
     </>
   );
 };

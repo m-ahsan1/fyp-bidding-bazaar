@@ -3,6 +3,7 @@ import React from "react";
 import ListingForm from "./ListingForm";
 import Navbar from "../../components/Navbar";
 import Subbar from "../../components/Subbar";
+import Footer from "../../components/footer";
 
 const ListingsPage = () => {
   
@@ -21,6 +22,7 @@ const ListingsPage = () => {
     <div style={divStyle}>
       {<ListingForm />}
     </div>
+    <Footer />
     </>
   );
 };

@@ -42,79 +42,64 @@ const Prepage = () => {
 
   // Handle form input changes
   const handleChange = async (e) => {
-    if (e.target.name === "image") {
+    const { name, value } = e.target;
+
+    if (name === "image") {
       const file = e.target.files[0];
       const base64 = await convertToBase64(file);
-      setFormData({ ...formData, [e.target.name]: base64 });
+      setFormData({ ...formData, [name]: base64 });
+    } else if (name === "mileage") {
+      if (/^\d*$/.test(value)) {
+        setFormData({ ...formData, [name]: value });
+      }
     } else {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+      if (/^(100|[1-9]?[0-9])$/.test(value) || value === "") {
+        setFormData({ ...formData, [name]: value });
+      }
     }
   };
 
   // Validate form fields
   const validateForm = () => {
     let valid = true;
-    const newErrors = { ...errors };
+    const newErrors = {};
 
-    // Check for empty fields
+    // Check for empty fields and value ranges
     if (!formData.title.trim()) {
-      newErrors.title = "Title is required";
+      newErrors.title = "Overall Rating is required";
       valid = false;
-    } else {
-      newErrors.title = "";
+    } else if (!(formData.title >= 0 && formData.title <= 100)) {
+      newErrors.title = "Overall Rating should be between 0 and 100";
+      valid = false;
+    }
+
+    if (!formData.price.trim()) {
+      newErrors.price = "Exterior and Body Condition is required";
+      valid = false;
+    } else if (!(formData.price >= 0 && formData.price <= 100)) {
+      newErrors.price = "Exterior and Body Condition should be between 0 and 100";
+      valid = false;
     }
 
     if (!formData.engine.trim()) {
-      newErrors.engine = "Engine is required";
+      newErrors.engine = "Engine and Clutch Condition is required";
       valid = false;
-    } else {
-      newErrors.engine = "";
+    } else if (!(formData.engine >= 0 && formData.engine <= 100)) {
+      newErrors.engine = "Engine and Clutch Condition should be between 0 and 100";
+      valid = false;
     }
 
     if (!formData.mileage.trim()) {
       newErrors.mileage = "Mileage is required";
       valid = false;
-    } else {
-      newErrors.mileage = "";
-    }
-
-    if (!formData.modelYear.trim()) {
-      newErrors.modelYear = "Model Year is required";
+    } else if (isNaN(formData.mileage) || formData.mileage < 0) {
+      newErrors.mileage = "Mileage should be a positive number or 0";
       valid = false;
-    } else {
-      // Model year should be a number and exactly 4 digits
-      if (!/^\d{4}$/.test(formData.modelYear)) {
-        newErrors.modelYear = "Model year should be 4 digits.";
-        valid = false;
-      } else {
-        newErrors.modelYear = "";
-      }
-    }
-
-    if (!formData.description.trim()) {
-      newErrors.description = "Description is required";
-      valid = false;
-    } else {
-      // Description should not contain numbers
-      if (/[\d]/.test(formData.description)) {
-        newErrors.description = "Description should not have numbers.";
-        valid = false;
-      } else {
-        newErrors.description = "";
-      }
     }
 
     if (!formData.company.trim()) {
       newErrors.company = "Manufacturer is required";
       valid = false;
-    } else {
-      // Company should not contain numbers
-      if (/[\d]/.test(formData.company)) {
-        newErrors.company = "Manufacturer should not have numbers.";
-        valid = false;
-      } else {
-        newErrors.company = "";
-      }
     }
 
     setErrors(newErrors);
@@ -214,6 +199,7 @@ const Prepage = () => {
               onChange={handleChange}
               className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
+            {errors.price && <p className="text-red-500">{errors.price}</p>}
           </div>
 
           <div className="mb-4">

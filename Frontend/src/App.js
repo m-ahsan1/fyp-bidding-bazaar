@@ -17,6 +17,7 @@ import { auth } from './firebase';
 import { onAuthStateChanged, sendEmailVerification } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 
+
 function App() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();

@@ -10,6 +10,7 @@ import { useEffect, useRef } from 'react';
 import { auth } from '../../firebase';
 import Chart from 'chart.js/auto';
 import Subbar from '../../components/Subbar';
+import Footer from '../../components/footer';
 
 const UserProfile = () => {
   const user = useSelector(selectUser);
@@ -259,7 +260,7 @@ const UserProfile = () => {
           <h1 className="text-2xl font-bold mb-4">User Analytics</h1>
           <canvas ref={chartRef} width="200" height="300"></canvas>
         </div>
-
+          <Footer />
       </>
     ) : (
       <>

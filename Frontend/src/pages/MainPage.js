@@ -7,15 +7,40 @@ import { auth } from "../firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../redux/slices/userSlice";
 import { fetchListings } from "../redux/slices/listingSlice";
+import Footer from "../components/footer";
+import styled from "styled-components";
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+`;
 
 function MainPage() {
   const [search, setSearch] = useState("");
   const [recommendations, setRecommendations] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const listingsPerPage = 15;
   const user = useSelector(selectUser);
 
   const dispatch = useDispatch();
   const listings = useSelector((state) => state.listing.items);
-  console.log("listing", listings);
+
   useEffect(() => {
     if (user) {
       console.log("User is logged in!");
@@ -26,7 +51,7 @@ function MainPage() {
 
   useEffect(() => {
     dispatch(fetchListings());
-  }, [dispatch, listings]);
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchRecommendations = async () => {
@@ -46,28 +71,41 @@ function MainPage() {
     };
 
     fetchRecommendations();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth.currentUser]); // this dependency is necessary to update the navbar when the user logs in or logs out and also to set the recommendations
+  }, [auth.currentUser]);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
+    setCurrentPage(1);
   };
 
-  const filteredListings = Array.isArray(listings) ?
-    listings.filter((item) =>
-      search.toLowerCase() === "" ? true : item.title.toLowerCase().includes(search)
-    ) :
-    [];
+  const filteredListings = Array.isArray(listings)
+    ? listings.filter((item) =>
+        search.toLowerCase() === ""
+          ? true
+          : item.title.toLowerCase().includes(search.toLowerCase())
+      )
+    : [];
 
+  const indexOfLastListing = currentPage * listingsPerPage;
+  const indexOfFirstListing = indexOfLastListing - listingsPerPage;
+  const currentListings = filteredListings.slice(
+    indexOfFirstListing,
+    indexOfLastListing
+  );
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
 
   return (
     <>
       <Navbar />
       <Subbar />
-
       <div className="ml-4 flex flex-col items-center">
-        {" "}
-        {/* Updated container */}
         <div className="mb-3" style={{ width: "50%" }}>
           <div className="relative flex w-full items-stretch">
             <input
@@ -96,24 +134,13 @@ function MainPage() {
           </div>
         </div>
         {search === "" && auth.currentUser && recommendations.length > 0 && (
-          // console.log(recommendations),
           <>
-            <h2
-              className="text-2xl font-bold mb-2"
-              style={{ paddingTop: "2%" }}
-            >
+            <h2 className="text-2xl font-bold mb-2" style={{ paddingTop: "2%" }}>
               Recommended Listings
             </h2>
-            <div
-              className="flex flex-wrap gap-10 justify-around"
-              style={{ paddingLeft: "2%", paddingRight: "2%" }}
-            >
-              {/* Display recommendations at the top */}
+            <div className="flex flex-wrap gap-10 justify-around" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
               {recommendations.map((recommendationId) => {
-                const recommendedListing = listings.find(
-                  (item) => item._id === recommendationId
-                );
-                // console.log("user" + recommendedListing.title);
+                const recommendedListing = listings.find((item) => item._id === recommendationId);
                 return (
                   recommendedListing && (
                     <div key={recommendedListing._id}>
@@ -144,12 +171,9 @@ function MainPage() {
             Search Results
           </h2>
         )}
-        <div
-          className="flex flex-wrap gap-10 justify-around"
-          style={{ paddingLeft: "2%", paddingRight: "2%" }}
-        >
-          {filteredListings.map((item) => (
-            <div key={item}>
+        <div className="flex flex-wrap gap-10 justify-around" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
+          {currentListings.map((item) => (
+            <div key={item._id}>
               <Listing
                 id={item._id}
                 image={item.image}
@@ -166,7 +190,18 @@ function MainPage() {
             </div>
           ))}
         </div>
+        <Pagination>
+          <button onClick={prevPage} disabled={currentPage === 1}>
+            Previous
+          </button>
+          <button onClick={nextPage} disabled={indexOfLastListing >= filteredListings.length}>
+            Next
+          </button>
+        </Pagination>
+        <br></br>
       </div>
+      <Footer />
+      
     </>
   );
 }

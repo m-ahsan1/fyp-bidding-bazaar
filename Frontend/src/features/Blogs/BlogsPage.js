@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BlogEditor from "./WriteBlog";
 import { MdDelete } from "react-icons/md";
-
+import Footer from "../../components/footer";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
+import Subbar from "../../components/Subbar";
 
 const BlogContainer = styled.div`
   max-width: 800px;
@@ -27,9 +28,32 @@ const BlogItem = styled.div`
   }
 `;
 
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+`;
+
 function BlogsPage() {
   const [showForm, setShowForm] = useState(false);
   const [blogs, setBlogs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const blogsPerPage = 5;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,14 +79,28 @@ function BlogsPage() {
       );
 
       console.log("Delete successful:", response);
+      setBlogs(blogs.filter((blog) => blog._id !== id));
     } catch (error) {
       console.error("Error deleting:", error);
     }
   };
 
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
   return (
     <div>
       <Navbar />
+      <Subbar />
       {/*<div>
         <button
           onClick={handleShowForm}
@@ -78,14 +116,22 @@ function BlogsPage() {
         <h1 style={{ fontSize: 20, textAlign: "center" }}><b>Blogs</b></h1>
         <br></br>
         </center>
-        {blogs.map((blog) => (
+        {currentBlogs.map((blog) => (
           <BlogItem key={blog._id}>
-          <h3 style={{ fontSize: 25, textAlign: "center" }}>{blog.title}</h3>
-          <div dangerouslySetInnerHTML={{ __html: blog.body }}></div>
-          {/* Rest of your code */}
-        </BlogItem>
+            <h3 style={{ fontSize: 25, textAlign: "center" }}>{blog.title}</h3>
+            <div dangerouslySetInnerHTML={{ __html: blog.body }}></div>
+          </BlogItem>
         ))}
+        <Pagination>
+          <button onClick={prevPage} disabled={currentPage === 1}>
+            Previous
+          </button>
+          <button onClick={nextPage} disabled={currentPage * blogsPerPage >= blogs.length}>
+            Next
+          </button>
+        </Pagination>
       </BlogContainer>
+      <Footer />
     </div>
   );
 }
