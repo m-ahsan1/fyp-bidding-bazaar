@@ -1,4 +1,3 @@
-// ListingForm.js
 import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -175,7 +174,7 @@ const Prepage = () => {
       <br />
       <form
         onSubmit={handleSubmit}
-        className="bg-gray-100 p-6 rounded-lg shadow-md w-full max-w-md mx-auto"
+        className="bg-gray-100 p-6 rounded-lg shadow-md w-full max-w-3xl mx-auto"
       >
         <center>
           <h1 style={{ fontSize: "40px" }}>
@@ -186,78 +185,120 @@ const Prepage = () => {
         <hr />
         <br />
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="title"
-          >
-            Title:
-          </label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-          {errors.title && <p className="text-red-500">{errors.title}</p>}
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="title"
+            >
+              Overall Rating:
+            </label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            {errors.title && <p className="text-red-500">{errors.title}</p>}
+          </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Price (PKR):
-          </label>
-          <input
-            type="text"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Exterior and Body Condition:
+            </label>
+            <input
+              type="text"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Engine (cc):
-          </label>
-          <input
-            type="text"
-            name="engine"
-            value={formData.engine}
-            onChange={handleChange}
-            className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-          {errors.engine && <p className="text-red-500">{errors.engine}</p>}
-        </div>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Mileage:
-          </label>
-          <input
-            type="text"
-            name="mileage"
-            value={formData.mileage}
-            onChange={handleChange}
-            className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-          {errors.mileage && <p className="text-red-500">{errors.mileage}</p>}
-        </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Engine and Clutch Condition:
+            </label>
+            <input
+              type="text"
+              name="engine"
+              value={formData.engine}
+              onChange={handleChange}
+              className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            {errors.engine && <p className="text-red-500">{errors.engine}</p>}
+          </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Model Year:
-          </label>
-          <input
-            type="text"
-            name="modelYear"
-            value={formData.modelYear}
-            onChange={handleChange}
-            className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-          {errors.modelYear && (
-            <p className="text-red-500">{errors.modelYear}</p>
-          )}
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Suspension and Steering Condition:
+            </label>
+            <input
+              type="text"
+              name="engine"
+              value={formData.engine}
+              onChange={handleChange}
+              className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            {errors.engine && <p className="text-red-500">{errors.engine}</p>}
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Interior Condition:
+            </label>
+            <input
+              type="text"
+              name="engine"
+              value={formData.engine}
+              onChange={handleChange}
+              className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            {errors.engine && <p className="text-red-500">{errors.engine}</p>}
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              AC/Heater Condition:
+            </label>
+            <input
+              type="text"
+              name="engine"
+              value={formData.engine}
+              onChange={handleChange}
+              className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            {errors.engine && <p className="text-red-500">{errors.engine}</p>}
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Transmission Condition:
+            </label>
+            <input
+              type="text"
+              name="engine"
+              value={formData.engine}
+              onChange={handleChange}
+              className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            {errors.engine && <p className="text-red-500">{errors.engine}</p>}
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Mileage:
+            </label>
+            <input
+              type="text"
+              name="mileage"
+              value={formData.mileage}
+              onChange={handleChange}
+              className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            {errors.mileage && <p className="text-red-500">{errors.mileage}</p>}
+          </div>
         </div>
 
         <div className="mb-4">
