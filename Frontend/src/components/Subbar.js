@@ -40,7 +40,6 @@ const Subbar = () => {
           >
             More options
           </Dropdown.Toggle>
-          
           <hr />
           <Dropdown.Menu style={{ width: "100%" }}>
             <Dropdown.Item href="#"><Link to="/listings">Post Car</Link></Dropdown.Item>
