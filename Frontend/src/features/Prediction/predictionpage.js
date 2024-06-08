@@ -258,19 +258,6 @@ const Prepage = () => {
             {errors.engine && <p className="text-red-500">{errors.engine}</p>}
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Transmission Condition:
-            </label>
-            <input
-              type="text"
-              name="engine"
-              value={formData.engine}
-              onChange={handleChange}
-              className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-            {errors.engine && <p className="text-red-500">{errors.engine}</p>}
-          </div>
           
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -289,7 +276,7 @@ const Prepage = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Manufacturer
+            Select Your Car:
           </label>
           <select
             name="company"
@@ -297,7 +284,7 @@ const Prepage = () => {
             onChange={handleChange}
             className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
-            <option value="">Select Car Make</option>
+            <option value="">Select Car Make, Model and Year</option>
             <option value="Ford">Ford</option>
             <option value="Toyota">Toyota</option>
             <option value="Honda">Honda</option>
