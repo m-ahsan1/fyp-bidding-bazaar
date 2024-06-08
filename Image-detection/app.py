@@ -7,14 +7,23 @@ import pandas as pd
 app = Flask(__name__)
 model = YOLO('yolov8x.pt')
 
-# Load and clean data
-def load_data():
-    data = pd.read_csv('cleaned_data.csv')
-    return data['Car Name'].unique().tolist()
-
-@app.route('/unique_car_names', methods=['GET'])
-def get_unique_car_names():
-    return jsonify(load_data())
+@app.route('/unique-cars', methods=['GET'])
+def get_unique_cars():
+    try:
+        # Read the CSV file
+        df = pd.read_csv('cleaned_data.csv')
+        
+        # Ensure the 'car name' column exists
+        if "car name" not in df.columns:
+            return jsonify({"error": "The car name column is not present in the CSV file."}), 400
+        
+        # Extract unique values from the 'car' column
+        unique_cars = sorted(df["car name"].dropna().unique().tolist())
+        
+        # Return the unique values as a JSON response
+        return jsonify({"unique_cars": unique_cars})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # ---------------------- Image detection -------------------------------------------------------------------------------------
 
@@ -38,4 +47,4 @@ def detect_car():
         return jsonify({'message': 'A car is not detected in the image.'})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000,debug=True)
