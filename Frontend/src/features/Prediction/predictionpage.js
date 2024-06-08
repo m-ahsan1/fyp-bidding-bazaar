@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import querystring from "querystring";
 
 const Prepage = () => {
   const [errors, setErrors] = useState({});
@@ -121,34 +120,34 @@ const Prepage = () => {
     e.preventDefault();
 
     if (!validateForm()) {
-        return;
+      return;
     }
 
     try {
-        const params = new URLSearchParams(formData).toString();
-        const response = await axios.get(`http://127.0.0.1:5000/predict?${params}`);
+      const response = await axios.post("http://127.0.0.1:5000/predict", {
+        ...formData,
+      });
 
-        console.log(response);
+      console.log(response);
 
-        setFormData({
-            rating: 0,
-            exterior: 0,
-            engine: 0,
-            suspension: 0,
-            interior: 0,
-            heater: 0,
-            mileage: 0,
-            company: "",
-        });
+      setFormData({
+        rating: 0,
+        exterior: 0,
+        engine: 0,
+        suspension: 0,
+        interior: 0,
+        heater: 0,
+        mileage: 0,
+        company: "",
+      });
 
-        toast.success("Request Sent!", {
-            position: toast.POSITION.TOP_CENTER,
-        });
+      toast.success("Request Sent!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     } catch (error) {
-        console.error("Error submitting form:", error);
+      console.error("Error submitting form:", error);
     }
-};
-
+  };
 
   return (
     <>

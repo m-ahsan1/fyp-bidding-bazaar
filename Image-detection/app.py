@@ -12,7 +12,7 @@ model = YOLO('yolov8x.pt')
 
 
 # ---------------------- API for price prediction --------------------------------------------------------------------------------
-@app.route('/predict', methods=['GET'])
+@app.route('/predict', methods=['GET,POST'])
 def predict():
     try:
         query_params = request.args
