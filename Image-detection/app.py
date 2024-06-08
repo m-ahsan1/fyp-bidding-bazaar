@@ -3,9 +3,21 @@ import cv2
 from ultralytics import YOLO
 import numpy as np
 import pandas as pd
+import json
 
 app = Flask(__name__)
 model = YOLO('yolov8x.pt')
+
+@app.route('/dropdown')
+def dropdown():
+    try:
+        with open('uniquecars.txt', 'r') as file:
+            unique_cars_str = file.read().strip()
+            unique_cars_dict = json.loads(unique_cars_str)
+            return jsonify(unique_cars_dict['unique_cars'])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 # ----------------------- Get Unique cars only use this api when needed ------------------------------------------------------
 

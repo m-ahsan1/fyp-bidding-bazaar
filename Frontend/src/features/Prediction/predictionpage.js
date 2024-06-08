@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/slices/userSlice";
@@ -8,6 +8,24 @@ import { useNavigate } from "react-router-dom";
 
 const Prepage = () => {
   // State to manage form data and errors
+  const [uniqueCars, setUniqueCars] = useState([]);
+
+  useEffect(() => {
+    const fetchUniqueCars = async () => {
+      try {
+        const response = await fetch('/uniquecars.txt');
+        const text = await response.text();
+        const carsArray = text.split('\n').map(car => car.trim()).filter(car => car !== '');
+        console.log(carsArray);
+        setUniqueCars(carsArray);
+      } catch (error) {
+        console.error('Error fetching the unique cars:', error);
+      }
+    };
+
+    fetchUniqueCars();
+  }, []);
+
   const [formData, setFormData] = useState({
     image: "",
     title: "",
@@ -26,29 +44,12 @@ const Prepage = () => {
 
   const navigate = useNavigate();
 
-  // Function to convert file to base64
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
 
   // Handle form input changes
   const handleChange = async (e) => {
     const { name, value } = e.target;
-
-    if (name === "image") {
-      const file = e.target.files[0];
-      const base64 = await convertToBase64(file);
-      setFormData({ ...formData, [name]: base64 });
-    } else if (name === "mileage") {
+    
+     if (name === "mileage") {
       if (/^\d*$/.test(value)) {
         setFormData({ ...formData, [name]: value });
       }
@@ -275,23 +276,22 @@ const Prepage = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Select Your Car:
-          </label>
-          <select
-            name="company"
-            value={formData.company}
-            onChange={handleChange}
-            className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          >
-            <option value="">Select Car Make, Model and Year</option>
-            <option value="Ford">Ford</option>
-            <option value="Toyota">Toyota</option>
-            <option value="Honda">Honda</option>
-            {/* Add more options as needed */}
-          </select>
-          {errors.company && <p className="text-red-500">{errors.company}</p>}
-        </div>
+      <label className="block text-gray-700 text-sm font-bold mb-2">
+        Select Your Car:
+      </label>
+      <select
+        name="company"
+        value={formData.company}
+        onChange={handleChange}
+        className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      >
+        <option value="">Select Car Make, Model and Year</option>
+        {uniqueCars.map((car, index) => (
+          <option key={index} value={car}>{car}</option>
+        ))}
+      </select>
+      {errors.company && <p className="text-red-500">{errors.company}</p>}
+    </div>
 
         <button
           style={{ width: "100%" }}
@@ -302,6 +302,10 @@ const Prepage = () => {
         </button>
       </form>
       <br />
+      <div>
+      <h1>Unique Cars</h1>
+      <pre>{uniqueCars}</pre>
+    </div>
       <ToastContainer />
     </>
   );
