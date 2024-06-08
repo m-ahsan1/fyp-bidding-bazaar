@@ -15,12 +15,44 @@ model = YOLO('yolov8x.pt')
 @app.route('/predict', methods=['GET'])
 def predict():
     try:
-        query_params = request.args
-        
-        
-        return jsonify({'message': 'Prediction API is working', 'param1': query_params})
+        # Accessing the JSON string from query parameters
+        json_str = request.args.get('formData')
+        if json_str:
+            # Converting the JSON string to a dictionary
+            form_data = json.loads(json_str)
+        else:
+            form_data = {}
+
+        # Extracting individual parameters from the form_data dictionary
+        rating = form_data.get('rating')
+        exterior = form_data.get('exterior')
+        engine = form_data.get('engine')
+        suspension = form_data.get('suspension')
+        interior = form_data.get('interior')
+        heater = form_data.get('heater')
+        mileage = form_data.get('mileage')
+        company = form_data.get('company')
+
+        # Creating a response dictionary with the extracted elements
+        response = {
+            'message': 'Prediction API is working',
+            'params': {
+                'rating': rating,
+                'exterior': exterior,
+                'engine': engine,
+                'suspension': suspension,
+                'interior': interior,
+                'heater': heater,
+                'mileage': mileage,
+                'company': company,
+            },
+            'form_data': form_data
+        }
+
+        return jsonify(response)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 # --------------------------------------------- API for dropdown -----------------------------------------------------------
 @app.route('/dropdown')

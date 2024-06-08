@@ -128,9 +128,9 @@ const Prepage = () => {
 
     try {
       const params = new URLSearchParams(formData).toString();
+      console.log("params",params);  // Log the serialized parameters
       const response = await axios.get(`http://127.0.0.1:5000/predict?${params}`);
-
-      console.log(response);
+      console.log("response",response.data);
 
       setFormData({
         rating: 0,
