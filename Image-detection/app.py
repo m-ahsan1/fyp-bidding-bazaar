@@ -12,11 +12,13 @@ model = YOLO('yolov8x.pt')
 
 
 # ---------------------- API for price prediction --------------------------------------------------------------------------------
-@app.route('/predict', methods=['GET'])
+@app.route('/predict', methods=['GET,POST'])
 def predict():
     try:
+        query_params = request.args
+        param1 = query_params.get('param1')
         
-        return jsonify({'message': 'Prediction API is working'})
+        return jsonify({'message': 'Prediction API is working', 'param1': param1})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

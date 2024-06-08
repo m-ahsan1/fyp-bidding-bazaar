@@ -1,28 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/slices/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 
 const Prepage = () => {
-
+  const [errors, setErrors] = useState({});
+  const [uniqueCars, setUniqueCars] = useState([]);
 
   const [formData, setFormData] = useState({
-    image: "",
-    title: "",
-    price: "",
-    engine: "",
-    mileage: "",
-    modelYear: "",
-    description: "",
+    rating: 0,
+    exterior: 0,
+    engine: 0,
+    suspension: 0,
+    interior: 0,
+    heater: 0,
+    mileage: 0,
     company: "",
   });
-
-  const [errors, setErrors] = useState({});
-
-  const [uniqueCars, setUniqueCars] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,27 +25,21 @@ const Prepage = () => {
         console.log(response);
         setUniqueCars(response.data.unique_cars);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
   }, []);
 
-  // Fetch user information from Redux store
-  const user = useSelector(selectUser);
-
-  const navigate = useNavigate();
-
-
-  // Handle form input changes
-  const handleChange = async (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    
-     if (name === "mileage") {
+    if (name === "mileage") {
       if (/^\d*$/.test(value)) {
         setFormData({ ...formData, [name]: value });
       }
+    } else if (name === "company") {
+      setFormData({ ...formData, [name]: value });
     } else {
       if (/^(100|[1-9]?[0-9])$/.test(value) || value === "") {
         setFormData({ ...formData, [name]: value });
@@ -59,29 +47,27 @@ const Prepage = () => {
     }
   };
 
-  // Validate form fields
   const validateForm = () => {
     let valid = true;
     const newErrors = {};
 
-    // Check for empty fields and value ranges
-    if (!formData.title.trim()) {
-      newErrors.title = "Overall Rating is required";
+    if (!formData.rating) {
+      newErrors.rating = "Overall Rating is required";
       valid = false;
-    } else if (!(formData.title >= 0 && formData.title <= 100)) {
-      newErrors.title = "Overall Rating should be between 0 and 100";
-      valid = false;
-    }
-
-    if (!formData.price.trim()) {
-      newErrors.price = "Exterior and Body Condition is required";
-      valid = false;
-    } else if (!(formData.price >= 0 && formData.price <= 100)) {
-      newErrors.price = "Exterior and Body Condition should be between 0 and 100";
+    } else if (!(formData.rating >= 0 && formData.rating <= 100)) {
+      newErrors.rating = "Overall Rating should be between 0 and 100";
       valid = false;
     }
 
-    if (!formData.engine.trim()) {
+    if (!formData.exterior) {
+      newErrors.exterior = "Exterior and Body Condition is required";
+      valid = false;
+    } else if (!(formData.exterior >= 0 && formData.exterior <= 100)) {
+      newErrors.exterior = "Exterior and Body Condition should be between 0 and 100";
+      valid = false;
+    }
+
+    if (!formData.engine) {
       newErrors.engine = "Engine and Clutch Condition is required";
       valid = false;
     } else if (!(formData.engine >= 0 && formData.engine <= 100)) {
@@ -89,7 +75,31 @@ const Prepage = () => {
       valid = false;
     }
 
-    if (!formData.mileage.trim()) {
+    if (!formData.suspension) {
+      newErrors.suspension = "Suspension and Steering Condition is required";
+      valid = false;
+    } else if (!(formData.suspension >= 0 && formData.suspension <= 100)) {
+      newErrors.suspension = "Suspension and Steering Condition should be between 0 and 100";
+      valid = false;
+    }
+
+    if (!formData.interior) {
+      newErrors.interior = "Interior Condition is required";
+      valid = false;
+    } else if (!(formData.interior >= 0 && formData.interior <= 100)) {
+      newErrors.interior = "Interior Condition should be between 0 and 100";
+      valid = false;
+    }
+
+    if (!formData.heater) {
+      newErrors.heater = "AC/Heater Condition is required";
+      valid = false;
+    } else if (!(formData.heater >= 0 && formData.heater <= 100)) {
+      newErrors.heater = "AC/Heater Condition should be between 0 and 100";
+      valid = false;
+    }
+
+    if (!formData.mileage) {
       newErrors.mileage = "Mileage is required";
       valid = false;
     } else if (isNaN(formData.mileage) || formData.mileage < 0) {
@@ -106,51 +116,36 @@ const Prepage = () => {
     return valid;
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
-      if (user === null) {
-        toast.error("You are not logged in!", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        return;
-      } else {
-        const data = {
-          ...formData,
-          uid: user.uid,
-        };
-        // Post form data to server
-        axios
-          .post("http://localhost:3001/api/listings", data)
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+    if (!validateForm()) {
+      return;
+    }
 
-        // Reset form fields after successful submission
-        setFormData({
-          image: "",
-          title: "",
-          price: "",
-          engine: "",
-          mileage: "",
-          modelYear: "",
-          description: "",
-          company: "",
-        });
+    try {
+      const response = await axios.post("http://127.0.0.1:5000/predict", {
+        ...formData,
+      });
 
-        // Display success message
-        toast.success("Listing added!", {
-          position: toast.POSITION.TOP_CENTER,
-        });
+      console.log(response);
 
-        // Redirect to home page
-        navigate("/");
-      }
+      setFormData({
+        rating: 0,
+        exterior: 0,
+        engine: 0,
+        suspension: 0,
+        interior: 0,
+        heater: 0,
+        mileage: 0,
+        company: "",
+      });
+
+      toast.success("Request Sent!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -174,18 +169,18 @@ const Prepage = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="title"
+              htmlFor="rating"
             >
               Overall Rating:
             </label>
             <input
               type="text"
-              name="title"
-              value={formData.title}
+              name="rating"
+              value={formData.rating}
               onChange={handleChange}
               className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
-            {errors.title && <p className="text-red-500">{errors.title}</p>}
+            {errors.rating && <p className="text-red-500">{errors.rating}</p>}
           </div>
 
           <div className="mb-4">
@@ -194,12 +189,12 @@ const Prepage = () => {
             </label>
             <input
               type="text"
-              name="price"
-              value={formData.price}
+              name="exterior"
+              value={formData.exterior}
               onChange={handleChange}
               className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
-            {errors.price && <p className="text-red-500">{errors.price}</p>}
+            {errors.exterior && <p className="text-red-500">{errors.exterior}</p>}
           </div>
 
           <div className="mb-4">
@@ -222,12 +217,12 @@ const Prepage = () => {
             </label>
             <input
               type="text"
-              name="engine"
-              value={formData.engine}
+              name="suspension"
+              value={formData.suspension}
               onChange={handleChange}
               className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
-            {errors.engine && <p className="text-red-500">{errors.engine}</p>}
+            {errors.suspension && <p className="text-red-500">{errors.suspension}</p>}
           </div>
 
           <div className="mb-4">
@@ -236,12 +231,12 @@ const Prepage = () => {
             </label>
             <input
               type="text"
-              name="engine"
-              value={formData.engine}
+              name="interior"
+              value={formData.interior}
               onChange={handleChange}
               className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
-            {errors.engine && <p className="text-red-500">{errors.engine}</p>}
+            {errors.interior && <p className="text-red-500">{errors.interior}</p>}
           </div>
 
           <div className="mb-4">
@@ -250,15 +245,14 @@ const Prepage = () => {
             </label>
             <input
               type="text"
-              name="engine"
-              value={formData.engine}
+              name="heater"
+              value={formData.heater}
               onChange={handleChange}
               className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
-            {errors.engine && <p className="text-red-500">{errors.engine}</p>}
+            {errors.heater && <p className="text-red-500">{errors.heater}</p>}
           </div>
 
-          
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Mileage:
@@ -275,26 +269,28 @@ const Prepage = () => {
         </div>
 
         <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2">
-        Select Your Car:
-      </label>
-      <select
-        name="company"
-        value={formData.company}
-        onChange={handleChange}
-        className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      >
-        <option value="">Select Car Make, Model and Year</option>
-        {uniqueCars.map((car, index) => (
-          <option key={index} value={car}>{car}</option>
-        ))}
-      </select>
-      {errors.company && <p className="text-red-500">{errors.company}</p>}
-    </div>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Select Your Car:
+          </label>
+          <select
+            name="company"
+            value={formData.company}
+            onChange={handleChange}
+            className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          >
+            <option value="">Select Car Make, Model and Year</option>
+            {uniqueCars.map((car, index) => (
+              <option key={index} value={car}>
+                {car}
+              </option>
+            ))}
+          </select>
+          {errors.company && <p className="text-red-500">{errors.company}</p>}
+        </div>
 
         <button
-          style={{ width: "100%" }}
           type="submit"
+          style={{ width: "100%" }}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-40 rounded focus:outline-none focus:shadow-outline"
         >
           Submit
