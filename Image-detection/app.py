@@ -10,6 +10,17 @@ app = Flask(__name__)
 CORS(app)
 model = YOLO('yolov8x.pt')
 
+
+# ---------------------- API for price prediction --------------------------------------------------------------------------------
+@app.route('/predict', methods=['GET'])
+def predict():
+    try:
+        
+        return jsonify({'message': 'Prediction API is working'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# --------------------------------------------- API for dropdown -----------------------------------------------------------
 @app.route('/dropdown')
 def dropdown():
     try:
