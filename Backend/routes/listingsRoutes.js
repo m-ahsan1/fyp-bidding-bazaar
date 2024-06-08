@@ -120,25 +120,28 @@ router.post("/image_validation", async (req, res) => {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
-    console.log(response.data);
+    console.log(company, title, response.data);
     if (response.data.predicted_classes.length === 0) {
       res.status(400).json({ success: false, message: 'No car detected in the image' });
       return;
     }
-    response = response.data.predicted_classes.map((item) => item.split('_'))
-    for (let i = 0; i < response.length; i++) {
-      if (response[i][0] === company) {
+    console.log('1')
+    predicted_classes = response.data.predicted_classes.map((item) => (item.split('_')));
+    console.log(predicted_classes)
+    for (let i = 0; i < predicted_classes.length; i++) {
+
+      if (predicted_classes[i][0] === company) {
         const titleParts = title.split(" ");
-        for (let j = 1; j < response[i].length; j++) {
-          if (titleParts.includes(response[i][j])) {
-            res.json({ success: true, message: 'Car detected in the image' });
+        for (let j = 1; j < predicted_classes[i].length; j++) {
+          if (titleParts.includes(predicted_classes[i][j])) {
+            res.status(200).json({ success: true, message: 'Car detected in the image' });
             return;
           }
         }
       }
     }
-
-    res.json(response.data);
+    console.log('2')
+    res.status(400).json({ success: false, message: 'Car in the image does not match the listing' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -1,4 +1,3 @@
-// ListingForm.js
 import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -8,9 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const ListingForm = () => {
-  // State to manage form data and errors
   const [formData, setFormData] = useState({
-    image: "",
+    images: [],
     title: "",
     price: "",
     engine: "",
@@ -21,13 +19,46 @@ const ListingForm = () => {
   });
 
   const [errors, setErrors] = useState({});
-
-  // Fetch user information from Redux store
   const user = useSelector(selectUser);
-
   const navigate = useNavigate();
 
-  // Function to convert file to base64
+  const handleImageChange = async (e) => {
+    const files = Array.from(e.target.files);
+
+    const updatedImages = await Promise.all(
+      files.map(async (file) => {
+        const base64 = await convertToBase64(file);
+
+        try {
+          if (!formData.company) {
+            return { base64, valid: false, error: "Company field is required." };
+          } else {
+            const response = await axios.post("http://localhost:3001/api/listings/image_validation", {
+              image: base64,
+              company: formData.company,
+              title: formData.title,
+            });
+
+            if (response.data.success) {
+              console.log(response.data.message);
+              return { base64, valid: true, error: null };
+            } else {
+              console.log(response.data.message);
+              return { base64, valid: false, error: response.data.message || "Image does not match car model." };
+            }
+          }
+        } catch (error) {
+          return { base64, valid: false, error: "An error occurred. Please try again." };
+        }
+      })
+    );
+
+    setFormData((prevData) => ({
+      ...prevData,
+      images: [...prevData.images, ...updatedImages],
+    }));
+  };
+
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -41,88 +72,64 @@ const ListingForm = () => {
     });
   };
 
-  // Handle form input changes
-  const handleChange = async (e) => {
-    if (e.target.name === "image") {
-      const file = e.target.files[0];
-      const base64 = await convertToBase64(file);
-      setFormData({ ...formData, [e.target.name]: base64 });
-    } else {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
+  const handleRemoveImage = (index) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      images: prevData.images.filter((_, i) => i !== index),
+    }));
   };
 
-  // Validate form fields
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const validateForm = () => {
     let valid = true;
-    const newErrors = { ...errors };
+    const newErrors = {};
 
-    // Check for empty fields
     if (!formData.title.trim()) {
       newErrors.title = "Title is required";
       valid = false;
-    } else {
-      newErrors.title = "";
     }
 
     if (!formData.engine.trim()) {
       newErrors.engine = "Engine is required";
       valid = false;
-    } else {
-      newErrors.engine = "";
     }
 
     if (!formData.mileage.trim()) {
       newErrors.mileage = "Mileage is required";
       valid = false;
-    } else {
-      newErrors.mileage = "";
     }
 
     if (!formData.modelYear.trim()) {
       newErrors.modelYear = "Model Year is required";
       valid = false;
-    } else {
-      // Model year should be a number and exactly 4 digits
-      if (!/^\d{4}$/.test(formData.modelYear)) {
-        newErrors.modelYear = "Model year should be 4 digits.";
-        valid = false;
-      } else {
-        newErrors.modelYear = "";
-      }
+    } else if (!/^\d{4}$/.test(formData.modelYear)) {
+      newErrors.modelYear = "Model year should be 4 digits.";
+      valid = false;
     }
 
     if (!formData.description.trim()) {
       newErrors.description = "Description is required";
       valid = false;
-    } else {
-      // Description should not contain numbers
-      if (/[\d]/.test(formData.description)) {
-        newErrors.description = "Description should not have numbers.";
-        valid = false;
-      } else {
-        newErrors.description = "";
-      }
+    } else if (/[\d]/.test(formData.description)) {
+      newErrors.description = "Description should not have numbers.";
+      valid = false;
     }
 
     if (!formData.company.trim()) {
       newErrors.company = "Manufacturer is required";
       valid = false;
-    } else {
-      // Company should not contain numbers
-      if (/[\d]/.test(formData.company)) {
-        newErrors.company = "Manufacturer should not have numbers.";
-        valid = false;
-      } else {
-        newErrors.company = "";
-      }
+    } else if (/[\d]/.test(formData.company)) {
+      newErrors.company = "Manufacturer should not have numbers.";
+      valid = false;
     }
 
     setErrors(newErrors);
     return valid;
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -132,80 +139,84 @@ const ListingForm = () => {
           position: toast.POSITION.TOP_CENTER,
         });
         return;
-      } else {
-        const data = {
-          ...formData,
-          uid: user.uid,
-        };
-        // Post form data to server
-        axios
-          .post("http://localhost:3001/api/listings", data)
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-
-        // Reset form fields after successful submission
-        setFormData({
-          image: "",
-          title: "",
-          price: "",
-          engine: "",
-          mileage: "",
-          modelYear: "",
-          description: "",
-          company: "",
-        });
-
-        // Display success message
-        toast.success("Listing added!", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-
-        // Redirect to home page
-        navigate("/");
       }
+
+      const data = {
+        ...formData,
+        uid: user.uid,
+      };
+
+      axios
+        .post("http://localhost:3001/api/listings", data)
+        .then((response) => {
+          console.log(response);
+          setFormData({
+            images: [],
+            title: "",
+            price: "",
+            engine: "",
+            mileage: "",
+            modelYear: "",
+            description: "",
+            company: "",
+          });
+          toast.success("Listing added!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
   return (
     <>
-      <br />
-      <form
-        onSubmit={handleSubmit}
-        className="bg-gray-100 p-6 rounded-lg shadow-md w-full max-w-md mx-auto"
-      >
-        <center>
-          <h1 style={{ fontSize: "40px" }}>
-            <b>Post Car</b>
-          </h1>
-        </center>
-        <br />
+      <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto p-4 bg-white rounded-md shadow-md">
+      <h1 className="text-2xl font-bold my-4">Add Listing</h1>
         <hr />
         <br />
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="image"
-          >
-            Image:
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Images:
           </label>
           <input
             type="file"
-            name="image"
+            name="images"
             accept=".jpeg, .png, .jpg"
-            onChange={handleChange}
+            multiple
+            onChange={handleImageChange}
             className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
+          <div className="mt-2">
+            {formData.images &&
+              formData.images.map((img, index) => (
+                <div key={index} className="flex items-center mb-2">
+                  <img
+                    src={img.base64}
+                    alt={`Uploaded ${index + 1}`}
+                    className="w-16 h-16 object-cover mr-2"
+                  />
+                  {img.error ? (
+                    <p className="text-red-500 text-sm">{img.error}</p>
+                  ) : (
+                    <span className="text-green-500 text-lg mr-2">✓</span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+          </div>
         </div>
 
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="title"
-          >
+          <label className="block text-gray-700 text-sm font-bold mb-2">
             Title:
           </label>
           <input
@@ -244,7 +255,7 @@ const ListingForm = () => {
           />
           {errors.engine && <p className="text-red-500">{errors.engine}</p>}
         </div>
-        
+
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Mileage:
@@ -301,10 +312,13 @@ const ListingForm = () => {
             className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
             <option value="">Select Car Make</option>
-            <option value="Ford">Ford</option>
+            <option value="Mitsubishi">Mitsubishi</option>
             <option value="Toyota">Toyota</option>
             <option value="Honda">Honda</option>
-            {/* Add more options as needed */}
+            <option value="Suzuki">Suzuki</option>
+            <option value="Changan">Changan</option>
+            <option value="Hyundai">Hyundai</option>
+            <option value="Nissan">Nissan</option>
           </select>
           {errors.company && <p className="text-red-500">{errors.company}</p>}
         </div>
