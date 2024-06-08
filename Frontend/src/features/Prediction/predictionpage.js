@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useParams } from "react-router-dom";
 
 const Prepage = () => {
+  let params=useParams();
   const [errors, setErrors] = useState({});
   const [uniqueCars, setUniqueCars] = useState([]);
+  const [prediction, setprediction] = useState({});
 
   const [formData, setFormData] = useState({
     rating: 0,
@@ -124,9 +127,8 @@ const Prepage = () => {
     }
 
     try {
-      const response = await axios.post("http://127.0.0.1:5000/predict", {
-        ...formData,
-      });
+      const params = new URLSearchParams(formData).toString();
+      const response = await axios.get(`http://127.0.0.1:5000/predict?${params}`);
 
       console.log(response);
 
