@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/slices/userSlice";
@@ -21,6 +21,7 @@ const ListingForm = () => {
   const [errors, setErrors] = useState({});
   const user = useSelector(selectUser);
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
   const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
@@ -171,10 +172,14 @@ const ListingForm = () => {
     }
   };
 
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto p-4 bg-white rounded-md shadow-md">
-      <h1 className="text-2xl font-bold my-4">Add Listing</h1>
+        <h1 className="text-2xl font-bold my-4">Add Listing</h1>
         <hr />
         <br />
         <div className="mb-4">
@@ -187,8 +192,16 @@ const ListingForm = () => {
             accept=".jpeg, .png, .jpg"
             multiple
             onChange={handleImageChange}
-            className="block w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            ref={fileInputRef}
+            className="hidden"
           />
+          <button
+            type="button"
+            onClick={handleButtonClick}
+            className="block w-full bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Choose Files to Upload
+          </button>
           <div className="mt-2">
             {formData.images &&
               formData.images.map((img, index) => (
