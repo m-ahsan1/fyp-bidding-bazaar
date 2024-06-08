@@ -7,6 +7,8 @@ import pandas as pd
 app = Flask(__name__)
 model = YOLO('yolov8x.pt')
 
+# ----------------------- Get Unique cars only use this api when needed ------------------------------------------------------
+
 @app.route('/unique-cars', methods=['GET'])
 def get_unique_cars():
     try:
