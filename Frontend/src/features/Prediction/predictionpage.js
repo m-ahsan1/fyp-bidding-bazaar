@@ -7,24 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const Prepage = () => {
-  // State to manage form data and errors
-  const [uniqueCars, setUniqueCars] = useState([]);
 
-  useEffect(() => {
-    const fetchUniqueCars = async () => {
-      try {
-        const response = await fetch('/uniquecars.txt');
-        const text = await response.text();
-        const carsArray = text.split('\n').map(car => car.trim()).filter(car => car !== '');
-        console.log(carsArray);
-        setUniqueCars(carsArray);
-      } catch (error) {
-        console.error('Error fetching the unique cars:', error);
-      }
-    };
-
-    fetchUniqueCars();
-  }, []);
 
   const [formData, setFormData] = useState({
     image: "",
@@ -38,6 +21,22 @@ const Prepage = () => {
   });
 
   const [errors, setErrors] = useState({});
+
+  const [uniqueCars, setUniqueCars] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:5000/dropdown");
+        console.log(response);
+        setUniqueCars(response.data.unique_cars);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Fetch user information from Redux store
   const user = useSelector(selectUser);
@@ -302,10 +301,6 @@ const Prepage = () => {
         </button>
       </form>
       <br />
-      <div>
-      <h1>Unique Cars</h1>
-      <pre>{uniqueCars}</pre>
-    </div>
       <ToastContainer />
     </>
   );

@@ -4,8 +4,10 @@ from ultralytics import YOLO
 import numpy as np
 import pandas as pd
 import json
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 model = YOLO('yolov8x.pt')
 
 @app.route('/dropdown')
@@ -14,7 +16,7 @@ def dropdown():
         with open('uniquecars.txt', 'r') as file:
             unique_cars_str = file.read().strip()
             unique_cars_dict = json.loads(unique_cars_str)
-            return jsonify(unique_cars_dict['unique_cars'])
+            return jsonify(unique_cars_dict)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
