@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, logout } from "../../../../redux/slices/userSlice";
+import { setLoading } from "../../../../redux/slices/loadingSlice";
 
 export default function UserLogin() {
     // Declare state variables for email and password
@@ -54,39 +55,47 @@ export default function UserLogin() {
             return;
 
         try {
+            dispatch(setLoading(true));
             signInWithEmailAndPassword(auth, email, password)
                 .then(async (userAuth) => {
                     console.log("User logged in:", userAuth.user.email);
                     navigate('/', { replace: true });
+                    dispatch(setLoading(false));
                 })
                 .catch((error) => {
                     toast.error(error.message, {
                         position: toast.POSITION.TOP_CENTER,
                     });
+                    dispatch(setLoading(false));
                     console.log(error);
                 });
         } catch (error) {
             toast.error(error.message, {
                 position: toast.POSITION.TOP_CENTER,
             });
+            dispatch(setLoading(false));
             console.log(error);
         }
     };
 
     const googleMethod = async () => {
+        dispatch(setLoading(true));
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider).then((result) => {
             console.log(result);
             navigate('/', { replace: true });
+            dispatch(setLoading(false));
         }).catch((error) => {
             toast.error(error.message, {
                 position: toast.POSITION.TOP_CENTER,
             });
+            dispatch(setLoading(false));
             console.log(error);
         });
     }
 
     const handelGoogleLogin = async () => {
+        console.log("Google login");
         try {
             await googleMethod().then(() => {
                 if (user) {
@@ -96,6 +105,7 @@ export default function UserLogin() {
                     dispatch(logout());
                     auth.signOut();
                 }
+                // dispatch(setLoading(false));
             });
 
         } catch (error) {
@@ -103,6 +113,9 @@ export default function UserLogin() {
                 position: toast.POSITION.TOP_CENTER,
             });
             console.log(error);
+            // dispatch(setLoading(false));
+        } finally {
+            console.log("Google login finally");
         }
     }
 
@@ -113,15 +126,18 @@ export default function UserLogin() {
             });
             return;
         }
+        dispatch(setLoading(true));
         sendPasswordResetEmail(auth, email).then(() => {
             toast.success("Password reset email sent", {
                 position: toast.POSITION.TOP_CENTER,
             });
+            dispatch(setLoading(false));
         }).catch((error) => {
             toast.error(error.message, {
                 position: toast.POSITION.TOP_CENTER,
             });
             console.log(error);
+            dispatch(setLoading(false));
         });
     }
     return (

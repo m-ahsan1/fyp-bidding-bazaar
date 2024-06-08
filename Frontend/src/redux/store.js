@@ -1,12 +1,14 @@
 // src/app/store.js
 import { configureStore } from "@reduxjs/toolkit";
 import listingSlice from "./slices/listingSlice";
-import useReducer from "./slices/userSlice";
+import userReducer from "./slices/userSlice";
+import loadingSlice from "./slices/loadingSlice";
 
 const store = configureStore({
   reducer: {
     listing: listingSlice,
-    user: useReducer,
+    user: userReducer,
+    loading: loadingSlice,
   },
 });
 
