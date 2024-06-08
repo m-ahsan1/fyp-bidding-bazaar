@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const axios = require("axios");
+
 const Listing = require("../models/listingsModel");
 
 // Get all listings
@@ -18,7 +20,6 @@ router.get("/:id", getListing, (req, res) => {
 });
 
 // Create a new listing
-
 router.post("/", async (req, res) => {
   const listing = new Listing({
     image: req.body.image,
@@ -101,5 +102,46 @@ async function getListing(req, res, next) {
     return res.status(500).json({ message: error.message });
   }
 }
+
+router.post("/image_validation", async (req, res) => {
+  try {
+    const imageBase64 = req.body.image;
+    const company = req.body.company;
+    const title = req.body.title;
+
+    const response = await axios({
+      method: 'POST',
+      url: 'https://detect.roboflow.com/car-model-aroud/1',
+      params: {
+        api_key: 'K4XyDbduTlXi7SaMZM3S'
+      },
+      data: imageBase64,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+    console.log(response.data);
+    if (response.data.predicted_classes.length === 0) {
+      res.status(400).json({ success: false, message: 'No car detected in the image' });
+      return;
+    }
+    response = response.data.predicted_classes.map((item) => item.split('_'))
+    for (let i = 0; i < response.length; i++) {
+      if (response[i][0] === company) {
+        const titleParts = title.split(" ");
+        for (let j = 1; j < response[i].length; j++) {
+          if (titleParts.includes(response[i][j])) {
+            res.json({ success: true, message: 'Car detected in the image' });
+            return;
+          }
+        }
+      }
+    }
+
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = router;
