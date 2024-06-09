@@ -60,6 +60,7 @@ const Team = () => {
                     <h5 className="card-title"><strong>{member.name}</strong></h5>
                     <p className="card-text">{member.position}</p>
                     <hr />
+                    <br></br>
                     <p className="card-text">{member.description}</p>
                     <br />
                     <div className="d-flex justify-content-center align-items-center">
