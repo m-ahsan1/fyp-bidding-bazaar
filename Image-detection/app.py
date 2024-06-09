@@ -60,6 +60,12 @@ def predict():
         transmission = parts[2]
         modelyear = int(parts[3])
 
+        if transmission == 'Manual':
+            transmission = 0
+        else:
+            transmission = 1
+        
+
         # Creating a response dictionary with the extracted elements
         data = {
             'rating': rating,
