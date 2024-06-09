@@ -22,7 +22,7 @@ router.get("/:id", getListing, (req, res) => {
 // Create a new listing
 router.post("/", async (req, res) => {
   const listing = new Listing({
-    image: req.body.image,
+    images: req.body.images,
     title: req.body.title,
     price: req.body.price,
     engine: req.body.engine,
@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
 // Update a listing by ID
 router.patch("/:id", getListing, async (req, res) => {
   if (req.body.image != null) {
-    res.listing.image = req.body.image;
+    res.listing.images = req.body.images;
   }
   if (req.body.title != null) {
     res.listing.title = req.body.title;
@@ -144,6 +144,17 @@ router.post("/image_validation", async (req, res) => {
     res.status(400).json({ success: false, message: 'Car in the image does not match the listing' });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+// get all listings by a specific user id
+router.get("/user/:uid", async (req, res) => {
+  try {
+    const listings = await Listing.find({ uid: req.params.uid });
+    console.log("1", listings);
+    res.json(listings);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

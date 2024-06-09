@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 
 function Listing({
   id,
-  image,
+  images,
   title,
   price,
   engine,
@@ -73,7 +73,7 @@ function Listing({
     const doc = new jsPDF();
     // url is after semi-colon
     try {
-      doc.addImage(image, "JPEG", 10, 10, 150, 100);
+      doc.addImage(images[0], "JPEG", 10, 10, 150, 100);
       doc.setFontSize(16);
       doc.text(title, 70, 120);
       doc.text(`Price: ${price} PKR`, 70, 140);
@@ -125,12 +125,16 @@ function Listing({
 
   const shortenDescription = description.length > 150 ? description.substring(0, 150) + "..." : description;
 
+  console.log("q:", images);
   return (
     <div
       className="w-[400px] overflow-hidden rounded-lg shadow-lg"
       onClick={handleClick}
     >
-      <img className="w-[400px] h-[200px]" src={image} alt="Listed Car"></img>
+      {images != null && images.length > 1 && (
+        <img className="w-[400px] h-[200px]" src={images[0]} alt="Listed Car"></img>
+      )
+      }
       <div className="px-6 py-4">
         <div className="flex flex-row justify-between">
           <div className="font-bold text-lg mb-2 whitespace-normal">

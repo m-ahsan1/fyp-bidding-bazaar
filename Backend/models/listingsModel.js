@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 // Define the listing schema
 const listingSchema = new mongoose.Schema({
-  image: {
-    type: String,
+  images: {
+    type: Array,
     required: true,
   },
   title: {

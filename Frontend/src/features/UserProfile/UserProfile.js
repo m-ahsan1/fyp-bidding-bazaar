@@ -6,135 +6,39 @@ import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../../redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { auth } from '../../firebase';
-import Chart from 'chart.js/auto';
 import Subbar from '../../components/Subbar';
 import Footer from '../../components/footer';
+import Listing from '../Listing/Listing';
 
 const UserProfile = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [analytics, setAnalytics] = useState({ pdfCount: 0, payCount: 0, carCount: 0 });
-  const chartRef = useRef(null);
-
+  const [userListings, setUserListings] = useState([]);
 
   useEffect(() => {
-    const fetchAnalytics = async () => {
+    async function getUserListings() {
       try {
-        const pdfResponse = await axios.get(`http://localhost:3001/api/userAnalytics/pdf/${auth.currentUser.uid}`);
-        const payResponse = await axios.get(`http://localhost:3001/api/userAnalytics/pay/${auth.currentUser.uid}`);
-        const carResponse = await axios.get(`http://localhost:3001/api/userAnalytics/cars/${auth.currentUser.uid}`);
-        setAnalytics({ pdfCount: pdfResponse.data.pdfCount, payCount: payResponse.data.payCount, carCount: carResponse.data.carCount });
-        console.log(analytics);
-      } catch (error) {
-        console.error('Failed to fetch user analytics:', error);
-      }
-      setUserData({
-        username: user?.username ?? '',
-        email: user?.email ?? '',
-        phone: user?.phone ?? '',
-        currentAddress: user?.currentAddress ?? '',
-        image: user?.image ?? '',
-        uid: user?.uid ?? '',
-      });
-    };
-    fetchAnalytics();
-  }, []);
-
-  useEffect(() => {
-    const renderChart = () => {
-      const canvas = chartRef.current;
-
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-
-        if (ctx) {
-          // Destroy the existing chart if it exists
-          if (canvas.chart) {
-            canvas.chart.destroy();
+        await axios.get(`http://localhost:3001/api/listings/user/${auth.currentUser.uid}`).then((response) => {
+          // console.log(response.data, response.data.length);
+          if (response.data.length === 0) {
+            return;
           }
-
-          // Create a new chart
-          canvas.chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: ['PDF Count', 'Pay Count', 'Total User Cars'],
-              datasets: [{
-                label: 'Analytics',
-                data: [analytics.pdfCount, analytics.payCount, analytics.carCount],
-                backgroundColor: [
-                  'rgba(75, 192, 192, 0.6)', // Teal
-                  'rgba(255, 99, 132, 0.6)', // Red
-                  'rgba(255, 206, 86, 0.6)', // Yellow
-                ],
-                borderColor: [
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(255, 206, 86, 1)',
-                ],
-                borderWidth: 2,
-              }],
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false, // Set to true if you want to maintain aspect ratio
-              scales: {
-                x: {
-                  grid: {
-                    display: false,
-                  },
-                },
-                y: {
-                  beginAtZero: true,
-                  grid: {
-                    color: 'rgba(0, 0, 0, 0.1)',
-                  },
-                },
-              },
-              plugins: {
-                legend: {
-                  display: true,
-                  position: 'top',
-                  labels: {
-                    font: {
-                      weight: 'bold',
-                    },
-                  },
-                },
-              },
-              layout: {
-                padding: {
-                  top: 20,
-                  bottom: 20,
-                  left: 20,
-                  right: 20,
-                },
-              },
-              maxHeight: 300,
-            },
-          });
-        } else {
-          console.error('Unable to get 2D context for canvas');
-        }
-      } else {
-        console.error('Canvas element not found');
+          // response.data.forEach((listing) => {
+          //   userListings.push(listing);
+          // });
+          setUserListings(response.data);
+          console.log(userListings, userListings.length);
+        });
       }
-    };
-
-
-    renderChart();
-
-    // Cleanup: destroy the chart when the component unmounts
-    return () => {
-      const canvas = chartRef.current;
-      if (canvas && canvas.chart) {
-        canvas.chart.destroy();
+      catch (error) {
+        console.error('Failed to fetch user listings:', error);
       }
-    };
-  }, [analytics]);
-
+    }
+    getUserListings();
+  }, []);
 
   const sendToHome = () => {
     navigate('/', { replace: true });
@@ -171,8 +75,8 @@ const UserProfile = () => {
       <>
         <Navbar />
         <Subbar />
+        <h1 className="text-2xl text-center font-bold mb-4">Your Profile</h1>
         <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
-          <h1 className="text-2xl font-bold mb-4">User Profile</h1>
 
           {/* Image Section */}
           <div className="flex items-center justify-center mb-4">
@@ -256,11 +160,34 @@ const UserProfile = () => {
             </div>
           )}
         </div>
-        <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md" style={{ height: '600px' }}>
-          <h1 className="text-2xl font-bold mb-4">User Analytics</h1>
-          <canvas ref={chartRef} width="200" height="300"></canvas>
-        </div>
-          <Footer />
+        {userListings.length !== 0 ? (
+          <div className='my-10'>
+            {console.log(userListings)}
+            <h1 className="text-2xl font-bold mb-10 text-center">Your Listings</h1>
+            <div className="flex flex-wrap gap-10 justify-around" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
+              {userListings.map((item) => (
+                <div key={item._id}>
+                  <Listing
+                    id={item._id}
+                    image={item.image}
+                    title={item.title}
+                    price={item.price}
+                    engine={item.engine}
+                    mileage={item.mileage}
+                    modelYear={item.modelYear}
+                    description={item.description}
+                    company={item.company}
+                    currentBid={item.currentBid}
+                    uid={item.uid}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <h1 className="text-2xl font-bold text-center">You have no listings</h1>
+        )}
+        <Footer />
       </>
     ) : (
       <>
