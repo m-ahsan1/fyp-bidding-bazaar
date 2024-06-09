@@ -1,5 +1,5 @@
 import React from "react";
-import teamMember1Image from "./1.jpeg"; // Import your team members' images
+import teamMember1Image from "./1.png"; // Import your team members' images
 import teamMember2Image from "./2.jpg";
 import teamMember3Image from "./3.jpg";
 import Navbar from "../../components/Navbar";
@@ -60,6 +60,7 @@ const Team = () => {
                     <h5 className="card-title"><strong>{member.name}</strong></h5>
                     <p className="card-text">{member.position}</p>
                     <hr />
+                    <br></br>
                     <p className="card-text">{member.description}</p>
                     <br />
                     <div className="d-flex justify-content-center align-items-center">

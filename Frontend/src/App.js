@@ -7,7 +7,7 @@ import { onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
 import { ToastContainer, toast } from 'react-toastify';
 import { setLoading, selectLoading } from './redux/slices/loadingSlice';
 import Loader from './components/loader';
-
+import Writeblog from './features/Blogs/WriteBlog';
 import ListingsPage from './features/Listing/ListingsPage';
 import MainPage from './pages/MainPage';
 import AdminLogin from './features/Auth/Admin/AdminLogin';
@@ -19,6 +19,10 @@ import BlogsPage from './features/Blogs/BlogsPage';
 import UserSign from './features/Auth/User/UserSignup/UserSignup';
 import UserLogin from './features/Auth/User/UserLogin/UserLogin';
 import Prediction from './features/Prediction/prediction';
+import Messages from './components/messages';
+import AddAdmin from './components/addadmin';
+import AdminListings from './components/admindeletelisting';
+import BlogDetail from './features/Blogs/blogdetail';
 
 function App() {
   const user = useSelector(selectUser);
@@ -84,6 +88,11 @@ function App() {
           <Route path="/user-login" element={<UserLogin />} />
           <Route path="/team" element={<Team />} />
           <Route path="/predict" element={<Prediction />} />
+          <Route path="/writeblog" element={<Writeblog />} />
+          <Route path="/message" element={<Messages />} />
+          <Route path="/addadmin" element={<AddAdmin />} />
+          <Route path="/admindelete" element={<AdminListings />} />
+          <Route path="/blogs/:id" element={<BlogDetail />} />
         </Routes>
       </Router>
       <ToastContainer />

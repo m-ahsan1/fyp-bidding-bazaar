@@ -3,6 +3,7 @@ import "react-quill/dist/quill.snow.css";
 import "./WriteBlog.css";
 import ReactQuill from "react-quill";
 import axios from "axios";
+import AdminNavigation from "../../components/AdminNavigation";
 
 const BlogEditor = ({ setShowForm }) => {
   const [title, setTitle] = useState("");
@@ -59,6 +60,8 @@ const BlogEditor = ({ setShowForm }) => {
   };
 
   return (
+    <>    
+    <AdminNavigation/>
     <div className="blog-editor">
       <h2 className="blog-editor__title">Create a Blog</h2>
       <form onSubmit={handleSubmit} className="blog-editor__form">
@@ -93,6 +96,7 @@ const BlogEditor = ({ setShowForm }) => {
         </button>
       </form>
     </div>
+    </>
   );
 };
 

@@ -1,0 +1,19 @@
+.messages-container {
+    margin-top: 20px;
+  }
+  .list-group-item {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .card-header {
+    background-color: #93b0cd;
+    color: white;
+  }
+  .card-footer {
+    background-color: #f8f9fa;
+  }
+  .page-link {
+    cursor: pointer;
+  }
+  
