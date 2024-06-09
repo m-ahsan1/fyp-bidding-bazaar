@@ -10,6 +10,20 @@ app = Flask(__name__)
 CORS(app)
 model = YOLO('yolov8x.pt')
 
+# ---------------------- API for Data Cleaning --------------------------------------------------------------------------------
+def extract_car_details(car_name):
+    # Split the string by commas
+    parts = car_name.split(',')
+
+    # Extract the individual components
+    companyname = parts[0].split()[0]
+    variant = ' '.join(parts[0].split()[1:])
+    fuel = parts[1]
+    transmission = parts[2]
+    modelyear = int(parts[3])
+
+    return companyname, variant, fuel, transmission, modelyear
+
 
 # ---------------------- API for price prediction --------------------------------------------------------------------------------
 @app.route('/predict', methods=['GET'])
@@ -33,23 +47,36 @@ def predict():
         mileage = form_data.get('mileage')
         company = form_data.get('company')
 
+        # Extract company details
+        parts = company.split(',')
+
+        if len(parts) != 4:
+            raise ValueError("Company field must have exactly 4 parts separated by commas",parts)
+
+        # Extract the individual components
+        companyname = parts[0].split()[0]
+        variant = ' '.join(parts[0].split()[1:])
+        fuel = parts[1]
+        transmission = parts[2]
+        modelyear = int(parts[3])
+
         # Creating a response dictionary with the extracted elements
-        response = {
-            'message': 'Prediction API is working',
-            'params': {
-                'rating': rating,
-                'exterior': exterior,
-                'engine': engine,
-                'suspension': suspension,
-                'interior': interior,
-                'heater': heater,
-                'mileage': mileage,
-                'company': company,
-            },
-            'form_data': form_data
+        data = {
+            'rating': rating,
+            'exterior': exterior,
+            'engine': engine,
+            'suspension': suspension,
+            'interior': interior,
+            'heater': heater,
+            'mileage': mileage,
+            'companyname': companyname,
+            'variant': variant,
+            'fuel': fuel,
+            'transmission': transmission,
+            'modelyear': modelyear
         }
 
-        return jsonify(response)
+        return jsonify(data)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
