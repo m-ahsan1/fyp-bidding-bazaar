@@ -221,7 +221,7 @@ const UserProfile = () => {
                 <input
                   className="w-full border p-2"
                   type="text"
-                  name="Address"
+                  name="currentAddress"
                   value={userData.currentAddress}
                   onChange={handleInputChange}
                 />

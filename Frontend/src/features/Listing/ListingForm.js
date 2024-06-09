@@ -172,10 +172,6 @@ const ListingForm = () => {
     }
   };
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-  };
-
   return (
     <>
       <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto p-4 bg-white rounded-md shadow-md">
@@ -193,15 +189,8 @@ const ListingForm = () => {
             multiple
             onChange={handleImageChange}
             ref={fileInputRef}
-            className="hidden"
+            className="form-control bg-transparent"
           />
-          <button
-            type="button"
-            onClick={handleButtonClick}
-            className="block w-full bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Choose Files to Upload
-          </button>
           <div className="mt-2">
             {formData.images &&
               formData.images.map((img, index) => (

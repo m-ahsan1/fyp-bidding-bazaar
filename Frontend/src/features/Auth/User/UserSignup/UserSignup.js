@@ -213,7 +213,11 @@ export default function UserSign() {
       >
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center max-h-screen">
           <div className="bg-white overflow-y-auto overflow-x-auto p-4 w-full max-w-lg mx-auto rounded-lg shadow-2xl sm:p-10 flex flex-col max-h-full ">
-
+            <button className="top-4 left-4 text-gray-600 hover:text-gray-800" onClick={() => navigate(-1)}>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+            </button>
             <div className="flex flex-col items-center pt-4 sm:justify-center sm:pt-0 flex-grow">
               <div>
                 <Link to="/">
@@ -328,7 +332,7 @@ export default function UserSign() {
                         accept=".jpeg, .png, .jpg"
                         name="image"
                         onInput={handleInputChange}
-                        className="block w-full mt-1 border-gray-300 rounded-md shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        className="form-control bg-transparent"
                       />
                     </div>
                   </div>
