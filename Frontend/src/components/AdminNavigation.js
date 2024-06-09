@@ -17,6 +17,7 @@ function AdminNavigation() {
           <a href="#"><Link to="/writeblog">Write Blog</Link></a> &nbsp; &nbsp;
           <a href="#"><Link to="/message">Messages</Link></a> &nbsp; &nbsp;
           <a href="#"><Link to="/addadmin">Add Admin</Link></a> &nbsp; &nbsp;
+          <a href="#"><Link to="/admindelete">Delete Listings</Link></a> &nbsp; &nbsp;
           <a href="#"><Link to="/admin">Logout</Link></a>
           
         </span>
@@ -47,6 +48,7 @@ function AdminNavigation() {
             <Dropdown.Item href="#"><Link to="/writeblog">Write Blog</Link></Dropdown.Item>
             <Dropdown.Item href="#"><Link to="/message">Messages</Link></Dropdown.Item>
             <Dropdown.Item href="#"><Link to="/addadmin">Add Admin</Link></Dropdown.Item>
+            <Dropdown.Item href="#"><Link to="/admadmindeletein">Delete Listing</Link></Dropdown.Item>
             <Dropdown.Item href="#"><Link to="/admin">Log out</Link></Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

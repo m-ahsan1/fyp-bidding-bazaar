@@ -21,6 +21,7 @@ import UserLogin from './features/Auth/User/UserLogin/UserLogin';
 import Prediction from './features/Prediction/prediction';
 import Messages from './components/messages';
 import AddAdmin from './components/addadmin';
+import AdminListings from './components/admindeletelisting';
 
 function App() {
   const user = useSelector(selectUser);
@@ -89,6 +90,7 @@ function App() {
           <Route path="/writeblog" element={<Writeblog />} />
           <Route path="/message" element={<Messages />} />
           <Route path="/addadmin" element={<AddAdmin />} />
+          <Route path="/admindelete" element={<AdminListings />} />
         </Routes>
       </Router>
       <ToastContainer />
