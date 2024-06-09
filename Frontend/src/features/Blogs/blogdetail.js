@@ -38,8 +38,12 @@ const BlogDetail = () => {
       <Navbar />
       <Subbar />
       <BlogContainer>
-        <h2>{blog.title}</h2>
+        <center>
+        <h1 style={{ fontSize: "3em", textAlign: "center", color: "#333", marginBottom: "20px" }}>{blog.title}</h1>
+        <hr></hr>
+        <br></br>
         <div dangerouslySetInnerHTML={{ __html: blog.body }}></div>
+        </center>
       </BlogContainer>
       <Footer />
     </div>
