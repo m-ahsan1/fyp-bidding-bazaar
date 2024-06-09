@@ -146,7 +146,7 @@ function MainPage() {
                     <div key={recommendedListing._id}>
                       <Listing
                         id={recommendedListing._id}
-                        image={recommendedListing.image}
+                        images={recommendedListing.images}
                         title={recommendedListing.title}
                         price={recommendedListing.price}
                         engine={recommendedListing.engine}
@@ -176,7 +176,7 @@ function MainPage() {
             <div key={item._id}>
               <Listing
                 id={item._id}
-                image={item.image}
+                images={item.images}
                 title={item.title}
                 price={item.price}
                 engine={item.engine}

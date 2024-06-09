@@ -48,6 +48,7 @@ const listingSlice = createSlice({
       .addCase(fetchListings.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
+        console.log("action.payload:", action.payload);
       })
       .addCase(fetchListings.rejected, (state, action) => {
         state.loading = false;

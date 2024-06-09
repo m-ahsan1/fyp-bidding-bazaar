@@ -125,16 +125,18 @@ function Listing({
 
   const shortenDescription = description.length > 150 ? description.substring(0, 150) + "..." : description;
 
-  console.log("q:", images);
   return (
     <div
       className="w-[400px] overflow-hidden rounded-lg shadow-lg"
       onClick={handleClick}
     >
       {images != null && images.length > 1 && (
-        <img className="w-[400px] h-[200px]" src={images[0]} alt="Listed Car"></img>
-      )
-      }
+  <>
+    {(() => { debugger; })()}
+    <img className="w-[400px] h-[200px] text-center" src={images[0].base64} alt="Image not loaded"></img>
+  </>
+)}
+
       <div className="px-6 py-4">
         <div className="flex flex-row justify-between">
           <div className="font-bold text-lg mb-2 whitespace-normal">
