@@ -121,17 +121,19 @@ const Prepage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!validateForm()) {
       return;
     }
-
+  
     try {
-      const params = new URLSearchParams(formData).toString();
-      console.log("params",params);  // Log the serialized parameters
-      const response = await axios.get(`http://127.0.0.1:5000/predict?${params}`);
-      console.log("response",response.data);
-
+      // Format formData object as JSON string
+      const formDataJSON = JSON.stringify(formData);
+      
+      // Send formDataJSON as a parameter named 'formData'
+      const response = await axios.get(`http://127.0.0.1:5000/predict?formData=${encodeURIComponent(formDataJSON)}`);
+      console.log("response", response.data);
+  
       setFormData({
         rating: 0,
         exterior: 0,
@@ -142,7 +144,7 @@ const Prepage = () => {
         mileage: 0,
         company: "",
       });
-
+  
       toast.success("Request Sent!", {
         position: toast.POSITION.TOP_CENTER,
       });
