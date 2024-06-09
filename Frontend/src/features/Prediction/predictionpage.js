@@ -105,8 +105,8 @@ const Prepage = () => {
     if (!formData.mileage) {
       newErrors.mileage = "Mileage is required";
       valid = false;
-    } else if (isNaN(formData.mileage) || formData.mileage < 1000) {
-      newErrors.mileage = "Mileage should be a positive number or 0";
+    } else if (isNaN(formData.mileage) || (formData.mileage > 300000 || formData.mileage < 1000)) {
+      newErrors.mileage = "Mileage should be a more than 1k and less than 300k";
       valid = false;
     }
 
@@ -262,7 +262,7 @@ const Prepage = () => {
 
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Mileage(KM):
+              Mileage(1000 to 300000):
             </label>
             <input
               type="text"
