@@ -1,5 +1,5 @@
 import React from "react";
-import teamMember1Image from "./1.jpeg"; // Import your team members' images
+import teamMember1Image from "./1.png"; // Import your team members' images
 import teamMember2Image from "./2.jpg";
 import teamMember3Image from "./3.jpg";
 import Navbar from "../../components/Navbar";

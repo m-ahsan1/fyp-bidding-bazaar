@@ -1,5 +1,4 @@
 import React,{useState} from "react";
-import bootstrapBundleMin from "bootstrap/dist/js/bootstrap.bundle.min";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import Navbar from "../../components/Navbar";
@@ -46,14 +45,22 @@ const ContactForm = () => {
       setMessage({ text: "Error submitting message.", type: "error" });
     }
   };
+  const divStyle = {
+    backgroundImage: 'url("../images/listing-pg-bg-img.jpg")', // Replace 'path_to_your_image.jpg' with the actual path to your image file
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    minHeight: '100vh', // Ensure the image covers the entire viewport height
+    
+  };
   
   return (
     <>
       <Navbar />
+      
       <Subbar />
       
-
-      <div className="container mt-5" style={{ maxWidth: "70%" }}>
+      <div>
+      <div className="container mt-5" style={{ maxWidth: "60%" }}>
       <h1 style={{ fontSize: 30, textAlign: "center" }}>Contact Us</h1>
         
         <form onSubmit={onSubmit}>
@@ -98,7 +105,9 @@ const ContactForm = () => {
       width="600" height="450" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"/>
       </center>
       <br></br>
+   
       <Footer />
+      </div>
     </>
   );
 };

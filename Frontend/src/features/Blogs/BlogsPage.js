@@ -1,30 +1,61 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import BlogEditor from "./WriteBlog";
-import { MdDelete } from "react-icons/md";
-import Footer from "../../components/footer";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
 import Subbar from "../../components/Subbar";
+import Footer from "../../components/footer";
 
 const BlogContainer = styled.div`
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 `;
 
 const BlogItem = styled.div`
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 
-  h3 {
-    margin-bottom: 10px;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   }
 
-  p {
-    margin-bottom: 5px;
+  h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 2em;
+  }
+
+  div {
+    margin-bottom: 15px;
+    color: #666;
+    font-size: 1.1em;
+    line-height: 1.6;
+  }
+`;
+
+const ReadMore = styled(Link)`
+  display: inline-block;
+  margin-top: 10px;
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #0056b3;
   }
 `;
 
@@ -34,23 +65,27 @@ const Pagination = styled.div`
   margin-top: 20px;
 
   button {
-    background-color: #000;
+    background-color: #007bff;
     color: #fff;
     border: none;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 0 5px;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin: 0 10px;
     cursor: pointer;
+    transition: background-color 0.3s;
 
     &:disabled {
       background-color: #ccc;
       cursor: not-allowed;
     }
+
+    &:hover:not(:disabled) {
+      background-color: #0056b3;
+    }
   }
 `;
 
 function BlogsPage() {
-  const [showForm, setShowForm] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 5;
@@ -68,23 +103,6 @@ function BlogsPage() {
     fetchData();
   }, []);
 
-  const handleShowForm = () => {
-    setShowForm(!showForm);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      const response = await axios.delete(
-        "http://localhost:3001/api/blogs/" + id
-      );
-
-      console.log("Delete successful:", response);
-      setBlogs(blogs.filter((blog) => blog._id !== id));
-    } catch (error) {
-      console.error("Error deleting:", error);
-    }
-  };
-
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
@@ -96,30 +114,32 @@ function BlogsPage() {
   const prevPage = () => {
     setCurrentPage(currentPage - 1);
   };
+  const divStyle = {
+    backgroundImage: 'url("../images/listing-pg-bg-img.jpg")', // Replace 'path_to_your_image.jpg' with the actual path to your image file
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    minHeight: '100vh', // Ensure the image covers the entire viewport height
+    
+  };
 
   return (
-    <div>
-      <Navbar />
-      <Subbar />
-      {/*<div>
-        <button
-          onClick={handleShowForm}
-          className="bg-black text-white rounded-2xl w-[150px] h-[35px]"
-        >
-          Write a Blog
-        </button>
-        {showForm && <BlogEditor setShowForm={setShowForm} />}
-      </div>*/}
+    <>
+    <Navbar />
+    <Subbar />
+
+    <div  style={divStyle}>
+    <br></br>
       <BlogContainer>
-      <center>
-        <br></br>
-        <h1 style={{ fontSize: 20, textAlign: "center" }}><b>Blogs</b></h1>
-        <br></br>
+        <center>
+          <br />
+          <h1 style={{ fontSize: "3em", textAlign: "center", color: "#333", marginBottom: "20px" }}><b>Our Blogs</b></h1>
+          <hr style={{ marginBottom: "30px", border: "none", height: "2px", backgroundColor: "#007bff", width: "50%" }} />
         </center>
         {currentBlogs.map((blog) => (
           <BlogItem key={blog._id}>
-            <h3 style={{ fontSize: 25, textAlign: "center" }}>{blog.title}</h3>
-            <div dangerouslySetInnerHTML={{ __html: blog.body }}></div>
+            <h3>{blog.title}</h3>
+            <div dangerouslySetInnerHTML={{ __html: blog.body.slice(0, 150) + "..." }}></div>
+            <ReadMore to={`/blogs/${blog._id}`}>Read More</ReadMore>
           </BlogItem>
         ))}
         <Pagination>
@@ -131,8 +151,10 @@ function BlogsPage() {
           </button>
         </Pagination>
       </BlogContainer>
+      <br></br>
       <Footer />
     </div>
+    </>
   );
 }
 
