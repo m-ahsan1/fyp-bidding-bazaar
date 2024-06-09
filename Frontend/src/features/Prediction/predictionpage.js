@@ -105,7 +105,7 @@ const Prepage = () => {
     if (!formData.mileage) {
       newErrors.mileage = "Mileage is required";
       valid = false;
-    } else if (isNaN(formData.mileage) || formData.mileage < 0) {
+    } else if (isNaN(formData.mileage) || formData.mileage < 1000) {
       newErrors.mileage = "Mileage should be a positive number or 0";
       valid = false;
     }
