@@ -262,7 +262,7 @@ const Prepage = () => {
 
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Mileage(1-100):
+              Mileage(KM):
             </label>
             <input
               type="text"
