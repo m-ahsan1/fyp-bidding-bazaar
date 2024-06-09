@@ -20,6 +20,7 @@ import UserSign from './features/Auth/User/UserSignup/UserSignup';
 import UserLogin from './features/Auth/User/UserLogin/UserLogin';
 import Prediction from './features/Prediction/prediction';
 import Messages from './components/messages';
+import AddAdmin from './components/addadmin';
 
 function App() {
   const user = useSelector(selectUser);
@@ -87,6 +88,7 @@ function App() {
           <Route path="/predict" element={<Prediction />} />
           <Route path="/writeblog" element={<Writeblog />} />
           <Route path="/message" element={<Messages />} />
+          <Route path="/addadmin" element={<AddAdmin />} />
         </Routes>
       </Router>
       <ToastContainer />
