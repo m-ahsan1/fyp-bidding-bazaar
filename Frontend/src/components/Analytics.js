@@ -21,6 +21,11 @@ function AnalyticsComponent() {
       });
   }, []);
 
+  const handleShowForm = () => {
+      setShowForm(!showForm);
+    };
+
+
   if (isLoading) {
     return <p>Loading server stats...</p>;
   }
@@ -34,9 +39,7 @@ function AnalyticsComponent() {
   const usedMemoryMB = (totalMemoryMB - freeMemoryMB).toFixed(2);
   const memoryUsagePercentage = ((usedMemoryMB / totalMemoryMB) * 100).toFixed(2);
 
-  const handleShowForm = () => {
-    setShowForm(!showForm);
-  };
+
 
 
   return (
@@ -48,23 +51,6 @@ function AnalyticsComponent() {
       <p>Total Memory: {totalMemoryMB} MB</p>
       <p>Free Memory: {freeMemoryMB} MB</p>
       {/* Add additional visualizations or components based on your needs */}
-
-      <br></br>
-      <hr></hr>
-      <br></br>
-      <center>
-      <div>
-        <button
-          onClick={handleShowForm}
-          className="bg-black text-white rounded-2xl w-[150px] h-[35px]"
-        >
-          Write a Blog
-        </button>
-        <br></br>
-        {showForm && <BlogEditor setShowForm={setShowForm} />}
-      </div>
-      </center>
-
     </div>
   );
 }

@@ -7,7 +7,7 @@ import { onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
 import { ToastContainer, toast } from 'react-toastify';
 import { setLoading, selectLoading } from './redux/slices/loadingSlice';
 import Loader from './components/loader';
-
+import Writeblog from './features/Blogs/WriteBlog';
 import ListingsPage from './features/Listing/ListingsPage';
 import MainPage from './pages/MainPage';
 import AdminLogin from './features/Auth/Admin/AdminLogin';
@@ -84,6 +84,7 @@ function App() {
           <Route path="/user-login" element={<UserLogin />} />
           <Route path="/team" element={<Team />} />
           <Route path="/predict" element={<Prediction />} />
+          <Route path="/writeblog" element={<Writeblog />} />
         </Routes>
       </Router>
       <ToastContainer />
