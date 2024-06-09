@@ -6,10 +6,13 @@ import numpy as np
 import pandas as pd
 import json
 from flask_cors import CORS
+import xgboost as xgb
+import pickle
 
 app = Flask(__name__)
 CORS(app)
 model = YOLO('yolov8x.pt')
+# Load the trained XGBoost model
 
 # ---------------------- API for Data Cleaning --------------------------------------------------------------------------------
 def cleandata():
@@ -162,6 +165,23 @@ def cleandata():
 
     return companydic,varientdic,fueldic
 
+# ---------------------- Function for AI Model --------------------------------------------------------------------------------
+def predict_price(input_data, model_path='xgb_regressor_model.pkl'):
+    # Load the trained XGBoost model
+    with open(model_path, 'rb') as model_file:
+        xgb_regressor = pickle.load(model_file)
+
+    # Prepare input data into DataFrame
+    input_df = pd.DataFrame(input_data, index=[0])
+
+    # Make predictions on the input data
+    predicted_price = xgb_regressor.predict(input_df)
+
+    # Ensure predicted price is non-negative
+    predicted_price = max(0, predicted_price[0])
+
+    return predicted_price
+
 # ---------------------- API for price prediction --------------------------------------------------------------------------------
 @app.route('/predict', methods=['GET'])
 def predict():
@@ -213,23 +233,26 @@ def predict():
 
         # Creating a response dictionary with the extracted elements
         data = {
-            'rating': rating,
-            'exterior': exterior,
-            'engine': engine,
-            'suspension': suspension,
-            'interior': interior,
-            'heater': heater,
-            'mileage': mileage,
-            'companyname': companydic_str[companyname],
-            'variant': varientdic_str[variant],
-            'fuel': fueldic[fuel],
-            'transmission': transmission,
-            'modelyear': modelyear
-        }
+    'rating': rating,
+    'exterior & body': exterior,
+    'engine/transmission/clutch': engine,
+    'suspension/steering': suspension,
+    'interior': interior,
+    'ac/heater': heater,
+    'company': int(companydic_str[companyname]),
+    'variant': int(varientdic_str[variant]),
+    'fuel type': int(fueldic[fuel]),
+    'model date': modelyear,
+    'mileage': mileage
+}
 
 
 
-        return jsonify(data)
+
+        # Call the function to get the predicted price
+        predicted_price = predict_price(data)
+
+        return jsonify({'prediction':str(predicted_price)})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
