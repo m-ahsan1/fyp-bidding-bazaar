@@ -19,6 +19,7 @@ import BlogsPage from './features/Blogs/BlogsPage';
 import UserSign from './features/Auth/User/UserSignup/UserSignup';
 import UserLogin from './features/Auth/User/UserLogin/UserLogin';
 import Prediction from './features/Prediction/prediction';
+import Messages from './components/messages';
 
 function App() {
   const user = useSelector(selectUser);
@@ -85,6 +86,7 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/predict" element={<Prediction />} />
           <Route path="/writeblog" element={<Writeblog />} />
+          <Route path="/message" element={<Messages />} />
         </Routes>
       </Router>
       <ToastContainer />
