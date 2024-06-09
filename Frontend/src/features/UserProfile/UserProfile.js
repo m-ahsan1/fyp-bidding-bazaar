@@ -169,7 +169,7 @@ const UserProfile = () => {
                 <div key={item._id}>
                   <Listing
                     id={item._id}
-                    image={item.image}
+                    images={item.images}
                     title={item.title}
                     price={item.price}
                     engine={item.engine}
