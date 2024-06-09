@@ -8,7 +8,7 @@ const Prepage = () => {
   let params=useParams();
   const [errors, setErrors] = useState({});
   const [uniqueCars, setUniqueCars] = useState([]);
-  const [prediction, setprediction] = useState({});
+  const [prediction, setprediction] = useState('');
 
   const [formData, setFormData] = useState({
     rating: 0,
@@ -131,10 +131,13 @@ const Prepage = () => {
       const formDataJSON = JSON.stringify(formData);
       
       // Send formDataJSON as a parameter named 'formData'
-      const response = await axios.get(`http://127.0.0.1:5000/predict?formData=${encodeURIComponent(formDataJSON)}`);
+      const response = await axios.get(`http://127.0.0.1:5000/predict?formData=${encodeURIComponent(formDataJSON)}`).then((response) => {
       console.log("response", response.data);
-  
-      setFormData({
+      setprediction(response.data);
+      console.log("prediction", prediction);
+      });
+
+      /*setFormData({
         rating: 0,
         exterior: 0,
         engine: 0,
@@ -143,9 +146,9 @@ const Prepage = () => {
         heater: 0,
         mileage: 0,
         company: "",
-      });
+      });*/
   
-      toast.success("Request Sent!", {
+      toast.success("Hang tight! We're crunching the numbers...", {
         position: toast.POSITION.TOP_CENTER,
       });
     } catch (error) {
@@ -299,7 +302,19 @@ const Prepage = () => {
         >
           Submit
         </button>
+            
+        {prediction && prediction.prediction && (
+        <div>
+          <br />
+          <center>
+          <h1 style={{fontSize:'30px'}} >Estimated Price: <strong>{prediction.prediction} PKR</strong></h1>
+          </center>
+        </div>
+      )}
+
       </form>
+
+      
       <br />
       <ToastContainer />
     </>
