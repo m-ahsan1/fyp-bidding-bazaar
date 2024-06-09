@@ -178,7 +178,7 @@ const Prepage = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="rating"
             >
-              Overall Rating:
+              Overall Rating(1-100):
             </label>
             <input
               type="text"
@@ -192,7 +192,7 @@ const Prepage = () => {
 
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Exterior and Body Condition:
+              Exterior and Body Condition(1-100):
             </label>
             <input
               type="text"
@@ -206,7 +206,7 @@ const Prepage = () => {
 
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Engine and Clutch Condition:
+              Engine and Clutch Condition(1-100):
             </label>
             <input
               type="text"
@@ -220,7 +220,7 @@ const Prepage = () => {
 
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Suspension and Steering Condition:
+              Suspension and Steering Condition(1-100):
             </label>
             <input
               type="text"
@@ -234,7 +234,7 @@ const Prepage = () => {
 
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Interior Condition:
+              Interior Condition(1-100):
             </label>
             <input
               type="text"
@@ -248,7 +248,7 @@ const Prepage = () => {
 
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              AC/Heater Condition:
+              AC/Heater Condition(1-100):
             </label>
             <input
               type="text"
@@ -262,7 +262,7 @@ const Prepage = () => {
 
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Mileage:
+              Mileage(1-100):
             </label>
             <input
               type="text"
