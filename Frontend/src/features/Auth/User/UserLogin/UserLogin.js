@@ -22,24 +22,24 @@ export default function UserLogin() {
     const validateForm = () => {
         // Email format validation using a regular expression
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+
         if (!emailRegex.test(email)) {
             toast.error("Please enter a valid email address", {
                 position: toast.POSITION.TOP_CENTER,
             });
             return false;
         }
-    
+
         if (!password) {
             toast.error("Password is required", {
                 position: toast.POSITION.TOP_CENTER,
             });
             return false;
         }
-    
+
         return true;
     };
-    
+
     // Function to handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,7 +51,7 @@ export default function UserLogin() {
             return;
         }
 
-        if(!validateForm())
+        if (!validateForm())
             return;
 
         try {
@@ -150,6 +150,11 @@ export default function UserLogin() {
         >
             <div className="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center">
                 <div className="bg-white overflow-y-auto p-4 w-full max-w-md mx-auto rounded-lg shadow-md sm:p-10 flex flex-col h-full ">
+                    <button className="top-4 left-4 text-gray-600 hover:text-gray-800" onClick={() => navigate(-1)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </button>
                     <div className="flex flex-col items-center pt-4 sm:justify-center sm:pt-0 flex-grow">
                         <div>
                             <Link to="/">
