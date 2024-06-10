@@ -54,7 +54,7 @@ const Navbar = () => {
               {user ? (
                 <>
                   <li>
-                    <Link to="/user-profile" style={{ color: "grey" }}>
+                    <Link to="/profile" style={{ color: "grey" }}>
                       Profile
                     </Link>
                   </li>
@@ -65,7 +65,7 @@ const Navbar = () => {
               ) : (
                 <>
                   <li>
-                    <Link to="/user-login">Login</Link>
+                    <Link to="/login">Login</Link>
                   </li>
                   <li>
                     <Link to="/user-signup">Signup</Link>

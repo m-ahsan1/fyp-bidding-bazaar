@@ -91,15 +91,15 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/Product/:id" element={<TestPage />} />
+          <Route path="/product/:id" element={<TestPage />} />
           <Route path="/listings" element={<ListingsPage />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/adminhome" element={<AdminHomePage />} />
           <Route path="/contact" element={<ContactForm />} />
           <Route path="/blogs" element={<BlogsPage />} />
-          <Route path="/user-profile" element={<UserProfile />} />
-          <Route path="/user-signup" element={<UserSign />} />
-          <Route path="/user-login" element={<UserLogin />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/signup" element={<UserSign />} />
+          <Route path="/login" element={<UserLogin />} />
           <Route path="/team" element={<Team />} />
           <Route path="/predict" element={<Prediction />} />
           <Route path="/writeblog" element={<Writeblog />} />
