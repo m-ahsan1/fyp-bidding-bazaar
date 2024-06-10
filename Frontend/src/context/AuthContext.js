@@ -23,7 +23,8 @@ export const AuthProvider = ({ children }) => {
     let newPrice = Math.floor((price / 100) * 110);
 
     try {
-      const auctionRef = doc(db, "auctions", auctionId);
+      // Correct document path with two segments: "auctions" and the auctionId
+      const auctionRef = doc(firestoreApp, "auctions", auctionId);
       await updateDoc(auctionRef, {
         curPrice: newPrice,
         curWinner: currentUser.email,
