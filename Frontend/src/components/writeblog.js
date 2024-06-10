@@ -1,35 +1,18 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import BlogEditor from "../features/Blogs/WriteBlog";
 import AdminNavigation from "./AdminNavigation";
 
-function Writeblog(){
-    const [showForm, setShowForm] = useState(false);
-    const [blogs, setBlogs] = useState([]);
-  
+function Writeblog() {
 
 
-    const handleShowForm = () => {
-        setShowForm(!showForm);
-      };
-
-    return(
-        <>
+  return (
+    <div>
       <center>
-      <div>
-        <button
-          onClick={handleShowForm}
-          className="bg-black text-white rounded-2xl w-[150px] h-[35px]"
-        >
-          Write a Blog
-        </button>
-        <br></br>
-        <BlogEditor setShowForm={setShowForm} />
-      </div>
+        <br />
+        <BlogEditor/>
       </center>
-        </>
-
-    );
+    </div>
+  );
 }
 
 export default Writeblog;

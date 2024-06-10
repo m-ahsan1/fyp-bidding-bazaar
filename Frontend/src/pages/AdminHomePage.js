@@ -1,7 +1,7 @@
 import React, { useEffect }  from "react";
 import AdminNavigation from "../components/AdminNavigation";
 import ReactGA from 'react-ga';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AdminAnalytics from "../components/adminanalytics";
 
 ReactGA.initialize("G-C4R8RPWSJK")

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 import "./WriteBlog.css";
 import ReactQuill from "react-quill";
 import axios from "axios";
 import AdminNavigation from "../../components/AdminNavigation";
+import { useNavigate } from "react-router-dom";
 
-const BlogEditor = ({ setShowForm }) => {
+const BlogEditor = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
@@ -38,6 +39,14 @@ const BlogEditor = ({ setShowForm }) => {
   const handleBodyChange = (value) => {
     setBody(value);
   };
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // If no token exists, redirect to /admin
+      navigate('/admin', { replace: true });
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +65,7 @@ const BlogEditor = ({ setShowForm }) => {
     console.log("Blog form submitted.", body);
     setBody("");
     setTitle("");
-    setShowForm(false);
+   
   };
 
   return (

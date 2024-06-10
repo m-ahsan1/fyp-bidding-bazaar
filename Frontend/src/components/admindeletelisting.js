@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AdminNavigation from './AdminNavigation';
+import { useNavigate } from "react-router-dom";
 
 const AdminListings = () => {
   const [listings, setListings] = useState([]);
@@ -34,6 +35,15 @@ const AdminListings = () => {
       setMessage('Error deleting listing');
     }
   };
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // If no token exists, redirect to /admin
+      navigate('/admin', { replace: true });
+    }
+  }, []);
 
   return (
     <>

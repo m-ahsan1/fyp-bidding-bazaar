@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminNavigation from "./AdminNavigation";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './messages.css'; // Create and import your custom CSS
+import { useNavigate } from "react-router-dom";
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -28,6 +29,15 @@ const Messages = () => {
   const currentMessages = messages.slice(indexOfFirstMessage, indexOfLastMessage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // If no token exists, redirect to /admin
+      navigate('/admin', { replace: true });
+    }
+  }, []);
 
   return (
     <>

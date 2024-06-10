@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 import AdminNavigation from "./AdminNavigation";
+import { useNavigate } from "react-router-dom";
 
 const AddAdmin = () => {
   const [adminData, setAdminData] = useState({
@@ -15,6 +16,15 @@ const AddAdmin = () => {
     const { name, value } = e.target;
     setAdminData({ ...adminData, [name]: value });
   };
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // If no token exists, redirect to /admin
+      navigate('/admin', { replace: true });
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

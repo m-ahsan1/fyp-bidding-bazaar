@@ -12,6 +12,7 @@ const userRecommendationRoutes = require("./routes/recommendationRoutes");
 const userAnalyticsRoutes = require("./routes/userAnalyticsRoutes");
 const admin = require("./routes/admin");
 const adminauth = require("./routes/adminauth");
+const auth = require('./middleware/auth');
 
 
 
