@@ -123,7 +123,10 @@ function Listing({
     dispatch(deleteListing(id));
   };
 
-  const shortenDescription = description.length > 150 ? description.substring(0, 150) + "..." : description;
+  const shortenDescription =
+    description.length > 150
+      ? description.substring(0, 150) + "..."
+      : description;
 
   return (
     <div
@@ -131,11 +134,17 @@ function Listing({
       onClick={handleClick}
     >
       {images != null && images.length > 1 && (
-  <>
-    {(() => { debugger; })()}
-    <img className="w-[400px] h-[200px] text-center" src={images[0].base64} alt="Image not loaded"></img>
-  </>
-)}
+        <>
+          {(() => {
+            debugger;
+          })()}
+          <img
+            className="w-[400px] h-[200px] text-center"
+            src={images[0].base64}
+            alt="Image not loaded"
+          ></img>
+        </>
+      )}
 
       <div className="px-6 py-4">
         <div className="flex flex-row justify-between">
@@ -209,12 +218,22 @@ function Listing({
           </div>
         ) : (
           <div>
-            <button
-              className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-              onClick={handleDelete}
-            >
-              Delete
-            </button>
+            <div>
+              <button
+                className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+            <div>
+              <button
+                className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                onClick={handleDelete}
+              >
+                Start Bid
+              </button>
+            </div>
           </div>
         )}
       </div>

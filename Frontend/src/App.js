@@ -1,28 +1,35 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserData, login, logout, selectUser } from './redux/slices/userSlice';
-import { auth } from './firebase';
-import { onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
-import { ToastContainer, toast } from 'react-toastify';
-import { setLoading, selectLoading } from './redux/slices/loadingSlice';
-import Loader from './components/loader';
-import Writeblog from './features/Blogs/WriteBlog';
-import ListingsPage from './features/Listing/ListingsPage';
-import MainPage from './pages/MainPage';
-import AdminLogin from './features/Auth/Admin/AdminLogin';
-import ContactForm from './features/Contactus/Contactus';
-import UserProfile from './features/UserProfile/UserProfile';
-import Team from './features/TeamPage/team';
-import AdminHomePage from './pages/AdminHomePage';
-import BlogsPage from './features/Blogs/BlogsPage';
-import UserSign from './features/Auth/User/UserSignup/UserSignup';
-import UserLogin from './features/Auth/User/UserLogin/UserLogin';
-import Prediction from './features/Prediction/prediction';
-import Messages from './components/messages';
-import AddAdmin from './components/addadmin';
-import AdminListings from './components/admindeletelisting';
-import BlogDetail from './features/Blogs/blogdetail';
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getUserData,
+  login,
+  logout,
+  selectUser,
+} from "./redux/slices/userSlice";
+import { auth } from "./firebase";
+import { onAuthStateChanged, sendEmailVerification } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import { setLoading, selectLoading } from "./redux/slices/loadingSlice";
+import Loader from "./components/loader";
+import Writeblog from "./features/Blogs/WriteBlog";
+import ListingsPage from "./features/Listing/ListingsPage";
+import MainPage from "./pages/MainPage";
+import AdminLogin from "./features/Auth/Admin/AdminLogin";
+import ContactForm from "./features/Contactus/Contactus";
+import UserProfile from "./features/UserProfile/UserProfile";
+import Team from "./features/TeamPage/team";
+import AdminHomePage from "./pages/AdminHomePage";
+import BlogsPage from "./features/Blogs/BlogsPage";
+import UserSign from "./features/Auth/User/UserSignup/UserSignup";
+import UserLogin from "./features/Auth/User/UserLogin/UserLogin";
+import Prediction from "./features/Prediction/prediction";
+import Messages from "./components/messages";
+import AddAdmin from "./components/addadmin";
+import AdminListings from "./components/admindeletelisting";
+import BlogDetail from "./features/Blogs/blogdetail";
+import { Main } from "./features/Auction/Main";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   const user = useSelector(selectUser);
@@ -33,21 +40,26 @@ function App() {
     const user = auth.currentUser;
     if (!user) return false;
     if (user.emailVerified) {
-      console.log('Email is verified');
+      console.log("Email is verified");
       return true;
     } else {
-      console.log('Email is not verified');
+      console.log("Email is not verified");
       return false;
     }
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (userAuth) => {
-      console.log('onAuthStateChanged triggered');
+      console.log("onAuthStateChanged triggered");
       console.log(userAuth);
       if (userAuth) {
         if (isEmailVerified(userAuth)) {
-          await dispatch(getUserData({ uid: userAuth.uid, uidToken: await userAuth.getIdToken() }));
+          await dispatch(
+            getUserData({
+              uid: userAuth.uid,
+              uidToken: await userAuth.getIdToken(),
+            })
+          );
           dispatch(setLoading(false));
         } else {
           dispatch(logout());
@@ -58,13 +70,13 @@ function App() {
             });
             console.log(error);
           });
-          toast.error('Please verify your email first and login again', {
+          toast.error("Please verify your email first and login again", {
             position: toast.POSITION.TOP_CENTER,
           });
           dispatch(setLoading(false));
         }
       } else {
-        console.log('User not logged in');
+        console.log("User not logged in");
         dispatch(logout());
         dispatch(setLoading(false));
       }
@@ -73,7 +85,7 @@ function App() {
   }, [auth, dispatch]);
 
   return (
-    <>
+    <AuthProvider>
       {isLoading && <Loader />}
       <Router>
         <Routes>
@@ -93,10 +105,11 @@ function App() {
           <Route path="/addadmin" element={<AddAdmin />} />
           <Route path="/admindelete" element={<AdminListings />} />
           <Route path="/blogs/:id" element={<BlogDetail />} />
+          <Route path="/auction" element={<Main />} />
         </Routes>
       </Router>
       <ToastContainer />
-    </>
+    </AuthProvider>
   );
 }
 
