@@ -128,7 +128,7 @@ function Listing({
   return (
     <div
       className="w-[400px] overflow-hidden rounded-lg shadow-lg"
-      onClick={handleClick}
+      // onClick={handleClick}
     >
       {images != null && images.length > 1 && (
         <>
