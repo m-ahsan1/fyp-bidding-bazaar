@@ -35,7 +35,7 @@ import AboutUs from "./pages/AboutUsPage";
 import NotFound from "./pages/NotFoundPage";
 import { Main } from "./features/Auction/Main";
 import { AuthProvider } from "./context/AuthContext";
-import Footer from "./components/Footer";
+import Footer from "./components/footer";
 import Navbar from "./components/Navbar";
 import Subbar from "./components/Subbar";
 
