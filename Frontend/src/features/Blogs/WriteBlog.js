@@ -19,6 +19,7 @@ const BlogEditor = () => {
       ["clean"], // Remove formatting
     ],
   };
+  const token = localStorage.getItem("token");
 
   const formats = [
     "header",
@@ -55,6 +56,10 @@ const BlogEditor = () => {
       .post("http://localhost:3001/api/blogs", {
         title: title,
         body: body,
+      },{
+        headers: {
+          'x-auth-token': token
+        }
       })
       .then(function (response) {
         console.log(response);

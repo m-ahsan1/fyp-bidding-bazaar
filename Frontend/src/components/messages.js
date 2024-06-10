@@ -13,7 +13,12 @@ const Messages = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/contactus");
+        const token = localStorage.getItem("token"); // Assuming the admin is authenticated and token is stored in localStorage
+        const response = await axios.get("http://localhost:3001/api/contactus",{
+          headers: {
+            'x-auth-token': token
+          }
+        });
         setMessages(response.data.reverse());
       } catch (error) {
         console.error("Error fetching messages:", error);

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Contact = require("../models/contactModel")
+const auth = require('../middleware/auth');
 
 router.post("/", async (req, res) => {
     const newContact = new Contact({
@@ -17,7 +18,7 @@ router.post("/", async (req, res) => {
       }
   });
 
-  router.get("/", async (req, res) => {
+  router.get("/", auth, async (req, res) => {
     try {
       const contacts = await Contact.find();
       res.json(contacts);

@@ -8,7 +8,7 @@ const router = express.Router();
 const { Admin, validateAdmin } = require('../models/adminModel'); 
 
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
   try {
     // Validate the request body using Joi schema

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Blog = require("../models/blogsModel");
+const auth = require('../middleware/auth');
 
 // Get all blogs
 router.get("/", async (req, res) => {
@@ -19,7 +20,7 @@ router.get("/:id", getBlog, (req, res) => {
 });
 
 // Create a new blog
-router.post("/", async (req, res) => {
+router.post("/",auth, async (req, res) => {
   const blog = new Blog({
     title: req.body.title,
     body: req.body.body,
