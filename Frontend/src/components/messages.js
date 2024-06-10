@@ -14,7 +14,7 @@ const Messages = () => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get("http://localhost:3001/api/contactus");
-        setMessages(response.data);
+        setMessages(response.data.reverse());
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
