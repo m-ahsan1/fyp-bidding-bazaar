@@ -87,14 +87,9 @@ function Listing({
       doc.text(description, 70, 220, { align: "justify", width: 150 });
 
       doc.save("car-details.pdf");
-      await postInteraction("pdf");
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
-  };
-
-  const handleClick = async () => {
-    await postInteraction("click");
   };
 
   const [newBid, setNewBid] = useState(0);
@@ -157,12 +152,12 @@ function Listing({
           <div className="font-bold text-lg mb-2 whitespace-normal text-green-400">
             {price} PKR
           </div>
-          <button
+          {/* <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
             onClick={generatePDF}
           >
             PDF
-          </button>
+          </button> */}
         </div>
         <p className="text-gray-700 text-sm">{shortenDescription}</p>
       </div>
