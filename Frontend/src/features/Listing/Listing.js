@@ -8,6 +8,7 @@ import jsPDF from "jspdf";
 import { auth } from "../../firebase";
 import { deleteListing } from "../..//redux/slices/listingSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Listing({
   id,
@@ -23,6 +24,7 @@ function Listing({
   uid,
 }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const publishableKey =
     "pk_test_51OJKAXLYINFqcfoRE0wdt2axn9TVcPLJMeGZzmFBavqw5c8x2xTSRqxnVsjuGMWZIWDsYT6M4MB7eW8bUPFRNy2Z00u3wQxOhi";
@@ -142,6 +144,7 @@ function Listing({
             className="w-[400px] h-[200px] text-center"
             src={images[0].base64}
             alt="Image not loaded"
+            onClick = {() => { navigate(`/product/${id}`); }}
           ></img>
         </>
       )}

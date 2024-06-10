@@ -28,6 +28,7 @@ import Messages from "./components/messages";
 import AddAdmin from "./components/addadmin";
 import AdminListings from "./components/admindeletelisting";
 import BlogDetail from "./features/Blogs/blogdetail";
+import TestPage from "./pages/ProductDetailPage";
 import { Main } from "./features/Auction/Main";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -90,6 +91,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/Product/:id" element={<TestPage />} />
           <Route path="/listings" element={<ListingsPage />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/adminhome" element={<AdminHomePage />} />
