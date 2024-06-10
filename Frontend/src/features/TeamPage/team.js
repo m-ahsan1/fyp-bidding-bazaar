@@ -19,11 +19,13 @@ const Team = () => {
       twitter: "https://twitter.com/2AbdullahSohail",
     },
     {
-      name: "Jane Smith",
-      position: "Head of Design",
+      name: "Muhammad Usman Ghani",
+      position: "Development, Design, and Testing",
       image: teamMember2Image,
       description:
-        "Jane is a creative designer with a passion for user-centered and visually stunning designs.",
+        "Bidding Bazaar will revolutionize Pakistan's car market by providing a convenient, transparent online auction platform with AI-driven price predictions for accurate and fair vehicle valuations. is a creative designer with a passion for user-centered and visually stunning designs.",
+      linkedin: "https://www.linkedin.com/in/mug11/",
+      twitter: "https://twitter.com/",
     },
     {
       name: "Bob Johnson",

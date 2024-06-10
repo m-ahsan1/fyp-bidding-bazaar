@@ -43,17 +43,17 @@ const Footer = () => {
             </ul>
           </div>
           <div className="w-full md:w-1/3">
-            <h5 className="text-lg font-bold mb-4">Contact Us</h5>
+            <h5 className="text-lg font-bold mb-4">Reach Us</h5>
             <p>
-              1234 Car St.<br />
-              Car City, CA 12345<br />
-              Email: info@carlisting.com<br />
+              852-B Milaad St, Block B Faisal Town<br />
+              Lahore, Punjab 54770<br />
+              Email: info@biddingbazaar.pk<br />
               Phone: (123) 456-7890
             </p>
           </div>
         </div>
         <div className="text-center mt-8">
-          <p>&copy; 2024 CarListing. All rights reserved.</p>
+          <p>&copy; 2024 BiddingBazaar. All rights reserved.</p>
         </div>
       </div>
     </footer>

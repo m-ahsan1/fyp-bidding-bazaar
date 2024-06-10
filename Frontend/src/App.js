@@ -28,7 +28,10 @@ import Messages from "./components/messages";
 import AddAdmin from "./components/addadmin";
 import AdminListings from "./components/admindeletelisting";
 import BlogDetail from "./features/Blogs/blogdetail";
-import TestPage from "./pages/ProductDetailPage";
+import ProductDetail from "./pages/ProductDetailPage";
+import TermsOfService from "./pages/TermsPage";
+import PrivacyPolicy from "./pages/PrivacyPolicyPage";
+import AboutUs from "./pages/AboutUsPage";
 import { Main } from "./features/Auction/Main";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -91,7 +94,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/product/:id" element={<TestPage />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/listings" element={<ListingsPage />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/adminhome" element={<AdminHomePage />} />
@@ -100,7 +103,10 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/signup" element={<UserSign />} />
           <Route path="/login" element={<UserLogin />} />
+          <Route path="/terms" element={<TermsOfService />} />
           <Route path="/team" element={<Team />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/predict" element={<Prediction />} />
           <Route path="/writeblog" element={<Writeblog />} />
           <Route path="/message" element={<Messages />} />
