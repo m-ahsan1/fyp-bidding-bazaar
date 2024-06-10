@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Subbar from "../components/Subbar";
-import Navbar from "../components/Navbar";
 import Listing from "../features/Listing/Listing";
 import axios from "axios";
 import { auth } from "../firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../redux/slices/userSlice";
 import { fetchListings } from "../redux/slices/listingSlice";
-import Footer from "../components/footer";
 import styled from "styled-components";
 
 const Pagination = styled.div`
@@ -103,8 +100,6 @@ function MainPage() {
 
   return (
     <>
-      <Navbar />
-      <Subbar />
       <div className="ml-4 flex flex-col items-center">
         <div className="mb-3" style={{ width: "50%" }}>
           <div className="relative flex w-full items-stretch">
@@ -200,8 +195,7 @@ function MainPage() {
         </Pagination>
         <br></br>
       </div>
-      <Footer />
-      
+
     </>
   );
 }

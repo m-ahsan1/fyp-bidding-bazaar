@@ -2,10 +2,6 @@ import React from "react";
 import teamMember1Image from "./1.png"; // Import your team members' images
 import teamMember2Image from "./2.jpg";
 import teamMember3Image from "./3.jpg";
-import Navbar from "../../components/Navbar";
-import Subbar from "../../components/Subbar";
-import Footer from "../../components/footer";
-import { Link } from "react-router-dom";
 
 const Team = () => {
   const teamMembers = [
@@ -38,8 +34,6 @@ const Team = () => {
 
   return (
     <>
-      <Navbar />
-      <Subbar />
       <center>
         <div className="container mt-5">
           <h2 className="text-center mb-5 font-weight-bold text-uppercase text-black" style={{ fontSize: '2.5rem' }}>
@@ -88,7 +82,6 @@ const Team = () => {
           </div>
         </div>
       </center>
-      <Footer />
     </>
   );
 };

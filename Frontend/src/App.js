@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUserData,
@@ -32,8 +32,13 @@ import ProductDetail from "./pages/ProductDetailPage";
 import TermsOfService from "./pages/TermsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicyPage";
 import AboutUs from "./pages/AboutUsPage";
+import NotFound from "./pages/NotFoundPage";
 import { Main } from "./features/Auction/Main";
 import { AuthProvider } from "./context/AuthContext";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import Subbar from "./components/Subbar";
+
 
 function App() {
   const user = useSelector(selectUser);
@@ -88,37 +93,56 @@ function App() {
     return () => unsubscribe();
   }, [auth, dispatch]);
 
+  const excludedRoutes = ['/admin', '/adminhome', '/addadmin', '/admindelete', '/writeblog', '/message', '/blogs/:id', '/auction', '/login', '/signup'];
+
   return (
     <AuthProvider>
       {isLoading && <Loader />}
       <Router>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/listings" element={<ListingsPage />} />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/adminhome" element={<AdminHomePage />} />
-          <Route path="/contact" element={<ContactForm />} />
-          <Route path="/blogs" element={<BlogsPage />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/signup" element={<UserSign />} />
-          <Route path="/login" element={<UserLogin />} />
-          <Route path="/terms" element={<TermsOfService />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/predict" element={<Prediction />} />
-          <Route path="/writeblog" element={<Writeblog />} />
-          <Route path="/message" element={<Messages />} />
-          <Route path="/addadmin" element={<AddAdmin />} />
-          <Route path="/admindelete" element={<AdminListings />} />
-          <Route path="/blogs/:id" element={<BlogDetail />} />
-          <Route path="/auction" element={<Main />} />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/listings" element={<ListingsPage />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/adminhome" element={<AdminHomePage />} />
+            <Route path="/contact" element={<ContactForm />} />
+            <Route path="/blogs" element={<BlogsPage />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/signup" element={<UserSign />} />
+            <Route path="/login" element={<UserLogin />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/predict" element={<Prediction />} />
+            <Route path="/writeblog" element={<Writeblog />} />
+            <Route path="/message" element={<Messages />} />
+            <Route path="/addadmin" element={<AddAdmin />} />
+            <Route path="/admindelete" element={<AdminListings />} />
+            <Route path="/blogs/:id" element={<BlogDetail />} />
+            <Route path="/auction" element={<Main />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout >
       </Router>
       <ToastContainer />
     </AuthProvider>
   );
 }
+
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const excludedRoutes = ['/admin', '/adminhome', '/addadmin', '/admindelete', '/writeblog', '/message', '/login', '/signup'];
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {!excludedRoutes.includes(location.pathname) && <Navbar />}
+      {!excludedRoutes.includes(location.pathname) && <Subbar />}
+      <main className="flex-grow">{children}</main>
+      {!excludedRoutes.includes(location.pathname) && <Footer />}
+    </div>
+  );
+};
 
 export default App;

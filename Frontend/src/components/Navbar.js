@@ -68,7 +68,7 @@ const Navbar = () => {
                     <Link to="/login">Login</Link>
                   </li>
                   <li>
-                    <Link to="/user-signup">Signup</Link>
+                    <Link to="/signup">Signup</Link>
                   </li>
                 </>
               )}
@@ -132,7 +132,7 @@ const Navbar = () => {
             {user && (
               <>
                 <hr />
-                <p><Link to="/user-profile" style={{ color: "grey" }}>
+                <p><Link to="/profile" style={{ color: "grey" }}>
                   Profile
                 </Link>
                 </p>
@@ -145,11 +145,11 @@ const Navbar = () => {
               </p>
             )}
             {!user && (<>
-              <p><Link to="/user-login">
+              <p><Link to="/login">
                 Login
               </Link></p>
               <hr />
-              <p><Link to="/user-signup">
+              <p><Link to="/signup">
                 Signup
               </Link></p>
             </>)}

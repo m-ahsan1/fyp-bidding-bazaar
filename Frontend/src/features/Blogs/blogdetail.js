@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Navbar from '../../components/Navbar';
-import Subbar from '../../components/Subbar';
-import Footer from '../../components/footer';
 
 const BlogContainer = styled.div`
   max-width: 800px;
@@ -35,8 +32,6 @@ const BlogDetail = () => {
 
   return (
     <div>
-      <Navbar />
-      <Subbar />
       <BlogContainer>
         <center>
         <h1 style={{ fontSize: "3em", textAlign: "center", color: "#333", marginBottom: "20px" }}>{blog.title}</h1>
@@ -45,7 +40,6 @@ const BlogDetail = () => {
         <div dangerouslySetInnerHTML={{ __html: blog.body }}></div>
         </center>
       </BlogContainer>
-      <Footer />
     </div>
   );
 };

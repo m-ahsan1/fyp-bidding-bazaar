@@ -8,8 +8,6 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { auth } from '../../firebase';
-import Subbar from '../../components/Subbar';
-import Footer from '../../components/footer';
 import Listing from '../Listing/Listing';
 
 const UserProfile = () => {
@@ -73,8 +71,6 @@ const UserProfile = () => {
   return (
     user ? (
       <>
-        <Navbar />
-        <Subbar />
         <h1 className="text-2xl text-center font-bold mb-4">Your Profile</h1>
         <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
 
@@ -187,7 +183,6 @@ const UserProfile = () => {
         ) : (
           <h1 className="text-2xl font-bold text-center">You have no listings</h1>
         )}
-        <Footer />
       </>
     ) : (
       <>

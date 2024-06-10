@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ImageDisplay from "../components/imageDisplay";
-import Navbar from "../components/Navbar";
-import Subbar from "../components/Subbar";
-import Footer from "../components/footer";
 
 const TestPage = () => {
     const { id } = useParams();
@@ -35,9 +32,6 @@ const TestPage = () => {
 
     return (
         <>
-
-            <Navbar />
-            <Subbar />
             <div className="flex flex-col md:flex-row items-center md:items-start p-6 md:p-12 space-y-8 md:space-y-0 md:space-x-12 bg-gray-50 min-h-screen">
                 <div className="w-full md:w-1/2">
                     <ImageDisplay images={images} />
@@ -65,7 +59,6 @@ const TestPage = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

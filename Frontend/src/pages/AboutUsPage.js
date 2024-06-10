@@ -1,13 +1,8 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Subbar from '../components/Subbar';
-import Footer from '../components/footer';
 
 const AboutUs = () => {
     return (
         <>
-            <Navbar />
-            <Subbar />
             <div className="min-h-screen bg-gray-100 p-6">
                 <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                     <div className="p-6 bg-gradient-to-r from-green-400 to-blue-500 text-white">
@@ -56,7 +51,6 @@ const AboutUs = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

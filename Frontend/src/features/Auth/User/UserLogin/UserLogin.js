@@ -220,7 +220,7 @@ export default function UserLogin() {
                             <div className="mt-4 text-grey-600">
                                 Don't have an account?{" "}
                                 <span>
-                                    <Link to="/user-signup" style={{ color: "Blue" }}>
+                                    <Link to="/signup" style={{ color: "Blue" }}>
                                         Signup
                                     </Link>
                                 </span>

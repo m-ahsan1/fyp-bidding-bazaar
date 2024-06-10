@@ -1,13 +1,8 @@
 import React from 'react';
-import Footer from '../components/footer';
-import Navbar from '../components/Navbar';
-import Subbar from '../components/Subbar';
 
 const PrivacyPolicy = () => {
     return (
         <>
-            <Navbar />
-            <Subbar />
             <div className="min-h-screen bg-gray-100 p-6">
                 <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                     <div className="p-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
@@ -95,7 +90,6 @@ const PrivacyPolicy = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

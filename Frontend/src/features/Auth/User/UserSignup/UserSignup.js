@@ -348,7 +348,7 @@ export default function UserSign() {
                 <div className="mt-4 text-grey-600">
                   Already have an account?{" "}
                   <span>
-                    <Link to="/user-login" style={{ color: "Blue" }}>
+                    <Link to="/login" style={{ color: "Blue" }}>
                       Login
                     </Link>
                   </span>

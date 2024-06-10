@@ -1,12 +1,8 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Subbar from '../components/Subbar';
-import Footer from '../components/footer';
 
 const TermsOfService = () => {
     return (
         <>
-            <Navbar />
             <div className="min-h-screen bg-gray-100 p-6">
                 <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                     <div className="p-6 bg-gradient-to-r from-indigo-600 to-blue-500 text-white">
@@ -67,7 +63,6 @@ const TermsOfService = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

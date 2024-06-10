@@ -1,9 +1,6 @@
 import React,{useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
-import Navbar from "../../components/Navbar";
-import Subbar from "../../components/Subbar";
-import Footer from "../../components/footer";
 
 const ContactForm = () => {
   const [formStatus, setFormStatus] = useState("Send");
@@ -54,11 +51,7 @@ const ContactForm = () => {
   };
   
   return (
-    <>
-      <Navbar />
-      
-      <Subbar />
-      
+    <>      
       <div>
       <div className="container mt-5" style={{ maxWidth: "60%" }}>
       <h1 style={{ fontSize: 30, textAlign: "center" }}>Contact Us</h1>
@@ -105,8 +98,6 @@ const ContactForm = () => {
       width="600" height="450" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"/>
       </center>
       <br></br>
-   
-      <Footer />
       </div>
     </>
   );

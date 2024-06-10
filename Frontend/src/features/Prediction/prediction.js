@@ -1,9 +1,6 @@
 // ParentComponent.js
 import React from "react";
 import Prepage from "./predictionpage";
-import Navbar from "../../components/Navbar";
-import Subbar from "../../components/Subbar";
-import Footer from "../../components/footer";
 
 const Prediction = () => {
   
@@ -17,12 +14,9 @@ const Prediction = () => {
 
   return (
     <>
-    <Navbar />
-    <Subbar />
     <div style={divStyle}>
       <Prepage />
     </div>
-    <Footer />
     </>
   );
 };

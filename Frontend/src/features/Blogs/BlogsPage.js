@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Navbar from "../../components/Navbar";
-import Subbar from "../../components/Subbar";
-import Footer from "../../components/footer";
 
 const BlogContainer = styled.div`
   max-width: 900px;
@@ -124,8 +121,6 @@ function BlogsPage() {
 
   return (
     <>
-    <Navbar />
-    <Subbar />
 
     <div  style={divStyle}>
     <br></br>
@@ -152,7 +147,6 @@ function BlogsPage() {
         </Pagination>
       </BlogContainer>
       <br></br>
-      <Footer />
     </div>
     </>
   );
