@@ -78,12 +78,12 @@ export const updateUser = createAsyncThunk(
 
 export const getUserData = createAsyncThunk(
   "user/getUserData",
-  async (params) => {
+  async (data) => {
     try {
-      const response = await axios.get("http://localhost:3001/api/user", {
+      const response = await axios.get(`http://localhost:3001/api/user/${data.uid}`, {
         headers: {
           // 'x-auth-token': params.uidToken,
-          uid: params.uid,
+          uid: data.uid,
         },
       });
       return response.data;

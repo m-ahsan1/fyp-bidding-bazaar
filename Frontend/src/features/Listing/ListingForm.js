@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/slices/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { setLoading } from "../../redux/slices/loadingSlice";
 
 // Utility function to convert a file to base64
 const convertToBase64 = (file) => {
@@ -34,6 +35,7 @@ const ListingForm = () => {
 
   const [errors, setErrors] = useState({});
   const user = useSelector(selectUser);
+  const dispatch= useDispatch();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
@@ -52,6 +54,7 @@ const ListingForm = () => {
     }
 
     try {
+      dispatch(setLoading(true));
       const response = await axios.post("http://localhost:3001/api/listings/image_validation", {
         image: base64,
         company: formData.company,
@@ -64,11 +67,13 @@ const ListingForm = () => {
         toast.success("Image uploaded successfully.", {
           position: toast.POSITION.TOP_CENTER,
         });
+        dispatch(setLoading(false));
       } else {
         updatedImages.push({ base64, valid: false, error: response.data.message || "Image does not match car model." });
         toast.error(response.data.message || "Image does not match car model.", {
           position: toast.POSITION.TOP_CENTER,
         });
+        dispatch(setLoading(false));
       }
 
       setFormData((prevData) => ({ ...prevData, images: updatedImages }));
@@ -77,6 +82,7 @@ const ListingForm = () => {
       toast.error("An error occurred. Please try again.", {
         position: toast.POSITION.TOP_CENTER,
       });
+      dispatch(setLoading(false));
     }
   };
 
