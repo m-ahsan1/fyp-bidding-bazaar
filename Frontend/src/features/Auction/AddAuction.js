@@ -65,6 +65,7 @@ export const AddAuction = ({ setAuction }) => {
       manufacturer: manufacturer.current.value,
       itemImage: itemImage.current.files[0],
       duration: dueDate,
+      status: "active",
     };
 
     setAuction(newAuction);

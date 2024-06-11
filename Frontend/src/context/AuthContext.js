@@ -39,7 +39,9 @@ export const AuthProvider = ({ children }) => {
     try {
       // Correct document path with even segments
       const auctionRef = doc(firestoreApp, "auctions", auctionId);
-      await deleteDoc(auctionRef);
+      await updateDoc(auctionRef, {
+        status: "ended",
+      });
       setGlobalMsg("Auction ended successfully");
     } catch (error) {
       console.error("Error deleting document: ", error);
