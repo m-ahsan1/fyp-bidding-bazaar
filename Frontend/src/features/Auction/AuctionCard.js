@@ -51,12 +51,14 @@ const renderer = ({ days, hours, minutes, seconds, completed, props }) => {
             <p>Manufacturer: {props.item.manufacturer}</p>
             <p>Mileage: {props.item.mileage} km</p>
           </div>
-          <div className="flex justify-between items-center my-2">
-            <h5 className="text-lg">
-              Auction ends in :{days * 24 + hours} hr: {minutes} min: {seconds}{" "}
-              sec
-            </h5>
-          </div>
+          {props.item.status === "active" && (
+            <div className="flex justify-between items-center my-2">
+              <h5 className="text-lg">
+                Auction ends in :{days * 24 + hours} hr: {minutes} min:{" "}
+                {seconds} sec
+              </h5>
+            </div>
+          )}
           <p className="text-gray-700">{props.item.description}</p>
           <div className="flex justify-between items-center mt-4">
             <div>
