@@ -4,7 +4,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const useStorage = (data) => {
-  console.log("useStorage:", data);
+  console.log("useStorage: ", data);
   const [progress, setProgress] = useState(0);
   const [isCompleted, setIsCompleted] = useState(null);
 

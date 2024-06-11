@@ -1,18 +1,18 @@
-import React, { useContext, useRef, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import React, { useRef, useState } from "react";
 import { auth } from "../../firebase";
 
 export const AddAuction = ({ setAuction }) => {
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState("");
-  console.log("auth: ", auth.currentUser.email);
   const itemTitle = useRef();
   const itemDesc = useRef();
-  const startPrice = useRef();
-  const itemDuration = useRef();
+  const price = useRef();
+  const mileage = useRef();
+  const modelYear = useRef();
+  const manufacturer = useRef();
   const itemImage = useRef();
+  const duration = useRef();
 
-  // const { currentUser } = useContext(AuthContext);
   const currentUser = auth.currentUser;
 
   const openForm = () => setShowForm(true);
@@ -28,18 +28,43 @@ export const AddAuction = ({ setAuction }) => {
       return setError("Please use a valid image");
     }
 
+    if (isNaN(price.current.value) || price.current.value <= 0) {
+      return setError("Price should be a positive number");
+    }
+
+    if (isNaN(mileage.current.value) || mileage.current.value <= 0) {
+      return setError("Mileage should be a positive number");
+    }
+
+    if (
+      isNaN(modelYear.current.value) ||
+      modelYear.current.value.length !== 4 ||
+      modelYear.current.value < 1886
+    ) {
+      return setError("Model Year should be a valid year");
+    }
+
+    if (isNaN(duration.current.value) || duration.current.value <= 0) {
+      return setError(
+        "Duration should be a positive number representing hours"
+      );
+    }
+
     let currentDate = new Date();
     let dueDate = currentDate.setHours(
-      currentDate.getHours() + parseInt(itemDuration.current.value)
+      currentDate.getHours() + parseInt(duration.current.value)
     );
 
     let newAuction = {
-      email: currentUser.email, // Use user.email instead of currentUser.email
+      email: currentUser.email,
       title: itemTitle.current.value,
-      desc: itemDesc.current.value,
-      curPrice: parseFloat(startPrice.current.value),
-      duration: dueDate,
+      description: itemDesc.current.value,
+      price: parseFloat(price.current.value),
+      mileage: parseInt(mileage.current.value),
+      modelYear: parseInt(modelYear.current.value),
+      manufacturer: manufacturer.current.value,
       itemImage: itemImage.current.files[0],
+      duration: dueDate,
     };
 
     setAuction(newAuction);
@@ -50,7 +75,7 @@ export const AddAuction = ({ setAuction }) => {
     <>
       <div className="flex justify-center my-3">
         <button onClick={openForm} className="btn btn-outline-secondary mx-2">
-          + Auction
+          + Add Car Auction
         </button>
       </div>
       {showForm && (
@@ -58,12 +83,12 @@ export const AddAuction = ({ setAuction }) => {
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
             <form onSubmit={submitForm}>
               <div className="mb-4">
-                <h2 className="text-2xl font-bold">Create Auction</h2>
+                <h2 className="text-2xl font-bold">Create Car Auction</h2>
                 {error && <div className="text-red-500 mt-2">{error}</div>}
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
-                  <label className="block text-gray-700">Item Title</label>
+                  <label className="block text-gray-700">Car Title</label>
                   <input
                     type="text"
                     ref={itemTitle}
@@ -72,50 +97,76 @@ export const AddAuction = ({ setAuction }) => {
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-gray-700">
-                    Item Description
-                  </label>
-                  <input
-                    type="text"
+                  <label className="block text-gray-700">Description</label>
+                  <textarea
                     ref={itemDesc}
                     required
                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">Start Price</label>
+                  <label className="block text-gray-700">Price</label>
                   <input
                     type="number"
-                    ref={startPrice}
+                    ref={price}
                     required
                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">
-                    Item Duration (hours)
-                  </label>
+                  <label className="block text-gray-700">Mileage</label>
                   <input
                     type="number"
-                    ref={itemDuration}
+                    ref={mileage}
                     required
                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">Seller</label>
+                  <label className="block text-gray-700">Model Year</label>
                   <input
-                    type="text"
-                    value={currentUser.email}
-                    readOnly
-                    className="w-full px-4 py-2 mt-2 border rounded-md bg-gray-100"
+                    type="number"
+                    ref={modelYear}
+                    required
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">Item Image</label>
+                  <label className="block text-gray-700">Manufacturer</label>
+                  <select
+                    ref={manufacturer}
+                    required
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                  >
+                    <option value="">Select Manufacturer</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Mercedes-Benz">Mercedes-Benz</option>
+                    <option value="Nissan">Nissan</option>
+                    <option value="Volkswagen">Volkswagen</option>
+                    <option value="Hyundai">Hyundai</option>
+                    <option value="Kia">Kia</option>
+                  </select>
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-gray-700">Car Image</label>
                   <input
                     type="file"
                     ref={itemImage}
+                    required
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-gray-700">
+                    Duration (hours)
+                  </label>
+                  <input
+                    type="number"
+                    ref={duration}
                     required
                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                   />

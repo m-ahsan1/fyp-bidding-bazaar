@@ -11,8 +11,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [globalMsg, setGlobalMsg] = useState("");
 
-  const db = collection(firestoreApp, "auctions");
-
   // Function to bid on an auction
   const bidAuction = async (auctionId, price) => {
     if (!currentUser) {

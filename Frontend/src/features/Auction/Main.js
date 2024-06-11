@@ -7,7 +7,7 @@ import { useState } from "react";
 export const Main = () => {
   const [auction, setAuction] = useState(null);
   const { docs } = useFirestore("auctions");
-  console.log(docs);
+  console.log("Main.js", docs);
 
   return (
     <div className="py-5">
