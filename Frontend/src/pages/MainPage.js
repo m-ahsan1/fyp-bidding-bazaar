@@ -149,6 +149,10 @@ function MainPage() {
                         modelYear={recommendedListing.modelYear}
                         description={recommendedListing.description}
                         company={recommendedListing.company}
+                        color={recommendedListing.color}
+                        transmission={recommendedListing.transmission}
+                        city={recommendedListing.city}
+                        regno={recommendedListing.regno}
                       />
                     </div>
                   )
@@ -181,6 +185,10 @@ function MainPage() {
                 company={item.company}
                 currentBid={item.currentBid}
                 uid={item.uid}
+                color={item.color}
+                city={item.city}
+                transmission={item.transmission}
+                regno={item.regno}
               />
             </div>
           ))}

@@ -32,6 +32,34 @@ export const deleteListing = createAsyncThunk(
   }
 );
 
+export const editListing = createAsyncThunk(
+  "listings/editListing",
+  async (listing) => {
+    const response = await fetch(`http://localhost:3001/api/listings/${listing.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(listing),
+    });
+    return await response.json();
+  }
+);
+
+export const setSold = createAsyncThunk(
+  "listings/setSold",
+  async (id) => {
+    const response = await fetch(`http://localhost:3001/api/listings/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isSold: true }),
+    });
+    return await response.json();
+  }
+);
+
 const listingSlice = createSlice({
   name: "listings",
   initialState: {
@@ -48,7 +76,6 @@ const listingSlice = createSlice({
       .addCase(fetchListings.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-        console.log("action.payload:", action.payload);
       })
       .addCase(fetchListings.rejected, (state, action) => {
         state.loading = false;

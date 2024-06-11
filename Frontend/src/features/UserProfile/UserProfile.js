@@ -175,6 +175,10 @@ const UserProfile = () => {
                     company={item.company}
                     currentBid={item.currentBid}
                     uid={item.uid}
+                    color={item.color}
+                    transmission={item.transmission}
+                    city={item.city}
+                    regno={item.regno}
                   />
                 </div>
               ))}

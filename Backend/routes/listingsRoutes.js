@@ -7,7 +7,7 @@ const Listing = require("../models/listingsModel");
 // Get all listings
 router.get("/", async (req, res) => {
   try {
-    const listings = await Listing.find();
+    const listings = await Listing.find({ isSold: false});
     res.json(listings);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -32,6 +32,10 @@ router.post("/", async (req, res) => {
     company: req.body.company,
     currentBid: 0,
     uid: req.body.uid,
+    color: req.body.color,
+    transmission: req.body.transmission,
+    city: req.body.city,
+    regno: req.body.regno,
   });
 
   try {
@@ -44,7 +48,7 @@ router.post("/", async (req, res) => {
 
 // Update a listing by ID
 router.patch("/:id", getListing, async (req, res) => {
-  if (req.body.image != null) {
+  if (req.body.images != null) {
     res.listing.images = req.body.images;
   }
   if (req.body.title != null) {
@@ -70,6 +74,72 @@ router.patch("/:id", getListing, async (req, res) => {
   }
   if (req.body.currentBid != null) {
     res.listing.currentBid = req.body.currentBid;
+  }
+  if (req.body.color != null) {
+    res.listing.color = req.body.color;
+  }
+  if (req.body.transmission != null) {
+    res.listing.transmission = req.body.transmission;
+  }
+  if (req.body.city != null) {
+    res.listing.city = req.body.city;
+  }
+  if (req.body.regno != null) {
+    res.listing.regno = req.body.regno;
+  }
+  if (req.body.isSold != null) {
+    res.listing.isSold = req.body.isSold;
+  }
+  try {
+    const updatedListing = await res.listing.save();
+    res.json(updatedListing);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+router.put("/:id", getListing, async (req, res) => {
+  if (req.body.images != null) {
+    res.listing.images = req.body.images;
+  }
+  if (req.body.title != null) {
+    res.listing.title = req.body.title;
+  }
+  if (req.body.price != null) {
+    res.listing.price = req.body.price;
+  }
+  if (req.body.engine != null) {
+    res.listing.engine = req.body.engine;
+  }
+  if (req.body.mileage != null) {
+    res.listing.mileage = req.body.mileage;
+  }
+  if (req.body.modelYear != null) {
+    res.listing.modelYear = req.body.modelYear;
+  }
+  if (req.body.description != null) {
+    res.listing.description = req.body.description;
+  }
+  if (req.body.company != null) {
+    res.listing.company = req.body.company;
+  }
+  if (req.body.currentBid != null) {
+    res.listing.currentBid = req.body.currentBid;
+  }
+  if (req.body.color != null) {
+    res.listing.color = req.body.color;
+  }
+  if (req.body.transmission != null) {
+    res.listing.transmission = req.body.transmission;
+  }
+  if (req.body.city != null) {
+    res.listing.city = req.body.city;
+  }
+  if (req.body.regno != null) {
+    res.listing.regno = req.body.regno;
+  }
+  if (req.body.isSold != null) {
+    res.listing.isSold = req.body.isSold;
   }
   try {
     const updatedListing = await res.listing.save();
@@ -107,7 +177,7 @@ router.post("/image_validation", async (req, res) => {
   try {
     const imageBase64 = req.body.image;
     const company = req.body.company;
-    const title = req.body.title;
+    let title = req.body.title;
 
     const response = await axios({
       method: 'POST',
@@ -120,30 +190,29 @@ router.post("/image_validation", async (req, res) => {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
-    console.log(company, title, response.data);
     if (response.data.predicted_classes.length === 0) {
       res.status(400).json({ success: false, message: 'No car detected in the image' });
       return;
     }
-    console.log('1')
     predicted_classes = response.data.predicted_classes.map((item) => (item.split('_')));
-    console.log(predicted_classes)
+    title = title.toLowerCase();
     for (let i = 0; i < predicted_classes.length; i++) {
-
-      if (predicted_classes[i][0] === company) {
+      if (predicted_classes[i][0].toLowerCase() === company.toLowerCase()) {
         const titleParts = title.split(" ");
         for (let j = 1; j < predicted_classes[i].length; j++) {
-          if (titleParts.includes(predicted_classes[i][j])) {
+          if (titleParts.includes(predicted_classes[i][j].toLowerCase())) {
             res.status(200).json({ success: true, message: 'Car detected in the image' });
+            console.log('Car detected in the image');
             return;
           }
         }
       }
     }
-    console.log('2')
-    res.status(400).json({ success: false, message: 'Car in the image does not match the listing' });
+    res.status(200).json({ success: false, message: 'Car in the image does not match the listing' });
+    console.log('Car in the image does not match the listing');
   } catch (error) {
     res.status(500).json({ error: error.message });
+    console.log(error);
   }
 });
 

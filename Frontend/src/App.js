@@ -102,7 +102,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/product/:type/:id" element={<ProductDetail />} />
             <Route path="/listings" element={<ListingsPage />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/adminhome" element={<AdminHomePage />} />

@@ -14,7 +14,8 @@ const getUsers = async (req, res, next) => {
 // Get a specific user
 const getUser = async (req, res, next) => {
     try {
-        const user = await User.findOne({ uid: req.headers.uid });
+        const { id } = req.params;
+        const user = await User.findOne({ uid: id });
         if (!user) {
             console.log(req.params.uid);
             return res.status(404).json({ message: `Cannot find user with this UID ${req.params.uid}` });

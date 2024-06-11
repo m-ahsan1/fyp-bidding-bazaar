@@ -1,3 +1,4 @@
+const { color } = require("framer-motion");
 const mongoose = require("mongoose");
 
 // Define the listing schema
@@ -42,6 +43,30 @@ const listingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  color: {
+    type: String,
+    required: true,
+  },
+  transmission: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  regno: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  isSold: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 // Create the Listing model

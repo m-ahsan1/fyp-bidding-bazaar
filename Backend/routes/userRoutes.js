@@ -13,7 +13,7 @@ const {
 // Get all users
 
 // Get a specific user
-router.get("/", getUser);
+router.get("/:id", getUser);
 
 // Create a new user
 router.post("/", createUser);

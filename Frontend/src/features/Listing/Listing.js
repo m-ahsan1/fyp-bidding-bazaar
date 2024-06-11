@@ -22,6 +22,10 @@ function Listing({
   company,
   currentBid,
   uid,
+  color,
+  transmission,
+  city,
+  regno,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -128,20 +132,14 @@ function Listing({
   return (
     <div
       className="w-[400px] overflow-hidden rounded-lg shadow-lg"
-      // onClick={handleClick}
+      onClick={() => { navigate(`/product/sell/${id}`); }}
     >
       {images != null && images.length > 1 && (
-        <>
-          {(() => {
-            debugger;
-          })()}
-          <img
-            className="w-[400px] h-[200px] text-center"
-            src={images[0].base64}
-            alt="Image not loaded"
-            onClick = {() => { navigate(`/product/${id}`); }}
-          ></img>
-        </>
+        <img
+          className="w-[400px] h-[200px] text-center"
+          src={images[0].base64}
+          alt="Image not loaded"
+        ></img>
       )}
 
       <div className="px-6 py-4">
@@ -174,7 +172,19 @@ function Listing({
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
           {mileage} kms
         </span>
-        <span>Current Bid: {currentBid}</span>
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
+          {color}
+        </span>
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
+          {transmission}
+        </span>
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
+          {city}
+        </span>
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
+          {regno}
+        </span>
+        {/* <span>Current Bid: {currentBid}</span>
 
         {uid && auth.currentUser?.uid !== uid ? (
           <div className="flex flex-row justify-between">
@@ -233,7 +243,7 @@ function Listing({
               </button>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
