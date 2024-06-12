@@ -29,6 +29,7 @@ import AddAdmin from "./components/addadmin";
 import AdminListings from "./components/admindeletelisting";
 import BlogDetail from "./features/Blogs/blogdetail";
 import ProductDetail from "./pages/ProductDetailPage";
+import AuctionDetail from "./pages/AuctionDetailPage";
 import TermsOfService from "./pages/TermsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicyPage";
 import AboutUs from "./pages/AboutUsPage";
@@ -102,7 +103,8 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/product/:type/:id" element={<ProductDetail />} />
+            <Route path="/sell/:id" element={<ProductDetail />} />
+            <Route path="/auction/:id" element={<AuctionDetail />} />
             <Route path="/listings" element={<ListingsPage />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/adminhome" element={<AdminHomePage />} />

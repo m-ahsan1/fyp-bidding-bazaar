@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const ProductDetailPage = () => {
-    const { type, id } = useParams();
+    const { id } = useParams();
     const [carData, setCarData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
