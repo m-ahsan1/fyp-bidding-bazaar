@@ -9,10 +9,9 @@ function AnalyticsComponent() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    fetch('/api/analytics')
-      .then((response) => response.json())
-      .then((data) => {
-        setServerStats(data);
+    apiServerNode.get('/api/analytics')
+      .then((response) => {
+        setServerStats(response.data);
         setIsLoading(false);
       })
       .catch((error) => {

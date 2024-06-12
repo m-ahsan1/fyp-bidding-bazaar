@@ -65,6 +65,7 @@ const AdminListings = () => {
                   <th>Mileage</th>
                   <th>Model Year</th>
                   <th>Company</th>
+                  <th> Reg No. </th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -72,7 +73,7 @@ const AdminListings = () => {
                 {listings.map((listing) => (
                   <tr key={listing._id}>
                     <td>
-                      <img src={listing.image} alt={listing.title} width="100" />
+                      <img src={listing.images[0].base64} alt={listing.title} width="100" />
                     </td>
                     <td>{listing.title}</td>
                     <td>{listing.price}</td>
@@ -80,6 +81,7 @@ const AdminListings = () => {
                     <td>{listing.mileage}</td>
                     <td>{listing.modelYear}</td>
                     <td>{listing.company}</td>
+                    <td>{listing.regno}</td>
                     <td>
                       <button
                         className="btn btn-danger"
