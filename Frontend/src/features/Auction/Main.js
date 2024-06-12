@@ -1,4 +1,4 @@
-import { useFirestore } from "../../hooks/useFirestore";
+import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import { AddAuction } from "./AddAuction";
 import { AuctionCard } from "./AuctionCard";
 import { ProgressBar } from "./ProgressBar";
@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 export const Main = () => {
   const [auction, setAuction] = useState(null);
   const { globalMsg } = useContext(AuthContext);
-  const { docs } = useFirestore("auctions");
+  const { docs } = useFirestoreCollection("auctions");
   const [showEnded, setShowEnded] = useState(false); // State to track whether to show ended auctions
   console.log(docs);
   // Filter active or ended auctions based on the showEnded state

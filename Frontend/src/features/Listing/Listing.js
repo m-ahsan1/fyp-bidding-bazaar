@@ -132,7 +132,7 @@ function Listing({
   return (
     <div
       className="w-[400px] overflow-hidden rounded-lg shadow-lg"
-      onClick={() => { navigate(`/product/sell/${id}`); }}
+      onClick={() => { navigate(`/sell/${id}`); }}
     >
       {images != null && images.length > 1 && (
         <img
