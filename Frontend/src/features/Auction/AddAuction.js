@@ -1,9 +1,14 @@
 import React, { useRef, useState } from "react";
 import { auth } from "../../firebase";
+import apiServerNode from "../../apiServerNodeConfig";
+import { toast } from "react-toastify";
+import { setLoading } from "../../redux/slices/loadingSlice";
+import { useDispatch } from "react-redux";
 
 export const AddAuction = ({ setAuction }) => {
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState("");
+  const [images, setImages] = useState([]);
   const itemTitle = useRef();
   const itemDesc = useRef();
   const price = useRef();
@@ -14,18 +19,81 @@ export const AddAuction = ({ setAuction }) => {
   const duration = useRef();
 
   const currentUser = auth.currentUser;
+  const dispatch = useDispatch();
 
   const openForm = () => setShowForm(true);
   const closeForm = () => setShowForm(false);
 
-  const imgTypes = ["image/png", "image/jpeg", "image/jpg"];
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleImageChange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    const file = files[0];
+    const base64 = await convertToBase64(file);
+
+    if (!manufacturer.current.value || !itemTitle.current.value) {
+      toast.error("Manufacturer and Title fields are required.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+
+    try {
+      dispatch(setLoading(true));
+      const response = await apiServerNode.post("/api/listings/image_validation", {
+        image: base64,
+        company: manufacturer.current.value,
+        title: itemTitle.current.value,
+      });
+
+      const updatedImages = [...images];
+      if (response.data.success) {
+        updatedImages.push({ src: file, valid: true, error: null });
+        toast.success("Image uploaded successfully.", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        updatedImages.push({ src: file, valid: false, error: response.data.message || "Image does not match car model." });
+        toast.error(response.data.message || "Image does not match car model.", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+
+      setImages(updatedImages);
+      dispatch(setLoading(false));
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred. Please try again.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      dispatch(setLoading(false));
+    }
+  };
+
+  const handleRemoveImage = (index) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
 
   const submitForm = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!imgTypes.includes(itemImage.current.files[0].type)) {
-      return setError("Please use a valid image");
+    if (images.length === 0) {
+      return setError("Please upload at least one image.");
+    }
+
+    const validImages = images.filter((img) => img.valid);
+    if (validImages.length === 0) {
+      return setError("Please upload valid images.");
     }
 
     if (isNaN(price.current.value) || price.current.value <= 0) {
@@ -55,6 +123,10 @@ export const AddAuction = ({ setAuction }) => {
       currentDate.getHours() + parseInt(duration.current.value)
     );
 
+    const temp_images = images.map((img) => {
+      return img.src;
+    });
+
     let newAuction = {
       email: currentUser.email,
       title: itemTitle.current.value,
@@ -63,7 +135,7 @@ export const AddAuction = ({ setAuction }) => {
       mileage: parseInt(mileage.current.value),
       modelYear: parseInt(modelYear.current.value),
       manufacturer: manufacturer.current.value,
-      itemImage: itemImage.current.files[0],
+      images: temp_images,
       duration: dueDate,
       status: "active",
     };
@@ -80,8 +152,8 @@ export const AddAuction = ({ setAuction }) => {
         </button>
       </div>
       {showForm && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity duration-300">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg h-full max-h-full overflow-y-auto transition-transform transform scale-95">
             <form onSubmit={submitForm}>
               <div className="mb-4">
                 <h2 className="text-2xl font-bold">Create Car Auction</h2>
@@ -94,7 +166,7 @@ export const AddAuction = ({ setAuction }) => {
                     type="text"
                     ref={itemTitle}
                     required
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
                 <div className="col-span-2">
@@ -102,7 +174,7 @@ export const AddAuction = ({ setAuction }) => {
                   <textarea
                     ref={itemDesc}
                     required
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
                 <div>
@@ -111,7 +183,7 @@ export const AddAuction = ({ setAuction }) => {
                     type="number"
                     ref={price}
                     required
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
                 <div>
@@ -120,7 +192,7 @@ export const AddAuction = ({ setAuction }) => {
                     type="number"
                     ref={mileage}
                     required
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
                 <div>
@@ -129,7 +201,7 @@ export const AddAuction = ({ setAuction }) => {
                     type="number"
                     ref={modelYear}
                     required
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
                 <div>
@@ -137,11 +209,12 @@ export const AddAuction = ({ setAuction }) => {
                   <select
                     ref={manufacturer}
                     required
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                   >
                     <option value="">Select Manufacturer</option>
                     <option value="Toyota">Toyota</option>
                     <option value="Honda">Honda</option>
+                    <option value="Suzuki">Suzuki</option>
                     <option value="Ford">Ford</option>
                     <option value="Chevrolet">Chevrolet</option>
                     <option value="BMW">BMW</option>
@@ -153,13 +226,60 @@ export const AddAuction = ({ setAuction }) => {
                   </select>
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-gray-700">Car Image</label>
+                  <label className="block text-gray-700">Car Images</label>
                   <input
                     type="file"
-                    ref={itemImage}
-                    required
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                    accept=".jpeg, .png, .jpg"
+                    onChange={handleImageChange}
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
+                  <div className="mt-2">
+                    {images.map((img, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center mb-4 p-4 border rounded-lg shadow-lg bg-gray-100 relative"
+                      >
+                        <img
+                          src={img.base64}
+                          alt={`Uploaded ${index + 1}`}
+                          className="w-20 h-20 object-cover rounded-lg shadow-md mr-4"
+                        />
+                        <div className="flex flex-col">
+                          {img.error ? (
+                            <p className="text-red-500 text-sm">{img.error}</p>
+                          ) : (
+                            <span className="text-green-500 text-lg flex items-center">
+                              <svg
+                                className="w-5 h-5 mr-1"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              Uploaded Successfully
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(index)}
+                          className="absolute top-2 right-2 text-red-500 hover:text-red-700 transition duration-300"
+                        >
+                          <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 <div className="col-span-2">
                   <label className="block text-gray-700">
@@ -169,7 +289,7 @@ export const AddAuction = ({ setAuction }) => {
                     type="number"
                     ref={duration}
                     required
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
               </div>
