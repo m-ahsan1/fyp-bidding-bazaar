@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import apiServerNode from "../../apiServerNodeConfig";
 
 const loadUserFromStorage = () => {
   const user = localStorage.getItem("user");
@@ -34,8 +34,8 @@ export const createUser = createAsyncThunk(
       
     };console.log(user);
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/user",
+      const response = await apiServerNode.post(
+        "/api/user",
         user,
         {
           headers: {
@@ -63,7 +63,7 @@ export const updateUser = createAsyncThunk(
       uid: userData.uid,
     };
     try {
-      const response = await axios.put("http://localhost:3001/api/user", user, {
+      const response = await apiServerNode.put("/api/user", user, {
         headers: {
           // 'x-auth-token': userData.idToken,
           uid: user.uid,
@@ -80,7 +80,7 @@ export const getUserData = createAsyncThunk(
   "user/getUserData",
   async (data) => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/user/${data.uid}`, {
+      const response = await apiServerNode.get(`/api/user/${data.uid}`, {
         headers: {
           // 'x-auth-token': params.uidToken,
           uid: data.uid,

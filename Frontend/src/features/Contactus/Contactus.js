@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import apiServerNode from "../../apiServerNodeConfig";
 
 const ContactForm = () => {
   const [formStatus, setFormStatus] = useState("Send");
@@ -18,15 +19,9 @@ const ContactForm = () => {
         message: message.value,
       };
   
-      const response = await fetch("http://localhost:3001/api/contactus", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await apiServerNode.post("/api/contactus", formData);
   
-      if (response.ok) {
+      if (response.status === 200) {
         setFormStatus("Send");
         setMessage({ text: "Message sent!", type: "success" });
         setTimeout(() => {

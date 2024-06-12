@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import apiServerNode from "../../apiServerNodeConfig";
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -16,7 +16,7 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/blogs/${id}`);
+        const response = await apiServerNode.get(`/api/blogs/${id}`);
         setBlog(response.data);
       } catch (error) {
         console.error('Error fetching blog:', error);

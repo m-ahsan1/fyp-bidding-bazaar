@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import apiServerNode from "../apiServerNodeConfig";
 import AdminNavigation from "./AdminNavigation";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './messages.css'; // Create and import your custom CSS
@@ -14,7 +14,7 @@ const Messages = () => {
     const fetchMessages = async () => {
       try {
         const token = localStorage.getItem("token"); // Assuming the admin is authenticated and token is stored in localStorage
-        const response = await axios.get("http://localhost:3001/api/contactus",{
+        const response = await apiServerNode.get("/api/contactus",{
           headers: {
             'x-auth-token': token
           }

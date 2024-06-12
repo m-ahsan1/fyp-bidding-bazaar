@@ -5,7 +5,7 @@ import { selectUser } from '../../redux/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../../redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
+import apiServerNode from "../../apiServerNodeConfig";
 import { useEffect } from 'react';
 import { auth } from '../../firebase';
 import Listing from '../Listing/Listing';
@@ -19,7 +19,7 @@ const UserProfile = () => {
   useEffect(() => {
     async function getUserListings() {
       try {
-        await axios.get(`http://localhost:3001/api/listings/user/${auth.currentUser.uid}`).then((response) => {
+        await apiServerNode.get(`/api/listings/user/${auth.currentUser.uid}`).then((response) => {
           // console.log(response.data, response.data.length);
           if (response.data.length === 0) {
             return;

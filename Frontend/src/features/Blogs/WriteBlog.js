@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 import "./WriteBlog.css";
 import ReactQuill from "react-quill";
-import axios from "axios";
+import apiServerNode from "../../apiServerNodeConfig";
 import AdminNavigation from "../../components/AdminNavigation";
 import { useNavigate } from "react-router-dom";
 
@@ -52,8 +52,8 @@ const BlogEditor = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:3001/api/blogs", {
+    apiServerNode
+      .post("/api/blogs", {
         title: title,
         body: body,
       },{

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import axios from "axios";
+import apiServerNode from "../../apiServerNodeConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/slices/userSlice";
 import { ToastContainer, toast } from "react-toastify";
@@ -55,7 +55,7 @@ const ListingForm = () => {
 
     try {
       dispatch(setLoading(true));
-      const response = await axios.post("http://localhost:3001/api/listings/image_validation", {
+      const response = await apiServerNode.post("/api/listings/image_validation", {
         image: base64,
         company: formData.company,
         title: formData.title,
@@ -161,7 +161,7 @@ const ListingForm = () => {
       const data = { ...formData, uid: user.uid };
 
       try {
-        const response = await axios.post("http://localhost:3001/api/listings", data);
+        const response = await apiServerNode.post("/api/listings", data);
         console.log(response);
         setFormData({
           images: [],

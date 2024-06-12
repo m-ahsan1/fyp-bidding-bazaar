@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiServerNode from "../apiServerNodeConfig";
 import AdminNavigation from './AdminNavigation';
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ const AdminListings = () => {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/listings');
+        const response = await apiServerNode.get('/api/listings');
         setListings(response.data.reverse());
       } catch (error) {
         console.error('Error fetching listings:', error);
@@ -23,7 +23,7 @@ const AdminListings = () => {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem('token'); // Assuming the admin is authenticated and token is stored in localStorage
-      await axios.delete(`http://localhost:3001/api/listings/${id}`, {
+      await apiServerNode.delete(`/api/listings/${id}`, {
         headers: {
           'x-auth-token': token,
         },

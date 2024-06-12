@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Listing from "../features/Listing/Listing";
-import axios from "axios";
+import apiServerNode from "../apiServerNodeConfig";
 import { auth } from "../firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../redux/slices/userSlice";
@@ -58,8 +58,8 @@ function MainPage() {
       }
       try {
         const userId = auth.currentUser.uid;
-        const response = await axios.get(
-          `http://localhost:3001/api/userRecommendations/${userId}`
+        const response = await apiServerNode.get(
+          `/api/userRecommendations/${userId}`
         );
         setRecommendations(response.data);
       } catch (error) {

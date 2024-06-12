@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import Axios
+import apiServerNode from "../../../apiServerNodeConfig";
 import "./AdminLogin.css"; // Make sure to import your CSS file
 import { Link, useNavigate } from "react-router-dom";
 
@@ -25,7 +25,7 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3001/api/adminauth", {
+      const response = await apiServerNode.post("/api/adminauth", {
         email,
         password,
       });

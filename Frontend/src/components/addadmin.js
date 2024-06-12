@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import axios from "axios";
+import apiServerNode from "../apiServerNodeConfig";
 import AdminNavigation from "./AdminNavigation";
 import { useNavigate } from "react-router-dom";
 
@@ -30,7 +30,7 @@ const AddAdmin = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token"); // Assuming the admin is authenticated and token is stored in localStorage
-      const response = await axios.post("http://localhost:3001/api/admin", adminData, {
+      const response = await apiServerNode.post("/api/admin", adminData, {
         headers: {
           'x-auth-token': token
         }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import apiServerNode from "../../apiServerNodeConfig";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -90,7 +90,7 @@ function BlogsPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/blogs");
+        const response = await apiServerNode.get("/api/blogs");
         setBlogs(response.data.reverse());
       } catch (error) {
         console.error("Error fetching data:", error);

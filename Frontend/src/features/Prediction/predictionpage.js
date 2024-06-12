@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import apiServerPython from "../../apiServerPythonConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
@@ -24,7 +24,7 @@ const Prepage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/dropdown");
+        const response = await apiServerPython.get("/dropdown");
         console.log(response);
         setUniqueCars(response.data.unique_cars);
       } catch (error) {
@@ -131,7 +131,7 @@ const Prepage = () => {
       const formDataJSON = JSON.stringify(formData);
       
       // Send formDataJSON as a parameter named 'formData'
-      const response = await axios.get(`http://127.0.0.1:5000/predict?formData=${encodeURIComponent(formDataJSON)}`).then((response) => {
+      const response = await apiServerPython.get(`/predict?formData=${encodeURIComponent(formDataJSON)}`).then((response) => {
       console.log("response", response.data);
       setprediction(response.data);
       console.log("prediction", prediction);

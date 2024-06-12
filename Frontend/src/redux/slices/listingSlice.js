@@ -1,33 +1,26 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import apiServerNode from "../../apiServerNodeConfig";
 
 export const fetchListings = createAsyncThunk(
   "listings/fetchListings",
   async () => {
-    const response = await fetch("http://localhost:3001/api/listings");
-    return await response.json();
+    const response = await apiServerNode.get("/api/listings");
+    return response.data;
   }
 );
 
 export const addListing = createAsyncThunk(
   "listings/addListing",
   async (listing) => {
-    const response = await fetch("http://localhost:3001/api/listings", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(listing),
-    });
-    return await response.json();
+    const response = await apiServerNode.post("/api/listings", listing);
+    return response.data;
   }
 );
 
 export const deleteListing = createAsyncThunk(
   "listings/deleteListing",
   async (id) => {
-    await fetch(`http://localhost:3001/api/listings/${id}`, {
-      method: "DELETE",
-    });
+    await apiServerNode.delete(`/api/listings/${id}`);
     return id;
   }
 );
@@ -35,28 +28,16 @@ export const deleteListing = createAsyncThunk(
 export const editListing = createAsyncThunk(
   "listings/editListing",
   async (listing) => {
-    const response = await fetch(`http://localhost:3001/api/listings/${listing.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(listing),
-    });
-    return await response.json();
+    const response = await apiServerNode.put(`/api/listings/${listing.id}`, listing);
+    return response.data;
   }
 );
 
 export const setSold = createAsyncThunk(
   "listings/setSold",
   async (id) => {
-    const response = await fetch(`http://localhost:3001/api/listings/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ isSold: true }),
-    });
-    return await response.json();
+    const response = await apiServerNode.put(`/api/listings/${id}`, { isSold: true });
+    return response.data;
   }
 );
 

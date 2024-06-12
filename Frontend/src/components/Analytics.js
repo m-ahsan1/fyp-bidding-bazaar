@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import apiServerNode from "../apiServerNodeConfig";
 import BlogEditor from "../features/Blogs/WriteBlog";
 
 function AnalyticsComponent() {
@@ -9,7 +9,7 @@ function AnalyticsComponent() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/analytics')
+    fetch('/api/analytics')
       .then((response) => response.json())
       .then((data) => {
         setServerStats(data);

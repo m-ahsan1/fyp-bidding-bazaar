@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiServerNode from "../../apiServerNodeConfig";
 import React, { useState } from "react";
 import StripeCheckout from "react-stripe-checkout";
 import Popup from "reactjs-popup";
@@ -34,8 +34,8 @@ function Listing({
     "pk_test_51OJKAXLYINFqcfoRE0wdt2axn9TVcPLJMeGZzmFBavqw5c8x2xTSRqxnVsjuGMWZIWDsYT6M4MB7eW8bUPFRNy2Z00u3wQxOhi";
   const payNow = async (token, price) => {
     try {
-      const response = await axios({
-        url: "http:localhost:3001/api/payment",
+      const response = await apiServerNode({
+        url: "/api/payment",
         method: "post",
         data: {
           amount: price,
@@ -58,8 +58,8 @@ function Listing({
       return;
     }
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/userInteractions",
+      const response = await apiServerNode.post(
+        "/api/userInteractions",
         {
           userId: auth.currentUser.uid,
           listingId: id,
@@ -100,8 +100,8 @@ function Listing({
   const [showPayButton, setShowPayButton] = useState(false);
   const handleBid = () => {
     if (newBid > currentBid) {
-      axios
-        .patch(`http://localhost:3001/api/listings/${id}`, {
+      apiServerNode
+        .patch(`/api/listings/${id}`, {
           currentBid: newBid,
         })
         .then((response) => {
