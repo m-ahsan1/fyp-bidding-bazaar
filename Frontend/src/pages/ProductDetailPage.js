@@ -42,7 +42,7 @@ const ProductDetailPage = () => {
     };
 
     const markAsSold = () => {
-        console.log("Marking as sold");
+        // console.log("Marking as sold");
         dispatch(setSold(id));
         toast.success("Car marked as sold successfully!", {
             position: toast.POSITION.TOP_CENTER,
@@ -54,7 +54,7 @@ const ProductDetailPage = () => {
         try {
             const response = await apiServerNode.get(`/api/user/${carData.uid}`);
             setSeller(response.data);
-            console.log(response.data);
+            // console.log(response.data);
         }
         catch (err) {
             console.log(err);

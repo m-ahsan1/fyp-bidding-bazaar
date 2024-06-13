@@ -40,7 +40,7 @@ function MainPage() {
 
   useEffect(() => {
     if (user) {
-      console.log("User is logged in!");
+      // console.log("User is logged in!");
       return;
     }
     setRecommendations([]);
@@ -53,7 +53,7 @@ function MainPage() {
   useEffect(() => {
     const fetchRecommendations = async () => {
       if (!auth.currentUser) {
-        console.log("User is not logged in!");
+        // console.log("User is not logged in!");
         return;
       }
       try {

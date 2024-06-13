@@ -54,18 +54,18 @@ function App() {
     const user = auth.currentUser;
     if (!user) return false;
     if (user.emailVerified) {
-      console.log("Email is verified");
+      // console.log("Email is verified");
       return true;
     } else {
-      console.log("Email is not verified");
+      // console.log("Email is not verified");
       return false;
     }
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (userAuth) => {
-      console.log("onAuthStateChanged triggered");
-      console.log(userAuth);
+      // console.log("onAuthStateChanged triggered");
+      // console.log(userAuth);
       if (userAuth) {
         if (isEmailVerified(userAuth)) {
           await dispatch(
@@ -90,7 +90,7 @@ function App() {
           dispatch(setLoading(false));
         }
       } else {
-        console.log("User not logged in");
+        // console.log("User not logged in");
         dispatch(logout());
         dispatch(setLoading(false));
       }

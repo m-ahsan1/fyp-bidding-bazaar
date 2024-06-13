@@ -31,7 +31,7 @@ const AuctionDetailPage = () => {
   const handleDeductTokens = () => {
     const amountToDeduct = 50; // Example: Deduct 50 tokens
     const uid = auth.currentUser.uid;
-    console.log(uid);
+    // console.log(uid);
     dispatch(deductToken({ uid, amountToDeduct }));
     setShowPayToken(false);
   };

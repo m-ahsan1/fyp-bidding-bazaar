@@ -20,7 +20,7 @@ const Navbar = () => {
     toast.success("Logout Successfully", {
       position: toast.POSITION.TOP_CENTER,
   });
-    console.log(auth);
+    // console.log(auth);
   };
 
   const publishableKey =

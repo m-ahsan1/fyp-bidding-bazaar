@@ -12,7 +12,7 @@ export const Main = () => {
   const { globalMsg } = useContext(AuthContext);
   const { docs } = useFirestoreCollection("auctions");
   const [showEnded, setShowEnded] = useState(false); // State to track whether to show ended auctions
-  console.log(docs);
+  // console.log(docs);
   // Filter active or ended auctions based on the showEnded state
   const filteredAuctions =
     docs &&

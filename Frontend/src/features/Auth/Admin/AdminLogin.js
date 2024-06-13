@@ -36,7 +36,7 @@ const AdminLogin = () => {
       const expirationTime = new Date().getTime() + 5 * 60 * 1000; // 5 minutes
       localStorage.setItem("token", token);
       localStorage.setItem("tokenExpiration", expirationTime);
-      console.log("Login successful. Token:", token);
+      // console.log("Login successful. Token:", token);
 
       navigate('/adminhome', { replace: true });
 

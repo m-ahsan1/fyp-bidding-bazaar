@@ -58,7 +58,7 @@ export default function UserLogin() {
             dispatch(setLoading(true));
             signInWithEmailAndPassword(auth, email, password)
                 .then(async (userAuth) => {
-                    console.log("User logged in:", userAuth.user.email);
+                    // console.log("User logged in:", userAuth.user.email);
                     navigate('/', { replace: true });
                     dispatch(setLoading(false));
                     toast.success("Login successful", {
@@ -70,14 +70,14 @@ export default function UserLogin() {
                         position: toast.POSITION.TOP_CENTER,
                     });
                     dispatch(setLoading(false));
-                    console.log(error);
+                    // console.log(error);
                 });
         } catch (error) {
             toast.error(error.message, {
                 position: toast.POSITION.TOP_CENTER,
             });
             dispatch(setLoading(false));
-            console.log(error);
+            // console.log(error);
         }
     };
 
@@ -85,7 +85,7 @@ export default function UserLogin() {
         dispatch(setLoading(true));
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider).then((result) => {
-            console.log(result);
+            // console.log(result);
             navigate('/', { replace: true });
             dispatch(setLoading(false));
         }).catch((error) => {
@@ -93,12 +93,12 @@ export default function UserLogin() {
                 position: toast.POSITION.TOP_CENTER,
             });
             dispatch(setLoading(false));
-            console.log(error);
+            // console.log(error);
         });
     }
 
     const handelGoogleLogin = async () => {
-        console.log("Google login");
+        // console.log("Google login");
         try {
             await googleMethod().then(() => {
                 if (user) {
@@ -115,10 +115,10 @@ export default function UserLogin() {
             toast.error(error.message, {
                 position: toast.POSITION.TOP_CENTER,
             });
-            console.log(error);
+            // console.log(error);
             // dispatch(setLoading(false));
         } finally {
-            console.log("Google login finally");
+            // console.log("Google login finally");
         }
     }
 
@@ -139,7 +139,7 @@ export default function UserLogin() {
             toast.error(error.message, {
                 position: toast.POSITION.TOP_CENTER,
             });
-            console.log(error);
+            // console.log(error);
             dispatch(setLoading(false));
         });
     }

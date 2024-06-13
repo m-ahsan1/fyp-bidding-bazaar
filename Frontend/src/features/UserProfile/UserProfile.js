@@ -30,7 +30,6 @@ const UserProfile = () => {
 
     getUserListings();
 
-    // Fetch user data on component mount
     if (auth.currentUser) {
       dispatch(getUserData(auth.currentUser.uid));
     }
@@ -71,7 +70,6 @@ const UserProfile = () => {
     <>
       <h1 className="text-2xl text-center font-bold mb-4">Your Profile</h1>
       <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
-        {/* Image Section */}
         <div className="flex items-center justify-center mb-4">
           <img
             className="w-20 h-20 rounded-full object-cover"
@@ -79,8 +77,6 @@ const UserProfile = () => {
             alt="https://via.placeholder.com/150"
           />
         </div>
-
-        {/* User Information */}
         {editMode ? (
           <div>
             <label className="block mb-2">
@@ -146,7 +142,6 @@ const UserProfile = () => {
             </p>
             <p className="mb-4">
               <strong>Token:</strong> {user?.token || 0}{" "}
-              {/* Display user's token */}
             </p>
             <button
               className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"

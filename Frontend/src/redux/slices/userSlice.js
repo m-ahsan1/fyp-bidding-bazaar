@@ -32,7 +32,7 @@ export const createUser = createAsyncThunk(
       uid: userData.uid,
       token: userData.token,
     };
-    console.log(user);
+    // console.log(user);
     try {
       const response = await apiServerNode.post("/api/user", user, {
         headers: {
@@ -136,12 +136,12 @@ export const userSlice = createSlice({
   extraReducers: {
     [getUserData.fulfilled]: (state, action) => {
       state.user = action.payload;
-      console.log("User data fetched");
+      // console.log("User data fetched");
       saveUserToStorage(action.payload[0]);
-      console.log(state.user);
+      // console.log(state.user);
     },
     [getUserData.rejected]: (state, action) => {
-      console.log("Error fetching user data");
+      // console.log("Error fetching user data");
       console.log(action.error);
     },
   },
