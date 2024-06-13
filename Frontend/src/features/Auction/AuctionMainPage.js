@@ -56,14 +56,14 @@ export const AuctionMainPage = () => {
             position: toast.POSITION.TOP_CENTER,
           })}
 
-        <div className="flex justify-center mt-4">
+        {/* <div className="flex justify-center mt-4">
           <button
             onClick={() => setShowEnded(!showEnded)}
             className="btn btn-primary"
           >
             {showEnded ? "Show Active Auctions" : "Show Your Auctions"}
           </button>
-        </div>
+        </div> */}
 
         {currentItems && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
