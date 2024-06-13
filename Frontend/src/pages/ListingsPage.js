@@ -28,7 +28,7 @@ const Pagination = styled.div`
   }
 `;
 
-function MainPage() {
+function ListingsPage() {
   const [search, setSearch] = useState("");
   const [recommendations, setRecommendations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -208,4 +208,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default ListingsPage;

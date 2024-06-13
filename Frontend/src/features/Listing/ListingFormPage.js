@@ -1,8 +1,7 @@
-// ParentComponent.js
 import React from "react";
 import ListingForm from "./ListingForm";
 
-const ListingsPage = () => {
+const ListingFormPage = () => {
   
   const divStyle = {
     backgroundImage: 'url("../images/listing-pg-bg-img.jpg")',
@@ -21,4 +20,4 @@ const ListingsPage = () => {
   );
 };
 
-export default ListingsPage;
+export default ListingFormPage;

@@ -18,8 +18,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { setLoading, selectLoading } from "./redux/slices/loadingSlice";
 import Loader from "./components/loader";
 import Writeblog from "./features/Blogs/WriteBlog";
-import ListingsPage from "./features/Listing/ListingsPage";
-import MainPage from "./pages/MainPage";
+import ListingFormPage from "./features/Listing/ListingFormPage";
+import ListingsPage from "./pages/ListingsPage";
 import AdminLogin from "./features/Auth/Admin/AdminLogin";
 import ContactForm from "./features/Contactus/Contactus";
 import UserProfile from "./features/UserProfile/UserProfile";
@@ -120,7 +120,7 @@ function App() {
             <Route path="/" element={<Main />} />
             <Route path="/sell/:id" element={<ProductDetail />} />
             <Route path="/auction/:id" element={<AuctionDetail />} />
-            <Route path="/listings" element={<ListingsPage />} />
+            <Route path="/listings" element={<ListingFormPage />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/adminhome" element={<AdminHomePage />} />
             <Route path="/contact" element={<ContactForm />} />
@@ -139,6 +139,7 @@ function App() {
             <Route path="/admindelete" element={<AdminListings />} />
             <Route path="/blogs/:id" element={<BlogDetail />} />
             <Route path="/auction" element={<Main />} />
+            <Route path="/listingsmain" element={<ListingsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
