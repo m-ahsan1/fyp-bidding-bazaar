@@ -8,7 +8,14 @@ export const AuctionCard = ({ item }) => {
   const expiredDate = item.duration;
   const currentUser = auth.currentUser;
   const { bidAuction, endAuction } = useContext(AuthContext);
+  const [isCompleted, setIsCompleted] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isCompleted) {
+      endAuction(item.id);
+    }
+  }, [isCompleted, endAuction, item.id]);
 
   const renderer = ({ days, hours, minutes, seconds, completed, props }) => {
     const onClickNavigate = () => {
@@ -50,6 +57,7 @@ export const AuctionCard = ({ item }) => {
       bidAuction={bidAuction}
       endAuction={endAuction}
       item={item}
+      onComplete={() => setIsCompleted(true)}
       renderer={renderer}
     />
   );
