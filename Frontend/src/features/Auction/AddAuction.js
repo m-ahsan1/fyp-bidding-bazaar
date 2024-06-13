@@ -57,12 +57,12 @@ export const AddAuction = ({ setAuction }) => {
 
       const updatedImages = [...images];
       if (response.data.success) {
-        updatedImages.push({ src: file, valid: true, error: null });
+        updatedImages.push({ src: file, base64:base64, valid: true, error: null });
         toast.success("Image uploaded successfully.", {
           position: toast.POSITION.TOP_CENTER,
         });
       } else {
-        updatedImages.push({ src: file, valid: false, error: response.data.message || "Image does not match car model." });
+        updatedImages.push({ src: file, base64:base64, valid: false, error: response.data.message || "Image does not match car model." });
         toast.error(response.data.message || "Image does not match car model.", {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -239,6 +239,7 @@ export const AddAuction = ({ setAuction }) => {
                         key={index}
                         className="flex items-center mb-4 p-4 border rounded-lg shadow-lg bg-gray-100 relative"
                       >
+                        {console.log(img)}
                         <img
                           src={img.base64}
                           alt={`Uploaded ${index + 1}`}
