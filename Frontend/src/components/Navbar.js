@@ -167,13 +167,32 @@ const Navbar = () => {
             </button>
           </div>
           <div className="offcanvas-body" style={{ padding: "20px" }}>
-            <p>
-              <button
-                type="button"
-                className="btn btn-outline-info"
-                id="search-btn"
-              ></button>
-            </p>
+            <center>
+          {user ? (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-outline-info"
+                  id="search-btn"
+                >
+                  <StripeCheckout
+                    stripeKey={publishableKey}
+                    label="Buy Token"
+                    name="Pay with Credit Card"
+                    billingAddress
+                    shippingAddress
+                    amount={5000}
+                    description={"Your total is "}
+                    token={payNow}
+                  /> <strong>Token:</strong> {user?.token || 0}{" "}
+                </button>
+                &nbsp;&nbsp;
+              </>
+            ) : (
+              <></>
+            )}
+            </center>
+            <br></br>
 
             <br></br>
             <>
