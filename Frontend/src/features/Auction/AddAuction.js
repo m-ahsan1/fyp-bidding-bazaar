@@ -232,7 +232,7 @@ export const AddAuction = ({ setAuction }) => {
                     type="file"
                     accept=".jpeg, .png, .jpg"
                     onChange={handleImageChange}
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 form-control bg-transparent"
                   />
                   <div className="mt-2">
                     {images.map((img, index) => (
