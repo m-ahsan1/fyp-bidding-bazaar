@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import { setLoading } from "../../redux/slices/loadingSlice";
 import { useDispatch } from "react-redux";
 
-export const AddAuction = ({ setAuction }) => {
-  const [showForm, setShowForm] = useState(false);
+export const AddAuction = ({ setAuction, onClose }) => {
+  const [showForm, setShowForm] = useState(true);
   const [error, setError] = useState("");
   const [images, setImages] = useState([]);
   const itemTitle = useRef();
@@ -142,16 +142,17 @@ export const AddAuction = ({ setAuction }) => {
     };
 
     setAuction(newAuction);
+    onClose()
     closeForm();
   };
 
   return (
     <>
-      <div className="flex justify-center my-3">
+      {/* <div className="flex justify-center my-3">
         <button onClick={openForm} className="btn btn-outline-secondary mx-2">
           + Add Car Auction
         </button>
-      </div>
+      </div> */}
       {showForm && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity duration-300">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg h-full max-h-full overflow-y-auto transition-transform transform scale-95">
@@ -298,7 +299,7 @@ export const AddAuction = ({ setAuction }) => {
               <div className="flex justify-end mt-4">
                 <button
                   type="button"
-                  onClick={closeForm}
+                  onClick={onClose}
                   className="bg-gray-500 text-white px-4 py-2 rounded-md mr-2"
                 >
                   Cancel

@@ -49,8 +49,8 @@ export const AuctionMainPage = () => {
   return (
     <div className="py-5">
       <div className="container mx-auto px-4">
-        {auction && <ProgressBar auction={auction} setAuction={setAuction} />}
-        {auth.currentUser && <AddAuction setAuction={setAuction} />}
+        {/* {auction && <ProgressBar auction={auction} setAuction={setAuction} />}
+        {auth.currentUser && <AddAuction setAuction={setAuction} />} */}
         {globalMsg &&
           toast.success(globalMsg, {
             position: toast.POSITION.TOP_CENTER,
