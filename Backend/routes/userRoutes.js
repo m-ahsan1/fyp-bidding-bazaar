@@ -2,14 +2,13 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    getUser,
-    createUser,
-    updateUser,
-    deleteUser,
-    getUserByEmail,
-    // addListing,
-    // removeListing,
-    } = require("../controllers/userController");
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  getUserByEmail,
+  updateUserToken,
+} = require("../controllers/userController");
 
 // Get a user by email
 router.get("/email/:email", getUserByEmail);
@@ -26,10 +25,6 @@ router.put("/", updateUser);
 // Delete a user
 router.delete("/:id", deleteUser);
 
-// Add listings
-// router.patch("/:id/addListing", addListing);
-
-// // Remove listings
-// router.patch("/:id/removeListing", removeListing);
+router.put("/updateToken", updateUserToken);
 
 module.exports = router;

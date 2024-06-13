@@ -30,19 +30,15 @@ export const createUser = createAsyncThunk(
       cnic: userData.cnic,
       currentAddress: userData.currentAddress,
       uid: userData.uid,
-      token:userData.token,
-      
-    };console.log(user);
+      token: userData.token,
+    };
+    console.log(user);
     try {
-      const response = await apiServerNode.post(
-        "/api/user",
-        user,
-        {
-          headers: {
-            "x-auth-token": userData.idToken,
-          },
-        }
-      );
+      const response = await apiServerNode.post("/api/user", user, {
+        headers: {
+          "x-auth-token": userData.idToken,
+        },
+      });
       return response.data;
     } catch (error) {
       throw error;
@@ -60,6 +56,7 @@ export const updateUser = createAsyncThunk(
       phone: userData.phone,
       cnic: userData.cnic,
       currentAddress: userData.currentAddress,
+      token: userData.token,
       uid: userData.uid,
     };
     try {
@@ -73,6 +70,24 @@ export const updateUser = createAsyncThunk(
     } catch (error) {
       throw error;
     }
+  }
+);
+
+export const updateUserToken = createAsyncThunk(
+  "user/updateUserToken",
+  async ({ uid, addTokenAmount }) => {
+    const response = await apiServerNode.put(
+      "/api/user/updateToken",
+      {
+        addTokenAmount,
+      },
+      {
+        headers: {
+          uid,
+        },
+      }
+    );
+    return response.data;
   }
 );
 

@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../redux/slices/userSlice";
+import { logout, selectUser, updateUserToken } from "../redux/slices/userSlice";
 import { auth } from "../firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +24,10 @@ const Navbar = () => {
   const publishableKey =
     "pk_test_51OJKAXLYINFqcfoRE0wdt2axn9TVcPLJMeGZzmFBavqw5c8x2xTSRqxnVsjuGMWZIWDsYT6M4MB7eW8bUPFRNy2Z00u3wQxOhi";
   const payNow = async (token, price) => {
-    console.log("Payment was successful!", auth.currentUser.token);
+    console.log("Payment was successful!", auth.currentUser.uid);
+    dispatch(
+      updateUserToken({ uid: auth.currentUser.uid, addTokenAmount: 500 })
+    );
     try {
       // Fetch the payment processing endpoint
       const response = await fetch("http://localhost:3001/api/payment", {
