@@ -127,7 +127,7 @@ const ListingForm = () => {
       }
     });
 
-    if (formData.images.length < 4) {
+    if (formData.images.length < 2) {
       toast.error("At least four images are required.", {
         position: toast.POSITION.TOP_CENTER,
       });
