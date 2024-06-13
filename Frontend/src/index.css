@@ -8,3 +8,28 @@ body,
     height: 100%;
     margin: 0;
 }
+
+/* app.css */
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    /* Width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #959393;
+    /* Color of the scrollbar */
+    border-radius: 4px;
+    /* Rounded corners */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #4d4d4d;
+    /* Color on hover */
+}
