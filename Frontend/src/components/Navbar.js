@@ -83,7 +83,7 @@ const Navbar = () => {
                     amount={5000}
                     description={"Your total is "}
                     token={payNow}
-                  />
+                  /> <strong>Token:</strong> {user?.token || 0}{" "}
                 </button>
                 &nbsp;&nbsp;
               </>
