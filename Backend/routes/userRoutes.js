@@ -6,11 +6,13 @@ const {
     createUser,
     updateUser,
     deleteUser,
+    getUserByEmail,
     // addListing,
     // removeListing,
     } = require("../controllers/userController");
 
-// Get all users
+// Get a user by email
+router.get("/email/:email", getUserByEmail);
 
 // Get a specific user
 router.get("/:id", getUser);

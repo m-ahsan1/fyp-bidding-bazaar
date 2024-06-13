@@ -6,6 +6,7 @@ import ImageDisplay from "../components/imageDisplay";
 import { auth } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import apiServerNode from "../apiServerNodeConfig";
 
 const AuctionDetailPage = () => {
   const { id } = useParams();
@@ -16,16 +17,17 @@ const AuctionDetailPage = () => {
   const [isCurrentUserSeller, setIsCurrentUserSeller] = useState(false);
   const [isAuctionEnded, setIsAuctionEnded] = useState(false);
   const [isCountdownCompleted, setIsCountdownCompleted] = useState(false);
+  const [personInfo, setPersonInfo] = useState(null);
 
   useEffect(() => {
     if (auctionData) {
       setIsCurrentUserWinner(
-        auth.currentUser && auth.currentUser.email === auctionData.curWinner
+        auth.currentUser && auth.currentUser.email === curWinner
       );
       setIsCurrentUserSeller(
-        auth.currentUser && auth.currentUser.email === auctionData.email
+        auth.currentUser && auth.currentUser.email === email
       );
-      setIsAuctionEnded(auctionData.status === "ended");
+      setIsAuctionEnded(status === "ended");
     }
   }, [auctionData]);
 
@@ -67,6 +69,16 @@ const AuctionDetailPage = () => {
   const handleBid = () => {
     bidAuction(id, nextPrice);
   };
+
+  const getPersonInfo = async () => {
+    try {
+      let email_temp = isCurrentUserWinner ? email : curWinner;
+      const response = await apiServerNode.get(`/api/user/email/${email_temp}`);
+      setPersonInfo(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <div className="flex flex-col md:flex-row items-center md:items-start p-6 md:p-12 space-y-8 md:space-y-0 md:space-x-12 bg-gray-50 min-h-screen">
@@ -116,30 +128,50 @@ const AuctionDetailPage = () => {
             date={duration}
             onComplete={() => setIsCountdownCompleted(true)}
             renderer={({ days, hours, minutes, seconds, completed }) => {
-              return completed || isAuctionEnded ? (
-                <div className="text-gray-600">
-                  <strong>Auction Ended</strong>
-                </div>
-              ) : (
-                <>
-                  <div className="text-gray-600">
-                    <strong>Auction Ends in:</strong>
-                    <span className="font-bold ml-2">
-                      {days} days, {hours} hours, {minutes} minutes, {seconds}{" "}
-                      seconds
-                    </span>
-                  </div>
-                  {!isCurrentUserWinner && !isCurrentUserSeller && (
-                    <div className="mt-4">
-                      <button
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-                        onClick={handleBid}
-                      >
-                        Place Your Bid for ${nextPrice}
-                      </button>
+              return (
+                <div className="bg-white p-8 rounded-lg shadow-lg">
+                  {completed || isAuctionEnded ? (
+                    <div className="text-gray-600 text-center">
+                      <h2 className="text-3xl font-bold mb-4">
+                        {isAuctionEnded ? "Auction Ended" : "Countdown Completed"}
+                      </h2>
+                      {isAuctionEnded && personInfo ? (
+                        <div className="text-left">
+                          <p className="font-bold">Contact Info:</p>
+                          <p>Name: {personInfo.username}</p>
+                          <p>Email: {personInfo.email}</p>
+                          <p>Phone: {personInfo.phone}</p>
+                        </div>
+                      ) : (
+                        <button
+                          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-4 inline-block"
+                          onClick={getPersonInfo}
+                        >
+                          {isCurrentUserWinner
+                            ? "Contact Seller"
+                            : isCurrentUserSeller
+                              ? "Contact Buyer"
+                              : null}
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-gray-600 text-center">
+                      <h2 className="text-3xl font-bold mb-4">Auction Ends in:</h2>
+                      <div className="font-bold text-2xl mb-4">
+                        {days} days, {hours} hours, {minutes} minutes, {seconds} seconds
+                      </div>
+                      {!isCurrentUserWinner && !isCurrentUserSeller && (
+                        <button
+                          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-block"
+                          onClick={handleBid}
+                        >
+                          Place Your Bid for ${nextPrice}
+                        </button>
+                      )}
                     </div>
                   )}
-                </>
+                </div>
               );
             }}
           />

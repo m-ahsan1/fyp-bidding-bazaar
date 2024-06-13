@@ -26,6 +26,19 @@ const getUser = async (req, res, next) => {
     }
 }
 
+const getUserByEmail = async (req, res, next) => {
+    try {
+        const { email } = req.params;
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            return res.status(404).json({ message: `Cannot find user with this email ${email}` });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 // Create a new user
 const createUser = async (req, res, next) => {
     const { username, email, uid, image, phone, cnic, currentAddress,token } = req.body;
@@ -127,6 +140,7 @@ module.exports = {
     createUser,
     updateUser,
     deleteUser,
+    getUserByEmail,
     // addListing,
     // removeListing,
 };
