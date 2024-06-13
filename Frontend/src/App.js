@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUserData,
@@ -39,7 +44,6 @@ import { AuthProvider } from "./context/AuthContext";
 import Footer from "./components/footer";
 import Navbar from "./components/Navbar";
 import Subbar from "./components/Subbar";
-
 
 function App() {
   const user = useSelector(selectUser);
@@ -94,7 +98,18 @@ function App() {
     return () => unsubscribe();
   }, [auth, dispatch]);
 
-  const excludedRoutes = ['/admin', '/adminhome', '/addadmin', '/admindelete', '/writeblog', '/message', '/blogs/:id', '/auction', '/login', '/signup'];
+  const excludedRoutes = [
+    "/admin",
+    "/adminhome",
+    "/addadmin",
+    "/admindelete",
+    "/writeblog",
+    "/message",
+    "/blogs/:id",
+    "/auction",
+    "/login",
+    "/signup",
+  ];
 
   return (
     <AuthProvider>
@@ -102,7 +117,7 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            <Route path="/" element={<MainPage />} />
+            <Route path="/" element={<Main />} />
             <Route path="/sell/:id" element={<ProductDetail />} />
             <Route path="/auction/:id" element={<AuctionDetail />} />
             <Route path="/listings" element={<ListingsPage />} />
@@ -126,7 +141,7 @@ function App() {
             <Route path="/auction" element={<Main />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </Layout >
+        </Layout>
       </Router>
       <ToastContainer />
     </AuthProvider>
@@ -135,7 +150,16 @@ function App() {
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const excludedRoutes = ['/admin', '/adminhome', '/addadmin', '/admindelete', '/writeblog', '/message', '/login', '/signup'];
+  const excludedRoutes = [
+    "/admin",
+    "/adminhome",
+    "/addadmin",
+    "/admindelete",
+    "/writeblog",
+    "/message",
+    "/login",
+    "/signup",
+  ];
 
   return (
     <div className="flex flex-col min-h-screen">

@@ -1,4 +1,4 @@
-const config = require('config');
+const config = require("config");
 const express = require("express");
 const mongoose = require("mongoose");
 const blogsRoutes = require("./routes/blogsRoutes");
@@ -12,17 +12,14 @@ const userRecommendationRoutes = require("./routes/recommendationRoutes");
 const userAnalyticsRoutes = require("./routes/userAnalyticsRoutes");
 const admin = require("./routes/admin");
 const adminauth = require("./routes/adminauth");
-const auth = require('./middleware/auth');
-
-
+const auth = require("./middleware/auth");
 
 const cors = require("cors");
 require("dotenv").config();
-const strip = require("stripe")(process.env.SECRET_KEY);
+const stripe = require("stripe")(process.env.SECRET_KEY);
 // Create an Express app
 
 const app = express();
-
 
 //stripe
 app.use(
@@ -63,9 +60,21 @@ app.use("/api/adminauth", adminauth); //admin auth
 
 //strip
 app.post("/api/payment", async (req, res) => {
-  let status, error;
   const { token, amount } = req.body;
-  console.log(token);
+
+  try {
+    const charge = await stripe.charges.create({
+      amount, // Amount in cents
+      currency: "usd",
+      source: token, // Use the token directly here
+      description: "Payment for order",
+    });
+
+    res.status(200).json({ success: true, charge });
+  } catch (error) {
+    console.error("Error creating charge:", error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 // Define the port to listen on
