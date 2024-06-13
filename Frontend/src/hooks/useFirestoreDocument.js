@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { firestoreApp } from "../firebase";
 
 export const useFirestoreDocument = (collectionName, documentId) => {
@@ -8,24 +8,25 @@ export const useFirestoreDocument = (collectionName, documentId) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchDocument = async () => {
-            try {
-                const docRef = doc(firestoreApp, collectionName, documentId);
-                const docSnap = await getDoc(docRef);
-
+        const docRef = doc(firestoreApp, collectionName, documentId);
+        const unsubscribe = onSnapshot(
+            docRef,
+            (docSnap) => {
                 if (docSnap.exists()) {
                     setDocumentData({ id: docSnap.id, ...docSnap.data() });
+                    setLoading(false);
                 } else {
                     setError("No such document!");
+                    setLoading(false);
                 }
-            } catch (error) {
-                setError(error.message);
-            } finally {
+            },
+            (err) => {
+                setError(err.message);
                 setLoading(false);
             }
-        };
+        );
 
-        fetchDocument();
+        return () => unsubscribe();
     }, [collectionName, documentId]);
 
     return { documentData, loading, error };

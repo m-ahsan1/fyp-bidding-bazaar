@@ -56,7 +56,7 @@ const AuctionDetailPage = () => {
     nextPrice,
     curWinner,
     status,
-    duration, // Assuming this is a timestamp
+    duration,
   } = auctionData;
 
   const temp = images.map((img) => img.imgUrl);
@@ -114,7 +114,7 @@ const AuctionDetailPage = () => {
             renderer={({ days, hours, minutes, seconds, completed }) => {
               return completed || isAuctionEnded ? (
                 <div className="text-gray-600">
-                  <strong>Auction Time Ended</strong>
+                  <strong>Auction Ended</strong>
                 </div>
               ) : (
                 <>
