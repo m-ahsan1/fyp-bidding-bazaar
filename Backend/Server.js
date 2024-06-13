@@ -60,12 +60,12 @@ app.use("/api/adminauth", adminauth); //admin auth
 
 //strip
 app.post("/api/payment", async (req, res) => {
-  const { token, amount } = req.body;
+  const { token, amount, currency } = req.body;
 
   try {
     const charge = await stripe.charges.create({
-      amount, // Amount in cents
-      currency: "usd",
+      amount:parseInt(amount), // Amount in cents
+      currency: currency,
       source: token, // Use the token directly here
       description: "Payment for order",
     });

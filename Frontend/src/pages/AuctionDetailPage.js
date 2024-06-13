@@ -29,7 +29,7 @@ const AuctionDetailPage = () => {
   const dispatch = useDispatch();
 
   const handleDeductTokens = () => {
-    const amountToDeduct = 50; // Example: Deduct 50 tokens
+    const amountToDeduct = 10; // Example: Deduct 10 tokens
     const uid = auth.currentUser.uid;
     // console.log(uid);
     dispatch(deductToken({ uid, amountToDeduct }));
@@ -121,11 +121,11 @@ const AuctionDetailPage = () => {
               <strong>Mileage:</strong> {mileage} km
             </p>
             <p className="text-gray-600">
-              <strong>Starting Price:</strong> ${price}
+              <strong>Starting Price:</strong> {price} PKR
             </p>
             {curPrice !== undefined && (
               <p className="text-gray-600">
-                <strong>Current Bid:</strong> ${curPrice}
+                <strong>Current Bid:</strong> {curPrice} PKR
               </p>
             )}
             {isCurrentUserWinner ? (

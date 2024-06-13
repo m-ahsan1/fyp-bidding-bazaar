@@ -42,7 +42,7 @@ export const AuctionCard = ({ item }) => {
               <p className="text-lg font-semibold">
                 {completed ? "Auction Ended" : `Auction ends in: ${days * 24 + hours} hr ${minutes} min ${seconds} sec`}
               </p>
-              <p className="text-xl font-semibold">${props.item.price}</p>
+              <p className="text-xl font-semibold">{props.item.price}PKR</p>
             </div>
           </div>
         </div>

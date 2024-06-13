@@ -25,10 +25,11 @@ const Navbar = () => {
 
   const publishableKey =
     "pk_test_51OJKAXLYINFqcfoRE0wdt2axn9TVcPLJMeGZzmFBavqw5c8x2xTSRqxnVsjuGMWZIWDsYT6M4MB7eW8bUPFRNy2Z00u3wQxOhi";
-  const payNow = async (token, price) => {
+  const payNow = async (token, price=50000) => {
+    // console.log("Payment was successful!", token, price);
     console.log("Payment was successful!", auth.currentUser.uid);
     dispatch(
-      updateUserToken({ uid: auth.currentUser.uid, addTokenAmount: 500 })
+      updateUserToken({ uid: auth.currentUser.uid, addTokenAmount: 50 })
     );
     try {
       // Fetch the payment processing endpoint
@@ -39,7 +40,8 @@ const Navbar = () => {
         },
         body: JSON.stringify({
           amount: price,
-          token: token.id, // Token must include only the ID
+          token: token.id,
+          currency: "PKR",
         }),
       });
 
@@ -80,7 +82,8 @@ const Navbar = () => {
                     name="Pay with Credit Card"
                     billingAddress
                     shippingAddress
-                    amount={5000}
+                    amount={50000}
+                    currency="PKR"
                     description={"Your total is "}
                     token={payNow}
                   /> <strong>Token:</strong> {user?.token || 0}{" "}

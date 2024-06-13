@@ -144,6 +144,22 @@ export const userSlice = createSlice({
       // console.log("Error fetching user data");
       console.log(action.error);
     },
+    [updateUserToken.fulfilled]: (state, action) => {
+      saveUserToStorage(action.payload);
+      state.user.token = action.payload.token;
+    },
+    [updateUserToken.rejected]: (state, action) => {
+      console.log("Error updating user token");
+      console.log(action.error);
+    },
+    [deductToken.fulfilled]: (state, action) => {
+      saveUserToStorage(action.payload);
+      state.user.token = action.payload.token;
+    },
+    [deductToken.rejected]: (state, action) => {
+      console.log("Error deducting token");
+      console.log(action.error);
+    },
   },
 });
 
