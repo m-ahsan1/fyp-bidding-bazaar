@@ -7,7 +7,7 @@ import { deleteListing, setSold } from "../redux/slices/listingSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-const ProductDetailPage = () => {
+const ListingDetailPage = () => {
     const { id } = useParams();
     const [carData, setCarData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -133,4 +133,4 @@ const ProductDetailPage = () => {
     );
 };
 
-export default ProductDetailPage;
+export default ListingDetailPage;

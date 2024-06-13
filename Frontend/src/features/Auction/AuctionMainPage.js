@@ -6,14 +6,17 @@ import { auth } from "../../firebase";
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import { setLoading } from "../../redux/slices/loadingSlice";
+import { useDispatch } from "react-redux";
 
-export const Main = () => {
+export const AuctionMainPage = () => {
   const [auction, setAuction] = useState(null);
   const { globalMsg } = useContext(AuthContext);
-  const { docs } = useFirestoreCollection("auctions");
+  const { docs, loading, error } = useFirestoreCollection("auctions");
   const [showEnded, setShowEnded] = useState(false); // State to track whether to show ended auctions
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const dispatch = useDispatch();
 
   // Filter active or ended auctions based on the showEnded state
   const filteredAuctions =
@@ -37,6 +40,11 @@ export const Main = () => {
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
+
+  dispatch(setLoading(loading));
+
+  if (loading) return <div></div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="py-5">

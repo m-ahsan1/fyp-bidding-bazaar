@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import apiServerNode from "../apiServerNodeConfig";
 import { useDispatch } from "react-redux";
 import { deductToken } from "../redux/slices/userSlice";
+import { setLoading } from "../redux/slices/loadingSlice";
 
 const AuctionDetailPage = () => {
   const { id } = useParams();
@@ -27,6 +28,8 @@ const AuctionDetailPage = () => {
   const [showPayToken, setShowPayToken] = useState(true);
 
   const dispatch = useDispatch();
+
+  dispatch(setLoading(loading));
 
   const handleDeductTokens = () => {
     const amountToDeduct = 10; // Example: Deduct 10 tokens
@@ -63,7 +66,7 @@ const AuctionDetailPage = () => {
     }
   }, [isCountdownCompleted, endAuction, id]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div></div>;
   if (error) return <div>Error: {error}</div>;
   if (!auctionData) return <div>No auction data found.</div>;
 

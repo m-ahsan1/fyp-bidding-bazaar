@@ -33,13 +33,13 @@ import Messages from "./components/messages";
 import AddAdmin from "./components/addadmin";
 import AdminListings from "./components/admindeletelisting";
 import BlogDetail from "./features/Blogs/blogdetail";
-import ProductDetail from "./pages/ProductDetailPage";
+import ProductDetail from "./pages/ListingDetailPage";
 import AuctionDetail from "./pages/AuctionDetailPage";
 import TermsOfService from "./pages/TermsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicyPage";
 import AboutUs from "./pages/AboutUsPage";
 import NotFound from "./pages/NotFoundPage";
-import { Main } from "./features/Auction/Main";
+import { AuctionMainPage } from "./features/Auction/AuctionMainPage";
 import { AuthProvider } from "./context/AuthContext";
 import Footer from "./components/footer";
 import Navbar from "./components/Navbar";
@@ -117,7 +117,7 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<AuctionMainPage />} />
             <Route path="/sell/:id" element={<ProductDetail />} />
             <Route path="/auction/:id" element={<AuctionDetail />} />
             <Route path="/listings" element={<ListingFormPage />} />
@@ -138,7 +138,7 @@ function App() {
             <Route path="/addadmin" element={<AddAdmin />} />
             <Route path="/admindelete" element={<AdminListings />} />
             <Route path="/blogs/:id" element={<BlogDetail />} />
-            <Route path="/auction" element={<Main />} />
+            <Route path="/auction" element={<AuctionMainPage />} />
             <Route path="/listingsmain" element={<ListingsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
