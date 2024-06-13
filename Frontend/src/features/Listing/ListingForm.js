@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import apiServerNode from "../../apiServerNodeConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/slices/userSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { setLoading } from "../../redux/slices/loadingSlice";
@@ -426,7 +426,6 @@ const ListingForm = () => {
 
       </form>
       <br />
-      <ToastContainer />
     </>
   );
 };

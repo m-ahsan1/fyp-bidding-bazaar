@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import apiServerPython from "../../apiServerPythonConfig";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 
@@ -136,17 +136,6 @@ const Prepage = () => {
       setprediction(response.data);
       console.log("prediction", prediction);
       });
-
-      /*setFormData({
-        rating: 0,
-        exterior: 0,
-        engine: 0,
-        suspension: 0,
-        interior: 0,
-        heater: 0,
-        mileage: 0,
-        company: "",
-      });*/
   
       toast.success("Hang tight! We're crunching the numbers...", {
         position: toast.POSITION.TOP_CENTER,
@@ -231,7 +220,6 @@ const Prepage = () => {
             />
             {errors.suspension && <p className="text-red-500">{errors.suspension}</p>}
           </div>
-
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Interior Condition(1-100):
@@ -245,7 +233,6 @@ const Prepage = () => {
             />
             {errors.interior && <p className="text-red-500">{errors.interior}</p>}
           </div>
-
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               AC/Heater Condition(1-100):
@@ -259,7 +246,6 @@ const Prepage = () => {
             />
             {errors.heater && <p className="text-red-500">{errors.heater}</p>}
           </div>
-
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Mileage(1000 to 300000):
@@ -274,7 +260,6 @@ const Prepage = () => {
             {errors.mileage && <p className="text-red-500">{errors.mileage}</p>}
           </div>
         </div>
-
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Select Your Car:
@@ -294,7 +279,6 @@ const Prepage = () => {
           </select>
           {errors.company && <p className="text-red-500">{errors.company}</p>}
         </div>
-
         <button
           type="submit"
           style={{ width: "100%" }}
@@ -302,7 +286,6 @@ const Prepage = () => {
         >
           Submit
         </button>
-            
         {prediction && prediction.prediction && (
         <div>
           <br />
@@ -311,12 +294,8 @@ const Prepage = () => {
           </center>
         </div>
       )}
-
       </form>
-
-      
       <br />
-      <ToastContainer />
     </>
   );
 };

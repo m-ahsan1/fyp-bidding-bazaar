@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser, updateUserToken } from "../redux/slices/userSlice";
 import { auth } from "../firebase";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import StripeCheckout from "react-stripe-checkout";
 
@@ -225,7 +225,6 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <ToastContainer />
     </div>
   );
 };

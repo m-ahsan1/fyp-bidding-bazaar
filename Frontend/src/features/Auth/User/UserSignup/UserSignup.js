@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { auth } from "../../../../firebase";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom"
 import { signInWithPopup, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider } from "firebase/auth";
@@ -379,7 +379,6 @@ export default function UserSign() {
             </div>
           </div>
         </div>
-        <ToastContainer />
       </div>
     </>
   );

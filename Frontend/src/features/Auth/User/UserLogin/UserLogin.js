@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth } from "../../../../firebase";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
@@ -61,6 +61,9 @@ export default function UserLogin() {
                     console.log("User logged in:", userAuth.user.email);
                     navigate('/', { replace: true });
                     dispatch(setLoading(false));
+                    toast.success("Login successful", {
+                        position: toast.POSITION.TOP_CENTER,
+                    });
                 })
                 .catch((error) => {
                     toast.error(error.message, {
@@ -251,7 +254,6 @@ export default function UserLogin() {
                     </div>
                 </div>
             </div>
-            <ToastContainer />
         </div>
     );
 }
