@@ -162,7 +162,7 @@ const ListingForm = () => {
 
       try {
         const response = await apiServerNode.post("/api/listings", data);
-        console.log(response);
+        // console.log(response);
         setFormData({
           images: [],
           title: "",

@@ -108,7 +108,7 @@ export default function UserSign() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password || !name || !phoneno || !password_confirmation || !image) {
-      console.log(email, password, name, phoneno, password_confirmation);
+      // console.log(email, password, name, phoneno, password_confirmation);
       toast.error("All feilds are required", {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -150,7 +150,7 @@ export default function UserSign() {
         position: toast.POSITION.TOP_CENTER,
       });
       dispatch(setLoading(false));
-      console.log(error);
+      // console.log(error);
     }
 
   };
@@ -171,7 +171,7 @@ export default function UserSign() {
     const provider = new GoogleAuthProvider();
     try {
       signInWithPopup(auth, provider).then(async (result) => {
-        console.log(result)
+        // console.log(result)
         const imagetemp = await convertToBase64(image);
         dispatch(
           createUser({
@@ -183,7 +183,7 @@ export default function UserSign() {
             token: "50",
           })
         );
-        console.log("User id:", auth.currentUser.uid);
+        // console.log("User id:", auth.currentUser.uid);
         toast.success("User created successfully", {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -193,14 +193,14 @@ export default function UserSign() {
         toast.error(error.message, {
           position: toast.POSITION.TOP_CENTER,
         });
-        console.log(error);
+        // console.log(error);
         dispatch(setLoading(false));
       });
     } catch (error) {
       toast.error(error.message, {
         position: toast.POSITION.TOP_CENTER,
       });
-      console.log(error);
+      // console.log(error);
       dispatch(setLoading(false));
     }
   }

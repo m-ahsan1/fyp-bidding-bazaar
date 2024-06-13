@@ -4,12 +4,12 @@ import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const useStorage = (data) => {
-  console.log("useStorage: ", data);
+  // console.log("useStorage: ", data);
   const [progress, setProgress] = useState(0);
   const [isCompleted, setIsCompleted] = useState(null);
 
   useEffect(() => {
-    console.log("hello!");
+    // console.log("hello!");
     const collectionRef = collection(firestoreApp, "auctions");
     const promises = [];
 

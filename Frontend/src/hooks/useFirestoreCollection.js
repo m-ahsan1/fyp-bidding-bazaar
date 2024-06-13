@@ -19,6 +19,6 @@ export const useFirestoreCollection = (collectionName) => {
 
     return () => unsubscribe();
   }, [collectionName]);
-  console.log(docs);
+  // console.log(docs);
   return { docs };
 };

@@ -5,10 +5,10 @@ import ListingForm from "./ListingForm";
 const ListingsPage = () => {
   
   const divStyle = {
-    backgroundImage: 'url("../images/listing-pg-bg-img.jpg")', // Replace 'path_to_your_image.jpg' with the actual path to your image file
+    backgroundImage: 'url("../images/listing-pg-bg-img.jpg")',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    minHeight: '100vh', // Ensure the image covers the entire viewport height
+    minHeight: '100vh',
     
   };
 
