@@ -180,7 +180,7 @@ const ListingForm = () => {
         toast.success("Listing added!", {
           position: toast.POSITION.TOP_CENTER,
         });
-        navigate("/");
+        navigate(-1);
       } catch (error) {
         console.error(error);
       }

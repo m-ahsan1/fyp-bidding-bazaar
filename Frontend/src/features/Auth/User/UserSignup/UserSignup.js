@@ -48,7 +48,7 @@ export default function UserSign() {
 
   useEffect(() => {
     if (user) {
-      navigate('/', { replace: true })
+      navigate(-1)
     }
   }, [user, navigate]);
 
@@ -143,7 +143,7 @@ export default function UserSign() {
       toast.success("User created successfully", {
         position: toast.POSITION.TOP_CENTER,
       });
-      navigate("/", { replace: true });
+      navigate(-1);
       dispatch(setLoading(false));
     } catch (error) {
       toast.error(error.message, {
@@ -187,7 +187,7 @@ export default function UserSign() {
         toast.success("User created successfully", {
           position: toast.POSITION.TOP_CENTER,
         });
-        navigate("/", { replace: true });
+        navigate(-1);
         dispatch(setLoading(false));
       }).catch((error) => {
         toast.error(error.message, {

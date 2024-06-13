@@ -60,10 +60,6 @@ const UserProfile = () => {
     }
   }, [user]);
 
-  const sendToHome = () => {
-    navigate("/", { replace: true });
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({
@@ -83,7 +79,7 @@ const UserProfile = () => {
 
   if (!user) {
     // If user is not yet loaded, return null or a loading indicator
-    return null;
+    navigate(-1)
   }
 
   return (

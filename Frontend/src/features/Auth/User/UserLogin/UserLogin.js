@@ -59,7 +59,7 @@ export default function UserLogin() {
             signInWithEmailAndPassword(auth, email, password)
                 .then(async (userAuth) => {
                     // console.log("User logged in:", userAuth.user.email);
-                    navigate('/', { replace: true });
+                    navigate(-1);
                     dispatch(setLoading(false));
                     toast.success("Login successful", {
                         position: toast.POSITION.TOP_CENTER,
@@ -86,7 +86,7 @@ export default function UserLogin() {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider).then((result) => {
             // console.log(result);
-            navigate('/', { replace: true });
+            navigate(-1);
             dispatch(setLoading(false));
         }).catch((error) => {
             toast.error(error.message, {
@@ -102,7 +102,7 @@ export default function UserLogin() {
         try {
             await googleMethod().then(() => {
                 if (user) {
-                    navigate('/', { replace: true });
+                    navigate(-1);
                 }
                 else {
                     dispatch(logout());
