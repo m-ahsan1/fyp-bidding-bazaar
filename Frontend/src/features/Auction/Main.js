@@ -30,7 +30,6 @@ export const Main = () => {
         {globalMsg && toast.success(globalMsg)}
 
         <div className="flex justify-center mt-4">
-          {/* Button to toggle between active and ended auctions */}
           <button
             onClick={() => setShowEnded(!showEnded)}
             className="btn btn-primary"

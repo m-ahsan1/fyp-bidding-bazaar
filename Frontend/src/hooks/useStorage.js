@@ -9,6 +9,7 @@ const useStorage = (data) => {
   const [isCompleted, setIsCompleted] = useState(null);
 
   useEffect(() => {
+    console.log("hello!");
     const collectionRef = collection(firestoreApp, "auctions");
     const promises = [];
 
