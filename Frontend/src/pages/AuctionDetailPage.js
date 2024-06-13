@@ -7,10 +7,16 @@ import { auth } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import apiServerNode from "../apiServerNodeConfig";
+import { useDispatch } from "react-redux";
+import { deductToken } from "../redux/slices/userSlice";
 
 const AuctionDetailPage = () => {
   const { id } = useParams();
-  const { documentData: auctionData, loading, error } = useFirestoreDocument("auctions", id);
+  const {
+    documentData: auctionData,
+    loading,
+    error,
+  } = useFirestoreDocument("auctions", id);
   const { bidAuction, endAuction } = useContext(AuthContext);
   const [msg, setMsg] = useState(null);
   const [isCurrentUserWinner, setIsCurrentUserWinner] = useState(false);
@@ -18,6 +24,17 @@ const AuctionDetailPage = () => {
   const [isAuctionEnded, setIsAuctionEnded] = useState(false);
   const [isCountdownCompleted, setIsCountdownCompleted] = useState(false);
   const [personInfo, setPersonInfo] = useState(null);
+  const [showPayToken, setShowPayToken] = useState(true);
+
+  const dispatch = useDispatch();
+
+  const handleDeductTokens = () => {
+    const amountToDeduct = 50; // Example: Deduct 50 tokens
+    const uid = auth.currentUser.uid;
+    console.log(uid);
+    dispatch(deductToken({ uid, amountToDeduct }));
+    setShowPayToken(false);
+  };
 
   useEffect(() => {
     if (auctionData) {
@@ -78,7 +95,7 @@ const AuctionDetailPage = () => {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col md:flex-row items-center md:items-start p-6 md:p-12 space-y-8 md:space-y-0 md:space-x-12 bg-gray-50 min-h-screen">
@@ -133,7 +150,9 @@ const AuctionDetailPage = () => {
                   {completed || isAuctionEnded ? (
                     <div className="text-gray-600 text-center">
                       <h2 className="text-3xl font-bold mb-4">
-                        {isAuctionEnded ? "Auction Ended" : "Countdown Completed"}
+                        {isAuctionEnded
+                          ? "Auction Ended"
+                          : "Countdown Completed"}
                       </h2>
                       {isAuctionEnded && personInfo ? (
                         <div className="text-left">
@@ -150,16 +169,28 @@ const AuctionDetailPage = () => {
                           {isCurrentUserWinner
                             ? "Contact Seller"
                             : isCurrentUserSeller
-                              ? "Contact Buyer"
-                              : null}
+                            ? "Contact Buyer"
+                            : null}
+                        </button>
+                      )}
+
+                      {showPayToken && (
+                        <button
+                          onClick={handleDeductTokens}
+                          className="bg-blue-400 rounded-lg hover:border border-black p-2 m-2 text-black"
+                        >
+                          Pay Token
                         </button>
                       )}
                     </div>
                   ) : (
                     <div className="text-gray-600 text-center">
-                      <h2 className="text-3xl font-bold mb-4">Auction Ends in:</h2>
+                      <h2 className="text-3xl font-bold mb-4">
+                        Auction Ends in:
+                      </h2>
                       <div className="font-bold text-2xl mb-4">
-                        {days} days, {hours} hours, {minutes} minutes, {seconds} seconds
+                        {days} days, {hours} hours, {minutes} minutes, {seconds}{" "}
+                        seconds
                       </div>
                       {!isCurrentUserWinner && !isCurrentUserSeller && (
                         <button

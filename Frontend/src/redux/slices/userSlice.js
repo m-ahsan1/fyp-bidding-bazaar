@@ -91,6 +91,20 @@ export const updateUserToken = createAsyncThunk(
   }
 );
 
+export const deductToken = createAsyncThunk(
+  "user/deductToken",
+  async ({ uid, amountToDeduct }, thunkAPI) => {
+    try {
+      const response = await apiServerNode.put(`/api/user/deductToken/${uid}`, {
+        amount: amountToDeduct, // Negative amount to deduct
+      });
+      return response.data; // Assuming the server responds with updated user data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data); // Handle errors
+    }
+  }
+);
+
 export const getUserData = createAsyncThunk(
   "user/getUserData",
   async (data) => {

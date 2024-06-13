@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../../components/Navbar";
 import { useSelector } from "react-redux";
 import { selectUser, getUserData } from "../../redux/slices/userSlice";
 
