@@ -22,6 +22,8 @@ export const AuctionCard = ({ item }) => {
       navigate(`/auction/${props.item.id}`);
     };
 
+    const shortenDescription = props.item.description.length > 150 ? props.item.description.substring(0, 150) + "..." : props.item.description;
+
     return (
       <div className="col" onClick={onClickNavigate}>
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -37,12 +39,12 @@ export const AuctionCard = ({ item }) => {
           />
           <div className="p-4">
             <p className="text-xl font-semibold">{props.item.title}</p>
-            <p className="text-gray-700 mb-2">{props.item.description}</p>
+            <p className="text-gray-700 mb-2">{shortenDescription}</p>
             <div className="flex justify-between items-center mt-4">
               <p className="text-lg font-semibold">
                 {completed ? "Auction Ended" : `Auction ends in: ${days * 24 + hours} hr ${minutes} min ${seconds} sec`}
               </p>
-              <p className="text-xl font-semibold">{props.item.price}PKR</p>
+              <p className="text-xl font-semibold">{props.item.price} PKR</p>
             </div>
           </div>
         </div>

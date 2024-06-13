@@ -19,13 +19,13 @@ const Navbar = () => {
     auth.signOut();
     toast.success("Logout Successfully", {
       position: toast.POSITION.TOP_CENTER,
-  });
+    });
     // console.log(auth);
   };
 
   const publishableKey =
     "pk_test_51OJKAXLYINFqcfoRE0wdt2axn9TVcPLJMeGZzmFBavqw5c8x2xTSRqxnVsjuGMWZIWDsYT6M4MB7eW8bUPFRNy2Z00u3wQxOhi";
-  const payNow = async (token, price=50000) => {
+  const payNow = async (token, price = 50000) => {
     // console.log("Payment was successful!", token, price);
     console.log("Payment was successful!", auth.currentUser.uid);
     dispatch(
@@ -86,7 +86,8 @@ const Navbar = () => {
                     currency="PKR"
                     description={"Your total is "}
                     token={payNow}
-                  /> <strong>Token:</strong> {user?.token || 0}{" "}
+                  />
+                  <strong>Token:</strong> {user?.token || 0}{" "}
                 </button>
                 &nbsp;&nbsp;
               </>
@@ -171,29 +172,29 @@ const Navbar = () => {
           </div>
           <div className="offcanvas-body" style={{ padding: "20px" }}>
             <center>
-          {user ? (
-              <>
-                <button
-                  type="button"
-                  className="btn btn-outline-info"
-                  id="search-btn"
-                >
-                  <StripeCheckout
-                    stripeKey={publishableKey}
-                    label="Buy Token"
-                    name="Pay with Credit Card"
-                    billingAddress
-                    shippingAddress
-                    amount={5000}
-                    description={"Your total is "}
-                    token={payNow}
-                  /> <strong>Token:</strong> {user?.token || 0}{" "}
-                </button>
-                &nbsp;&nbsp;
-              </>
-            ) : (
-              <></>
-            )}
+              {user ? (
+                <>
+                  <button
+                    type="button"
+                    className="btn btn-outline-info"
+                    id="search-btn"
+                  >
+                    <StripeCheckout
+                      stripeKey={publishableKey}
+                      label="Buy Token"
+                      name="Pay with Credit Card"
+                      billingAddress
+                      shippingAddress
+                      amount={5000}
+                      description={"Your total is "}
+                      token={payNow}
+                    /> <strong>Token:</strong> {user?.token || 0}{" "}
+                  </button>
+                  &nbsp;&nbsp;
+                </>
+              ) : (
+                <></>
+              )}
             </center>
             <br></br>
 
