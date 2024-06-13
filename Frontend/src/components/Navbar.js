@@ -17,7 +17,9 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     auth.signOut();
-    toast.success("Logout Successfully");
+    toast.success("Logout Successfully", {
+      position: toast.POSITION.TOP_CENTER,
+  });
     console.log(auth);
   };
 

@@ -107,7 +107,9 @@ function Listing({
         .then((response) => {
           console.log("Updated listing:", response.data);
           setShowPayButton(true);
-          toast.success("Bid placed successfully! You can Pay.");
+          toast.success("Bid placed successfully! You can Pay.", {
+            position: toast.POSITION.TOP_CENTER,
+          });
         })
         .catch((error) => {
           console.error(
@@ -116,7 +118,9 @@ function Listing({
           );
         });
     } else {
-      toast.error("New bid must be greater than the current bid");
+      toast.error("New bid must be greater than the current bid", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 

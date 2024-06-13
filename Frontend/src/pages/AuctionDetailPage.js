@@ -50,7 +50,9 @@ const AuctionDetailPage = () => {
 
   useEffect(() => {
     if (msg) {
-      toast.error(msg);
+      toast.error(msg, {
+        position: toast.POSITION.TOP_CENTER,
+      });
       setMsg(null); // Clear the message after showing the toast
     }
   }, [msg]);
@@ -169,8 +171,8 @@ const AuctionDetailPage = () => {
                           {isCurrentUserWinner
                             ? "Contact Seller"
                             : isCurrentUserSeller
-                            ? "Contact Buyer"
-                            : null}
+                              ? "Contact Buyer"
+                              : null}
                         </button>
                       )}
 
