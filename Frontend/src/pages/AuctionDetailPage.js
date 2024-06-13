@@ -39,7 +39,7 @@ const AuctionDetailPage = () => {
   }, [msg]);
 
   useEffect(() => {
-    if (isCountdownCompleted) {
+    if (isCountdownCompleted && isAuctionEnded) {
       endAuction(id);
     }
   }, [isCountdownCompleted, endAuction, id]);

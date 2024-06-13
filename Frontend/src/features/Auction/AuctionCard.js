@@ -12,7 +12,7 @@ export const AuctionCard = ({ item }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isCompleted) {
+    if (isCompleted && item.status !=="ended") {
       endAuction(item.id);
     }
   }, [isCompleted, endAuction, item.id]);
