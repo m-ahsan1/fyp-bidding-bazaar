@@ -9,16 +9,13 @@ import { toast } from "react-toastify";
 
 const AuctionDetailPage = () => {
   const { id } = useParams();
-  const {
-    documentData: auctionData,
-    loading,
-    error,
-  } = useFirestoreDocument("auctions", id);
+  const { documentData: auctionData, loading, error } = useFirestoreDocument("auctions", id);
   const { bidAuction, endAuction } = useContext(AuthContext);
   const [msg, setMsg] = useState(null);
   const [isCurrentUserWinner, setIsCurrentUserWinner] = useState(false);
   const [isCurrentUserSeller, setIsCurrentUserSeller] = useState(false);
   const [isAuctionEnded, setIsAuctionEnded] = useState(false);
+  const [isCountdownCompleted, setIsCountdownCompleted] = useState(false);
 
   useEffect(() => {
     if (auctionData) {
@@ -38,6 +35,12 @@ const AuctionDetailPage = () => {
       setMsg(null); // Clear the message after showing the toast
     }
   }, [msg]);
+
+  useEffect(() => {
+    if (isCountdownCompleted) {
+      endAuction(id);
+    }
+  }, [isCountdownCompleted, endAuction, id]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -111,6 +114,7 @@ const AuctionDetailPage = () => {
           </div>
           <Countdown
             date={duration}
+            onComplete={() => setIsCountdownCompleted(true)}
             renderer={({ days, hours, minutes, seconds, completed }) => {
               return completed || isAuctionEnded ? (
                 <div className="text-gray-600">
