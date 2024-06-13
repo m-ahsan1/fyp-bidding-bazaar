@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useFirestoreDocument } from "../hooks/useFirestoreDocument";
 import { useParams } from "react-router-dom";
 import Countdown from "react-countdown";
 import ImageDisplay from "../components/imageDisplay";
 import { auth } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
-import { useState, useContext } from "react";
 import { toast } from "react-toastify";
 
 const AuctionDetailPage = () => {
@@ -16,8 +15,29 @@ const AuctionDetailPage = () => {
     error,
   } = useFirestoreDocument("auctions", id);
   const { bidAuction, endAuction } = useContext(AuthContext);
-  const [bidPrice, setBidPrice] = useState(0);
   const [msg, setMsg] = useState(null);
+  const [isCurrentUserWinner, setIsCurrentUserWinner] = useState(false);
+  const [isCurrentUserSeller, setIsCurrentUserSeller] = useState(false);
+  const [isAuctionEnded, setIsAuctionEnded] = useState(false);
+
+  useEffect(() => {
+    if (auctionData) {
+      setIsCurrentUserWinner(
+        auth.currentUser && auth.currentUser.email === auctionData.curWinner
+      );
+      setIsCurrentUserSeller(
+        auth.currentUser && auth.currentUser.email === auctionData.email
+      );
+      setIsAuctionEnded(auctionData.status === "ended");
+    }
+  }, [auctionData]);
+
+  useEffect(() => {
+    if (msg) {
+      toast.error(msg);
+      setMsg(null); // Clear the message after showing the toast
+    }
+  }, [msg]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -33,39 +53,20 @@ const AuctionDetailPage = () => {
     mileage,
     price,
     curPrice,
+    nextPrice,
     curWinner,
     status,
     duration, // Assuming this is a timestamp
   } = auctionData;
 
-  const isCurrentUserWinner =
-    auth.currentUser && auth.currentUser.email === curWinner;
-  const isCurrentUserSeller =
-    auth.currentUser && auth.currentUser.email === email;
-  const isAuctionEnded = status === "ended";
-
   const temp = images.map((img) => img.imgUrl);
 
   const handleBid = () => {
-    if (!bidPrice) {
-      setMsg("Please enter a valid bid price");
-      return;
-    }
-    if (bidPrice <= curPrice) {
-      setMsg("Please enter a bid price higher than the current price");
-      return;
-    }
-    if (bidPrice <= price) {
-      setMsg("Please enter a bid price higher than the starting price");
-      return;
-    }
-    console.log(bidPrice);
-    bidAuction(id, curPrice);
+    bidAuction(id, nextPrice);
   };
 
   return (
     <div className="flex flex-col md:flex-row items-center md:items-start p-6 md:p-12 space-y-8 md:space-y-0 md:space-x-12 bg-gray-50 min-h-screen">
-      {msg && toast.error(msg)}
       <div className="w-full md:w-1/2">
         <ImageDisplay images={temp} />
       </div>
@@ -90,7 +91,7 @@ const AuctionDetailPage = () => {
             </p>
             {curPrice !== undefined && (
               <p className="text-gray-600">
-                <strong>Current Price:</strong> ${curPrice}
+                <strong>Current Bid:</strong> ${curPrice}
               </p>
             )}
             {isCurrentUserWinner ? (
@@ -126,18 +127,11 @@ const AuctionDetailPage = () => {
                   </div>
                   {!isCurrentUserWinner && !isCurrentUserSeller && (
                     <div className="mt-4">
-                      <input
-                        type="number"
-                        className="border border-gray-300 px-3 py-2 rounded-md mr-2 focus:outline-none focus:border-blue-500"
-                        placeholder="Enter your bid"
-                        value={bidPrice}
-                        onChange={(e) => setBidPrice(e.target.value)}
-                      />
                       <button
                         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
                         onClick={handleBid}
                       >
-                        Bid Now
+                        Place Your Bid for ${nextPrice}
                       </button>
                     </div>
                   )}

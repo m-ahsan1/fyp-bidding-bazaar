@@ -18,14 +18,15 @@ export const AuthProvider = ({ children }) => {
       return;
     }
 
-    let newPrice = Math.floor((price / 100) * 110);
+    let newPrice = Math.floor((price / 100) * 105);
 
     try {
       // Correct document path with two segments: "auctions" and the auctionId
       const auctionRef = doc(firestoreApp, "auctions", auctionId);
       await updateDoc(auctionRef, {
-        curPrice: newPrice,
+        curPrice: price,
         curWinner: currentUser.email,
+        nextPrice: newPrice,
       });
       setGlobalMsg("Bid placed successfully");
     } catch (error) {

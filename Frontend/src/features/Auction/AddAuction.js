@@ -138,6 +138,7 @@ export const AddAuction = ({ setAuction }) => {
       images: temp_images,
       duration: dueDate,
       status: "active",
+      nextPrice: parseFloat(price.current.value),
     };
 
     setAuction(newAuction);
