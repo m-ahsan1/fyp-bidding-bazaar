@@ -34,7 +34,6 @@ const AuctionDetailPage = () => {
   const handleDeductTokens = () => {
     const amountToDeduct = 10; // Example: Deduct 10 tokens
     const uid = auth.currentUser.uid;
-    // console.log(uid);
     dispatch(deductToken({ uid, amountToDeduct }));
     setShowPayToken(false);
   };
@@ -42,12 +41,12 @@ const AuctionDetailPage = () => {
   useEffect(() => {
     if (auctionData) {
       setIsCurrentUserWinner(
-        auth.currentUser && auth.currentUser.email === curWinner
+        auth.currentUser && auth.currentUser.email === auctionData.curWinner
       );
       setIsCurrentUserSeller(
-        auth.currentUser && auth.currentUser.email === email
+        auth.currentUser && auth.currentUser.email === auctionData.email
       );
-      setIsAuctionEnded(status === "ended");
+      setIsAuctionEnded(auctionData.status === "ended");
     }
   }, [auctionData]);
 
@@ -64,7 +63,7 @@ const AuctionDetailPage = () => {
     if (isCountdownCompleted && isAuctionEnded) {
       endAuction(id);
     }
-  }, [isCountdownCompleted, endAuction, id]);
+  }, [isCountdownCompleted, isAuctionEnded, endAuction, id]);
 
   if (loading) return <div></div>;
   if (error) return <div>Error: {error}</div>;
@@ -84,6 +83,11 @@ const AuctionDetailPage = () => {
     curWinner,
     status,
     duration,
+    regNumber, // New field
+    city, // New field
+    transmission, // New field
+    carColor, // New field
+    engineCapacity, // New field
   } = auctionData;
 
   const temp = images.map((img) => img.imgUrl);
@@ -95,7 +99,7 @@ const AuctionDetailPage = () => {
   const getPersonInfo = async () => {
     try {
       let email_temp = isCurrentUserWinner ? email : curWinner;
-      const response = await apiServerNode.get(`/api/user/email/${email_temp}`);
+      const response = await apiServerNode.get(/api/user/email/${email_temp});
       setPersonInfo(response.data);
     } catch (err) {
       console.log(err);
@@ -131,6 +135,21 @@ const AuctionDetailPage = () => {
                 <strong>Current Bid:</strong> {curPrice} PKR
               </p>
             )}
+            <p className="text-gray-600">
+              <strong>Registration Number:</strong> {regNumber}
+            </p>
+            <p className="text-gray-600">
+              <strong>City:</strong> {city}
+            </p>
+            <p className="text-gray-600">
+              <strong>Transmission:</strong> {transmission}
+            </p>
+            <p className="text-gray-600">
+              <strong>Car Color:</strong> {carColor}
+            </p>
+            <p className="text-gray-600">
+              <strong>Engine Capacity:</strong> {engineCapacity} cc
+            </p>
             {isCurrentUserWinner ? (
               <p className="text-gray-600">
                 <strong>You are the highest bidder</strong>
@@ -166,7 +185,7 @@ const AuctionDetailPage = () => {
                           <p>Email: {personInfo.email}</p>
                           <p>Phone: {personInfo.phone}</p>
                         </div>
-                      ) : ( curWinner &&
+                      ) : (curWinner &&
                         <button
                           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-4 inline-block"
                           onClick={getPersonInfo}
@@ -174,8 +193,8 @@ const AuctionDetailPage = () => {
                           {isCurrentUserWinner
                             ? "Contact Seller"
                             : isCurrentUserSeller
-                              ? "Contact Buyer"
-                              : null}
+                            ? "Contact Buyer"
+                            : null}
                         </button>
                       )}
 
@@ -202,7 +221,7 @@ const AuctionDetailPage = () => {
                           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-block"
                           onClick={handleBid}
                         >
-                          Place Your Bid for ${nextPrice}
+                          Place Your Bid for {nextPrice} PKR
                         </button>
                       )}
                     </div>
