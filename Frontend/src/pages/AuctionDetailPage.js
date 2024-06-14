@@ -99,7 +99,7 @@ const AuctionDetailPage = () => {
   const getPersonInfo = async () => {
     try {
       let email_temp = isCurrentUserWinner ? email : curWinner;
-      const response = await apiServerNode.get(/api/user/email/${email_temp});
+      const response = await apiServerNode.get(`/api/user/email/${email_temp}`);
       setPersonInfo(response.data);
     } catch (err) {
       console.log(err);
