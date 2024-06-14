@@ -1,7 +1,7 @@
 import React from "react";
 import teamMember1Image from "./1.png"; // Import your team members' images
 import teamMember2Image from "./2.jpg";
-import teamMember3Image from "./3.jpg";
+import teamMember3Image from "./1.jpeg";
 
 const Team = () => {
   const teamMembers = [
@@ -24,11 +24,11 @@ const Team = () => {
       twitter: "https://twitter.com/",
     },
     {
-      name: "Bob Johnson",
-      position: "CTO",
+      name: "Muhammad Ahsan",
+      position: "Depvelopment and Testing",
       image: teamMember3Image,
       description:
-        "Bob is a seasoned technologist with expertise in software development and architecture.",
+        "Ahsan has sworked with a number of different tools and technologies. He has a strong background in software development and has worked on a number of different projects. He has a strong background in software development and has worked on a number of different projects.",
     },
   ];
 
