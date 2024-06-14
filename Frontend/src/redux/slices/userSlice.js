@@ -2,13 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import apiServerNode from "../../apiServerNodeConfig";
 
 const loadUserFromStorage = () => {
-  const user = localStorage.getItem("user");
   try {
-    if (user !== undefined) {
-      return JSON.parse(user);
-    } else {
-      return null;
-    }
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
   } catch (error) {
     console.error("Error parsing user from storage:", error);
     return null;
@@ -16,7 +12,11 @@ const loadUserFromStorage = () => {
 };
 
 const saveUserToStorage = (user) => {
-  localStorage.setItem("user", JSON.stringify(user));
+  try {
+    localStorage.setItem("user", JSON.stringify(user));
+  } catch (error) {
+    console.error("Error saving user to storage:", error);
+  }
 };
 
 export const createUser = createAsyncThunk(
@@ -32,7 +32,6 @@ export const createUser = createAsyncThunk(
       uid: userData.uid,
       token: userData.token,
     };
-    // console.log(user);
     try {
       const response = await apiServerNode.post("/api/user", user, {
         headers: {
@@ -62,7 +61,6 @@ export const updateUser = createAsyncThunk(
     try {
       const response = await apiServerNode.put("/api/user", user, {
         headers: {
-          // 'x-auth-token': userData.idToken,
           uid: user.uid,
         },
       });
@@ -111,7 +109,6 @@ export const getUserData = createAsyncThunk(
     try {
       const response = await apiServerNode.get(`/api/user/${data.uid}`, {
         headers: {
-          // 'x-auth-token': params.uidToken,
           uid: data.uid,
         },
       });
@@ -125,7 +122,7 @@ export const getUserData = createAsyncThunk(
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: loadUserFromStorage(),
+    user: loadUserFromStorage() || {},
   },
   reducers: {
     logout: (state) => {
@@ -133,37 +130,36 @@ export const userSlice = createSlice({
       localStorage.removeItem("user");
     },
   },
-  extraReducers: {
-    [getUserData.fulfilled]: (state, action) => {
-      state.user = action.payload;
-      // console.log("User data fetched");
-      saveUserToStorage(action.payload[0]);
-      // console.log(state.user);
-    },
-    [getUserData.rejected]: (state, action) => {
-      // console.log("Error fetching user data");
-      console.log(action.error);
-    },
-    [updateUserToken.fulfilled]: (state, action) => {
-      saveUserToStorage(action.payload);
-      state.user.token = action.payload.token;
-    },
-    [updateUserToken.rejected]: (state, action) => {
-      console.log("Error updating user token");
-      console.log(action.error);
-    },
-    [deductToken.fulfilled]: (state, action) => {
-      saveUserToStorage(action.payload);
-      state.user.token = action.payload.token;
-    },
-    [deductToken.rejected]: (state, action) => {
-      console.log("Error deducting token");
-      console.log(action.error);
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getUserData.fulfilled, (state, action) => {
+        state.user = action.payload;
+        saveUserToStorage(action.payload);
+      })
+      .addCase(getUserData.rejected, (state, action) => {
+        console.log("Error fetching user data");
+        console.log(action.error);
+      })
+      .addCase(updateUserToken.fulfilled, (state, action) => {
+        saveUserToStorage(action.payload);
+        state.user.token = action.payload.token;
+      })
+      .addCase(updateUserToken.rejected, (state, action) => {
+        console.log("Error updating user token");
+        console.log(action.error);
+      })
+      .addCase(deductToken.fulfilled, (state, action) => {
+        saveUserToStorage(action.payload);
+        state.user.token = action.payload.token;
+      })
+      .addCase(deductToken.rejected, (state, action) => {
+        console.log("Error deducting token");
+        console.log(action.error);
+      });
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { logout } = userSlice.actions;
 
 export const selectUser = (state) => state.user.user;
 

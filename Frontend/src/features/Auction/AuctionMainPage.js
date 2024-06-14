@@ -3,7 +3,7 @@ import { AddAuction } from "./AddAuction";
 import { AuctionCard } from "./AuctionCard";
 import { ProgressBar } from "./ProgressBar";
 import { auth } from "../../firebase";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import { setLoading } from "../../redux/slices/loadingSlice";
@@ -41,7 +41,9 @@ export const AuctionMainPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
-  dispatch(setLoading(loading));
+  useEffect(() => {
+    dispatch(setLoading(loading));
+  }, [loading, dispatch]);
 
   if (loading) return <div></div>;
   if (error) return <div>Error: {error.message}</div>;

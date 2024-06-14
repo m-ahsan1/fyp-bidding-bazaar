@@ -11,44 +11,43 @@ import { ProgressBar } from "../features/Auction/ProgressBar";
 const Subbar = () => {
   const user = useSelector(selectUser);
   const [showModal, setShowModal] = useState(false);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [showAuctionForm, setShowAuctionForm] = useState(false);
   const [auction, setAuction] = useState(null);
 
   const handleSimpleSell = () => {
     setShowModal(false);
-    Navigate("/listings")
+    navigate("/listings");
   };
 
   const handleAuction = () => {
     setShowModal(false);
     setShowAuctionForm(true);
-    console.log("Auction form opened");
   };
 
   return (
     <div>
       {auction && <ProgressBar auction={auction} setAuction={setAuction} />}
-      {showAuctionForm && <AddAuction setAuction={setAuction} onClose={()=>setShowAuctionForm(false)}/>}
-      {showAuctionForm && (console.log("Auction form opened"))}
+      {showAuctionForm && <AddAuction setAuction={setAuction} onClose={() => setShowAuctionForm(false)} />}
+
       <div id="secondBar">
         <br />
         <center>
           <span>
             &nbsp;
             {user ? (
-              <>
-                <a href="#" onClick={() => setShowModal(true)}>Post a Car</a>
-              </>
+              <a href="#" onClick={() => setShowModal(true)}>Post a Car</a>
             ) : null}
             &nbsp; &nbsp;
-            <a href="#"><Link to="/blogs">Blogs</Link></a> &nbsp; &nbsp;
-            <a href="#"><Link to="/team">Team</Link></a> &nbsp; &nbsp;
-            <a href="#"><Link to="/predict">Predict Price</Link></a>
+            <Link to="/blogs">Blogs</Link> &nbsp; &nbsp;
+            <Link to="/team">Team</Link> &nbsp; &nbsp;
+            <Link to="/predict">Predict Price</Link> &nbsp; &nbsp;
+            <Link to="/listingsmain">Simple Listings</Link>
           </span>
         </center>
         <hr />
       </div>
+
       <div id="secondBarMobile">
         <hr />
         <Dropdown>
@@ -64,12 +63,12 @@ const Subbar = () => {
             More options
           </Dropdown.Toggle>
           <hr />
-
           <Dropdown.Menu style={{ width: "100%" }}>
-            {user && <Dropdown.Item href="#"><Link to="/listings">Post Car</Link></Dropdown.Item>}
-            <Dropdown.Item href="#"><Link to="/predict">Predict Price</Link></Dropdown.Item>
-            <Dropdown.Item href="#"><Link to="/blogs">Blogs</Link></Dropdown.Item>
-            <Dropdown.Item href="#"><Link to="/team">Team</Link></Dropdown.Item>
+            {user && <Dropdown.Item onClick={() => setShowModal(true)}>Post Car</Dropdown.Item>}
+            <Dropdown.Item as={Link} to="/predict">Predict Price</Dropdown.Item>
+            <Dropdown.Item as={Link} to="/blogs">Blogs</Dropdown.Item>
+            <Dropdown.Item as={Link} to="/team">Team</Dropdown.Item>
+            <Dropdown.Item as={Link} to="/listingsmain">Simple Listings</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>
@@ -88,7 +87,7 @@ const Subbar = () => {
           </Button>
         </Modal.Body>
       </Modal>
-      <br></br>
+      <br />
     </div>
   );
 };
