@@ -13,21 +13,29 @@ export const AuctionMainPage = () => {
   const [auction, setAuction] = useState(null);
   const { globalMsg } = useContext(AuthContext);
   const { docs, loading, error } = useFirestoreCollection("auctions");
-  const [showEnded, setShowEnded] = useState(false); // State to track whether to show ended auctions
+  const [showEnded, setShowEnded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(""); // State to handle search query
   const itemsPerPage = 6;
   const dispatch = useDispatch();
 
-  // Filter active or ended auctions based on the showEnded state
+  useEffect(() => {
+    dispatch(setLoading(loading));
+  }, [loading, dispatch]);
+
+  // Filter auctions based on status and search query
   const filteredAuctions =
     docs &&
-    docs.filter((doc) =>
-      showEnded
+    docs.filter((doc) => {
+      const matchesSearchQuery = doc.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const isActiveOrEnded = showEnded
         ? doc.status === "ended" && doc.curWinner === auth.currentUser.email
-        : doc.status === "active"
-    );
+        : doc.status === "active";
+      return matchesSearchQuery && isActiveOrEnded;
+    });
 
-  // Calculate pagination details
   const totalPages = Math.ceil(filteredAuctions.length / itemsPerPage);
   const startIdx = (currentPage - 1) * itemsPerPage;
   const endIdx = startIdx + itemsPerPage;
@@ -41,32 +49,29 @@ export const AuctionMainPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
-  useEffect(() => {
-    dispatch(setLoading(loading));
-  }, [loading, dispatch]);
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1); // Reset to first page on new search
+  };
 
-  if (loading) return <div></div>;
+  if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="py-5">
       <div className="container mx-auto px-4">
-        {/* {auction && <ProgressBar auction={auction} setAuction={setAuction} />}
-        {auth.currentUser && <AddAuction setAuction={setAuction} />} */}
-        {globalMsg &&
-          toast.success(globalMsg, {
-            position: toast.POSITION.TOP_CENTER,
-          })}
+        {/* Search bar */}
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search by car title..."
+            value={searchQuery}
+            onChange={handleSearch}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+          />
+        </div>
 
-        {/* <div className="flex justify-center mt-4">
-          <button
-            onClick={() => setShowEnded(!showEnded)}
-            className="btn btn-primary"
-          >
-            {showEnded ? "Show Active Auctions" : "Show Your Auctions"}
-          </button>
-        </div> */}
-
+        {/* Display auction cards */}
         {currentItems && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
             {currentItems.map((doc) => {
@@ -75,6 +80,7 @@ export const AuctionMainPage = () => {
           </div>
         )}
 
+        {/* Pagination buttons */}
         <div className="flex justify-center mt-4">
           <button
             onClick={handlePrevPage}
