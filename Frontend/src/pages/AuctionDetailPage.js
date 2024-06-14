@@ -166,7 +166,7 @@ const AuctionDetailPage = () => {
                           <p>Email: {personInfo.email}</p>
                           <p>Phone: {personInfo.phone}</p>
                         </div>
-                      ) : (
+                      ) : ( curWinner &&
                         <button
                           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-4 inline-block"
                           onClick={getPersonInfo}
@@ -179,7 +179,7 @@ const AuctionDetailPage = () => {
                         </button>
                       )}
 
-                      {showPayToken && (
+                      {showPayToken && curWinner && (
                         <button
                           onClick={handleDeductTokens}
                           className="bg-blue-400 rounded-lg hover:border border-black p-2 m-2 text-black"
