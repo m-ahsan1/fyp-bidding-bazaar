@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import { setLoading } from "../../redux/slices/loadingSlice";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,9 @@ import { auth } from "../../firebase";
 const AuctionsAsOwner = () => {
     const { docs, loading, error } = useFirestoreCollection("auctions");
     const dispatch = useDispatch();
-    dispatch(setLoading(loading));
+    useEffect(() => {
+        dispatch(setLoading(loading));
+    }, [loading, dispatch]);
     if (loading) return <div></div>;
 
     const userAuctions = docs && docs.filter((doc) => doc.email === auth.currentUser.email);

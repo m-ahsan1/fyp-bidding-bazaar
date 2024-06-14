@@ -107,6 +107,7 @@ export const getUserData = createAsyncThunk(
   "user/getUserData",
   async (data) => {
     try {
+      
       const response = await apiServerNode.get(`/api/user/${data.uid}`, {
         headers: {
           uid: data.uid,

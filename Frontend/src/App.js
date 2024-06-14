@@ -66,7 +66,7 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, async (userAuth) => {
       // console.log("onAuthStateChanged triggered");
       // console.log(userAuth);
-      if (userAuth) {
+      if (userAuth && userAuth.uid !== null && userAuth.uid !== undefined) {
         if (isEmailVerified(userAuth)) {
           await dispatch(
             getUserData({

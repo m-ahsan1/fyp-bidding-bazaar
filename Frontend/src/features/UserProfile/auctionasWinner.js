@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import { setLoading } from "../../redux/slices/loadingSlice";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,9 @@ import { auth } from "../../firebase";
 const AuctionsAsWinner = () => {
     const { docs, loading, error } = useFirestoreCollection("auctions");
     const dispatch = useDispatch();
-    dispatch(setLoading(loading));
+    useEffect(() => {
+        dispatch(setLoading(loading));
+    }, [loading, dispatch]);
     if (loading) return <div></div>;
 
     const userAuctions = docs && docs.filter((doc) => doc.curWinner === auth.currentUser.email);
@@ -17,7 +19,7 @@ const AuctionsAsWinner = () => {
 
     if (error) return <div>Error: {error.message}</div>;
 
-    if (!userAuctions || userAuctions.length===0) return <div className="mt-8 text-center">No auctions found.</div>;
+    if (!userAuctions || userAuctions.length === 0) return <div className="mt-8 text-center">No auctions found.</div>;
     return (
         <div className="mt-8">
             <h1 className="text-2xl font-bold mb-4">Your Auctions</h1>

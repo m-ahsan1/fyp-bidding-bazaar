@@ -29,15 +29,18 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!user) {
+        if (user && auth.currentUser && auth.currentUser.uid) {
           // Fetch user data if user is not already available
           await dispatch(getUserData(auth.currentUser.uid));
-        }
 
-        const response = await apiServerNode.get(
-          `/api/listings/user/${auth.currentUser.uid}`
-        );
-        setUserListings(response.data);
+
+          const response = await apiServerNode.get(
+            `/api/listings/user/${auth.currentUser.uid}`
+          );
+          setUserListings(response.data);
+        } else {
+          navigate(-1)
+        }
       } catch (error) {
         console.error("Failed to fetch user data or listings:", error);
       }
@@ -203,22 +206,22 @@ const UserProfile = () => {
         )}
       </div>
       <div className="max-w-4xl mx-auto mt-8 text-center">
-          <button
-            className={`bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full ${showAuctionsasOwner ? 'bg-blue-600' : ''}`}
-            onClick={() => setShowAuctionsasOwner(!showAuctionsasOwner)}
-          >
-            {showAuctionsasOwner ? 'Hide Your Auctions' : 'Show Your Auctions'}
-          </button>
-          {showAuctionsasOwner && <AuctionsAsOwner />}
+        <button
+          className={`bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full ${showAuctionsasOwner ? 'bg-blue-600' : ''}`}
+          onClick={() => setShowAuctionsasOwner(!showAuctionsasOwner)}
+        >
+          {showAuctionsasOwner ? 'Hide Your Auctions' : 'Show Your Auctions'}
+        </button>
+        {showAuctionsasOwner && <AuctionsAsOwner />}
       </div>
       <div className="max-w-4xl mx-auto mt-8 text-center">
-          <button
-            className={`bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full ${showAuctionsasWinner ? 'bg-blue-600' : ''}`}
-            onClick={() => setShowAuctionsasWinner(!showAuctionsasWinner)}
-          >
-            {showAuctionsasWinner ? 'Hide these' : 'Show Auctions You are Winning'}
-          </button>
-          {showAuctionsasWinner && <AuctionsAsWinner />}
+        <button
+          className={`bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full ${showAuctionsasWinner ? 'bg-blue-600' : ''}`}
+          onClick={() => setShowAuctionsasWinner(!showAuctionsasWinner)}
+        >
+          {showAuctionsasWinner ? 'Hide these' : 'Show Auctions You are Winning'}
+        </button>
+        {showAuctionsasWinner && <AuctionsAsWinner />}
       </div>
     </div>
   );
