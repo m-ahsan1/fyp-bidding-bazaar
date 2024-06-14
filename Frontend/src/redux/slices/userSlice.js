@@ -115,7 +115,8 @@ export const getUserData = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      throw error;
+      // throw error;
+      console.log(error)
     }
   }
 );

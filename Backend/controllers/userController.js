@@ -17,11 +17,14 @@ const getUser = async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findOne({ uid: id });
     if (!user) {
-      // console.log(req.params.uid);
+      console.log(id);
+      console.log(user);
+
       return res
         .status(404)
         .json({ message: `Cannot find user with this UID ${req.params.uid}` });
     }
+    console.log(user);
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
